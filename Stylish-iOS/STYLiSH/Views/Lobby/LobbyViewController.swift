@@ -28,9 +28,18 @@ class LobbyViewController: STBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.titleView = UIImageView(image: .asset(.Icons_36px_Home_Normal))
+        navigationItem.titleView = UIImageView(image: .asset(.Image_Logo02))
         
         lobbyView.beginHeaderRefresh()
+        
+        // Add search button on navigation bar top left.
+        let searchButton = UIBarButtonItem(image: UIImage(named: "Icons_24px_Back02"), style: .plain, target: self, action: #selector(searchButtonTapped))
+        navigationItem.rightBarButtonItem = searchButton
+        
+    }
+    
+    @objc func searchButtonTapped() {
+
     }
 
     // MARK: - Action
