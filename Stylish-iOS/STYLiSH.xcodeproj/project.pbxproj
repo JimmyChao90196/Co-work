@@ -130,6 +130,7 @@
 		5AE0296B2A6A18AB00532297 /* MockHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE0296A2A6A18AB00532297 /* MockHTTPClient.swift */; };
 		5AE0296E2A6A195400532297 /* SuccessData.json in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0296D2A6A195400532297 /* SuccessData.json */; };
 		5AEC6D2D2A6A251F001184E4 /* SuccessDataWithWrongFormat.json in Resources */ = {isa = PBXBuildFile; fileRef = 5AEC6D2C2A6A251F001184E4 /* SuccessDataWithWrongFormat.json */; };
+		73DE17052AF558AF0099DCD5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE17042AF558AF0099DCD5 /* SearchViewController.swift */; };
 		D306B883B370DFD3ED8ACD74 /* Pods_STYLiSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C2B4AF3EF2ABFF2BB9F7AB /* Pods_STYLiSH.framework */; };
 /* End PBXBuildFile section */
 
@@ -282,6 +283,7 @@
 		5AE0296A2A6A18AB00532297 /* MockHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHTTPClient.swift; sourceTree = "<group>"; };
 		5AE0296D2A6A195400532297 /* SuccessData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SuccessData.json; sourceTree = "<group>"; };
 		5AEC6D2C2A6A251F001184E4 /* SuccessDataWithWrongFormat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SuccessDataWithWrongFormat.json; sourceTree = "<group>"; };
+		73DE17042AF558AF0099DCD5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		E921004E251C9FC3CBC174F5 /* Pods-STYLiSH.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STYLiSH.release.xcconfig"; path = "Target Support Files/Pods-STYLiSH/Pods-STYLiSH.release.xcconfig"; sourceTree = "<group>"; };
 		F551E8F447D7C8DC42B53B98 /* Pods-STYLiSH.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STYLiSH.debug.xcconfig"; path = "Target Support Files/Pods-STYLiSH/Pods-STYLiSH.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -384,6 +386,7 @@
 				3C6020E7222BBA3C00312958 /* ProductBasicCell.swift */,
 				3CCB3BC5222AAC8300976A1C /* LKGalleryView.swift */,
 				3C6B8FE6222CE53100804EFE /* BasicSelectionCell.swift */,
+				73DE17042AF558AF0099DCD5 /* SearchViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -976,6 +979,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C0DD87822134EC100F5237E /* UIFont+Extension.swift in Sources */,
+				73DE17052AF558AF0099DCD5 /* SearchViewController.swift in Sources */,
 				3CE7A507223042CE009FF003 /* STBaseTextField.swift in Sources */,
 				3CB80E78222FCCC20095F18C /* Bundle+Extension.swift in Sources */,
 				3CE7A519223064C7009FF003 /* UserObject.swift in Sources */,
