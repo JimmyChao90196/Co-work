@@ -105,6 +105,28 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Tapped")
+        let selectedCell = tableView.cellForRow(at: indexPath) as? SearchTableViewCell
+        let searchText = selectedCell?.searchLabel.text
+            var provider: ProductListDataProvider?
+            let marketProvider = MarketProvider(httpClient: HTTPClient.shared)
+            provider = ProductsProvider(
+                productType: ProductsProvider.ProductType.search,
+                dataProvider: marketProvider
+            )
+            
+            let productListVC = ProductListViewController()
+            productListVC.provider = provider
+            
+            productListVC.searchKeywordClosure = { keyword in
+                productListVC.keyword = keyword
+            }
+
+            productListVC.searchKeywordClosure?(searchText)
+        self.navigationController?.pushViewController(productListVC, animated: true)
+        }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let searchHeaderView = UIView()
         searchHeaderView.backgroundColor = .white
@@ -137,16 +159,15 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 productType: ProductsProvider.ProductType.search,
                 dataProvider: marketProvider
             )
-        
-        let productListVC = ProductListViewController()
-        productListVC.provider = provider
+            
+            let productListVC = ProductListViewController()
+            productListVC.provider = provider
             
             productListVC.searchKeywordClosure = { keyword in
-                        productListVC.keyword = keyword
-                    }
+                productListVC.keyword = keyword
+            }
 
-                    // 调用闭包，并传递搜索文本
-                    productListVC.searchKeywordClosure?(searchText)
+            productListVC.searchKeywordClosure?(searchText)
             
             self.navigationController?.pushViewController(productListVC, animated: true)
             self.searchHistory.insert(searchText, at: 0)
