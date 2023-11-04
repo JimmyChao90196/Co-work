@@ -14,7 +14,7 @@ class SearchViewController: UIViewController {
     let searchTextField = UITextField()
     let searchButton = UIButton()
     
-    var searchHistory: [String] = ["無商品收尋紀錄", "無商品收尋紀錄", "無商品收尋紀錄", "無商品收尋紀錄"]
+    var searchHistory: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +23,11 @@ class SearchViewController: UIViewController {
         setupTextField()
         setupSearchButton()
         setupConstraint()
-        
+        if let savedSearchHistory = UserDefaults.standard.stringArray(forKey: "SearchHistory") {
+               searchHistory = savedSearchHistory
+           }
     }
+    
     func setupSearchTableView() {
         searchTableView.delegate = self
         searchTableView.dataSource = self
@@ -56,10 +59,10 @@ class SearchViewController: UIViewController {
         searchButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            searchTableView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor),
+            searchTableView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 10),
             searchTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            searchTableView.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -20),
             
             searchTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
@@ -97,11 +100,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             searchHistory.remove(at: indexPath.row)
             searchTableView.deleteRows(at: [indexPath], with: .automatic)
             print("Delete search history: \(searchHistory)")
+            
+            UserDefaults.standard.set(searchHistory, forKey: "SearchHistory")
         }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let searchHeaderView = UIView()
+        searchHeaderView.backgroundColor = .white
         
         let label = UILabel()
         label.text = "收尋紀錄"
@@ -124,49 +130,41 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func searchButtonTapped() {
+        if let searchText = searchTextField.text, !searchText.isEmpty {
+            var provider: ProductListDataProvider?
+            let marketProvider = MarketProvider(httpClient: HTTPClient.shared)
+            provider = ProductsProvider(
+                productType: ProductsProvider.ProductType.search,
+                dataProvider: marketProvider
+            )
         
-//        if let searchText = searchTextField.text, !searchText.isEmpty {
-//            if let encodedSearchText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-//               let apiUrl = URL(string: "https://api.appworks-school.tw/api/1.0/products/search?keyword=\(encodedSearchText)") {
-//                
-//                // 使用 URLSession 进行网络请求
-//                let session = URLSession.shared
-//                let task = session.dataTask(with: apiUrl) { (data, _, error) in
-//                    if let error = error {
-//                        print("Error: \(error)")
-//                        return
-//                    }
-//                    
-//                    if let data = data {
-//                        do {
-//                            let result = try JSONSerialization.jsonObject(with: data, options: [])
-//                            // 打印解析的结果
-//                            print("Received data: \(result)")
-//                            
-//                            if let productList = result as? [Any], !productList.isEmpty {
-//                                // 如果没有查到商品，显示警告框
-//                                DispatchQueue.main.async {
-//                                    let alertController = UIAlertController(title: "无此商品", message: "很抱歉，没有查到相关商品。", preferredStyle: .alert)
-//                                    alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
-//                                    self.present(alertController, animated: true, completion: nil)
-//                                }
-//                            } else {
-//                                // 如果查到了商品，将搜索记录插入到数组并刷新表格
-//                                self.searchHistory.insert(searchText, at: 0)
-//                                DispatchQueue.main.async {
-//                                    self.searchTableView.reloadData()
-//                                }
-//                            }
-//                        } catch {
-//                            print("Error parsing JSON: \(error)")
-//                        }
-//                    }
-//                }
-//                task.resume()
-//            }
-//        }
-        searchTextField.text = ""
-        self.present(ProductListViewController(), animated: true, completion: nil)
+        let productListVC = ProductListViewController()
+        productListVC.provider = provider
+            
+            productListVC.searchKeywordClosure = { keyword in
+                        productListVC.keyword = keyword
+                    }
+
+                    // 调用闭包，并传递搜索文本
+                    productListVC.searchKeywordClosure?(searchText)
+            
+            self.navigationController?.pushViewController(productListVC, animated: true)
+            self.searchHistory.insert(searchText, at: 0)
+            UserDefaults.standard.set(searchHistory, forKey: "SearchHistory")
+            self.searchTableView.reloadData()
+            searchTextField.text = ""
+            
+            print(searchHistory)
+            
+        } else {
+            showAlert(title: "警告", message: "請輸入收尋關鍵字")
+        }
     }
     
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
 }

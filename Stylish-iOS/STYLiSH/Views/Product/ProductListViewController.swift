@@ -15,9 +15,11 @@ protocol ProductListDataProvider {
 class ProductListViewController: STCompondViewController {
 
     var provider: ProductListDataProvider?
-
+    var searchKeywordClosure: ((String?) -> Void)?
+    
     private var paging: Int? = 0
-
+    var keyword: String?
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +67,7 @@ class ProductListViewController: STCompondViewController {
         datas = []
         resetNoMoreData()
 
-        provider?.fetchData(keyword: nil, paging: 0, completion: { [weak self] result in
+        provider?.fetchData(keyword: keyword, paging: 0, completion: { [weak self] result in
             self?.endHeaderRefreshing()
             switch result {
             case .success(let response):
@@ -82,7 +84,7 @@ class ProductListViewController: STCompondViewController {
             endWithNoMoreData()
             return
         }
-        provider?.fetchData(keyword: nil, paging: paging, completion: { [weak self] result in
+        provider?.fetchData(keyword: keyword, paging: paging, completion: { [weak self] result in
             self?.endFooterRefreshing()
             guard let self = self else { return }
             switch result {
