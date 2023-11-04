@@ -11,75 +11,98 @@ import Foundation
 class SearchViewController: UIViewController {
     
     let searchTableView = UITableView()
+    let searchTextField = UITextField()
+    
+    var searchHistory: [String] = ["無商品收尋紀錄", "無商品收尋紀錄", "無商品收尋紀錄", "無商品收尋紀錄"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSearchViewController()
-    }
-    
-    func setupSearchViewController() {
         view.backgroundColor = .systemBackground
-        
-        searchTableView.translatesAutoresizingMaskIntoConstraints = false
+        setupSearchTableView()
+        setupTextField()
+        setupConstraint()
+    }
+    func setupSearchTableView() {
         searchTableView.delegate = self
         searchTableView.dataSource = self
         searchTableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "cell")
         view.addSubview(searchTableView)
-
+    }
+    
+    func setupTextField() {
+        searchTextField.placeholder = "收尋商品"
+        searchTextField.borderStyle = .roundedRect
+        view.addSubview(searchTextField)
+    }
+    
+    func setupConstraint() {
+        
+        searchTextField.translatesAutoresizingMaskIntoConstraints = false
+        searchTableView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            searchTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchTableView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor),
             searchTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             searchTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            searchTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            searchTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            searchTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
         ])
     }
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    // Set table view cell number
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return searchHistory.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SearchTableViewCell {
+            cell.searchLabel.text = String(searchHistory[indexPath.row])
             
-            if indexPath.row == 0 {
-                cell.searchTextField.placeholder = "商品收尋"
-                cell.searchTextField.borderStyle = .roundedRect
-                cell.searchTextField.translatesAutoresizingMaskIntoConstraints = false
-                cell.contentView.addSubview(cell.searchTextField)
-                
-            } else if indexPath.row >= 1 && indexPath.row <= 4 {
-                
-                cell.searchLabel.text = "Label \(indexPath.row)"
-                cell.searchLabel.translatesAutoresizingMaskIntoConstraints = false
-                cell.contentView.addSubview(cell.searchLabel)
-                
-                cell.searchDeleteButton.setTitle("删除", for: .normal)
-                cell.searchDeleteButton.setTitleColor(.red, for: .normal)
-                cell.searchDeleteButton.translatesAutoresizingMaskIntoConstraints = false
-                cell.contentView.addSubview(cell.searchDeleteButton)
-                
-                // 添加按钮的点击事件
-                //            cell.searchDeleteButton.addTarget(self, action: #selector(searchDeleteButtonTapped), for: .touchUpInside)
-            } else if indexPath.row == 5 {
-                // 在此处理 collection view
-                //            setupCollectionView(in: cell.contentView)
+            // Delete by Closure.
+            cell.deleteButtonAction = { [weak self] cell in
+                self?.deleteCell(for: cell)
             }
-            
             return cell
         } else {
             return UITableViewCell()
         }
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return 70.0
-        } else if indexPath.row >= 1 && indexPath.row <= 4 {
-            return 50.0
-        } else {
-            return 258.0
+    // Delete by Closure.
+    func deleteCell(for cell: SearchTableViewCell) {
+        if let indexPath = searchTableView.indexPath(for: cell) {
+            searchHistory.remove(at: indexPath.row)
+            searchTableView.deleteRows(at: [indexPath], with: .automatic)
+            print("Delete search history: \(searchHistory)")
         }
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let searchHeaderView = UIView()
+
+        let label = UILabel()
+        label.text = "收尋紀錄"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        searchHeaderView.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            
+            label.leadingAnchor.constraint(equalTo: searchHeaderView.leadingAnchor, constant: 15),
+            label.trailingAnchor.constraint(equalTo: searchHeaderView.trailingAnchor, constant: -15),
+            label.centerYAnchor.constraint(equalTo: searchHeaderView.centerYAnchor)
+
+        ])
+
+        return searchHeaderView
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+
 }

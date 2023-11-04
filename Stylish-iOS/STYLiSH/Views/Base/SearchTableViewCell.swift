@@ -10,16 +10,22 @@ import Foundation
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
-    let searchTextField = UITextField()
+    
     let searchLabel = UILabel()
-    let searchDeleteButton = UIButton()
+    let deleteButton = UIButton()
+    
+    // Delete by Closure.
+    var deleteButtonAction: ((SearchTableViewCell) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        addSubview(searchTextField)
-        addSubview(searchLabel)
-        addSubview(searchDeleteButton)
+        
+        
+        
+        setupDeleteButton()
+        setupSearchLabel()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -30,18 +36,33 @@ class SearchTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         NSLayoutConstraint.activate([
-            searchTextField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            searchTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
-            searchTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
-            
             searchLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             searchLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
             searchLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
             
-            searchDeleteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            searchDeleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30)
-         
+            deleteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30)
+            
         ])
         
+    }
+    
+    // Delete by Closure.
+    @objc func deleteButtonTapped() {
+        print(("Tapped"))
+        deleteButtonAction?(self)
+    }
+    
+    func setupDeleteButton() {
+        deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        deleteButton.setTitle("Delete", for: .normal)
+        deleteButton.setTitleColor(.red, for: .normal)
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(deleteButton)
+    }
+    
+    func setupSearchLabel() {
+        searchLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(searchLabel)
     }
 }
