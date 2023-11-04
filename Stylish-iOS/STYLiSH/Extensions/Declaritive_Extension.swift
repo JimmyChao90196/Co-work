@@ -9,12 +9,13 @@
 import Foundation
 import UIKit
 
-//MARK: - Add multiple subview -
-extension UIView{
+// MARK: - Add multiple subview
+extension UIView {
     
     @discardableResult
-    func addSubviews(_ views: [UIView]) -> Self{
+    func addSubviews(_ views: [UIView]) -> Self {
         views.forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview($0)
         }
         

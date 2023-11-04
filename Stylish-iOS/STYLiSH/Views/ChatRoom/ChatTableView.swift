@@ -25,5 +25,6 @@ class ChatTableView: UITableView {
         //Self sizing row height
         self.rowHeight = UITableView.automaticDimension
         self.estimatedRowHeight = 150
+        self.separatorStyle = .none
     }
 }

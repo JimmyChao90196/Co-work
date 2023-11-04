@@ -11,6 +11,7 @@ import UIKit
 class ChatRoomViewController: UIViewController {
 
     var tableView = ChatTableView()
+    var chatManager = ChatManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +39,7 @@ class ChatRoomViewController: UIViewController {
 
 extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        chatManager.senderMessage.messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -46,8 +47,11 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             withIdentifier: ChatTableViewCell.reuseIdentifier,
             for: indexPath
         ) as? ChatTableViewCell else { return UITableViewCell()}
-        
-        cell.messageLabel.text = "sasdfjsaljdf;asjsdfasdfasdfasdfasdfasdfafdfadafasfdasfadfdf;askdjf;askjdf;skjdf;kasj;dfa"
+        cell.messageLabel.text = chatManager.senderMessage.messages[indexPath.row]
         return cell
     }
+    
+    
+    
+    
 }
