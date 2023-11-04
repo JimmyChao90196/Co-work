@@ -152,3 +152,15 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: UIScreen.width, height: 48.0)
     }
 }
+
+// MARK: - Delegate methods
+extension ProfileViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       guard let cell = collectionView.cellForItem(at: indexPath) as? ProfileCollectionViewCell else { return }
+        
+        if cell.textLbl.text == "客服訊息" {
+            let chatRoomVC = ChatRoomViewController()
+            navigationController?.pushViewController(chatRoomVC, animated: true)
+        }
+    }
+}
