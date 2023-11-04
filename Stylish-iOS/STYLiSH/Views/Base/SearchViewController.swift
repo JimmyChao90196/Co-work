@@ -40,9 +40,12 @@ class SearchViewController: UIViewController {
     
     func setupSearchButton() {
         searchButton.setTitle("Search", for: .normal)
-        searchButton.setTitleColor(.systemBlue, for: .normal)
+        searchButton.setTitleColor(.black, for: .normal)
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
-        
+        searchButton.layer.borderWidth = 2.0
+        searchButton.layer.borderColor = UIColor.darkGray.cgColor
+        searchButton.layer.cornerRadius = 8.0
+        searchButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         view.addSubview(searchButton)
     }
     
@@ -60,7 +63,7 @@ class SearchViewController: UIViewController {
             
             searchTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -110),
+            searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -130),
             
             searchButton.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor),
             searchButton.leadingAnchor.constraint(greaterThanOrEqualTo: searchTextField.trailingAnchor, constant: 20),
@@ -71,7 +74,6 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
-    // Set table view cell number
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchHistory.count
     }
@@ -122,8 +124,49 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func searchButtonTapped() {
-        // Handle search button action here
-        // You can implement the search functionality when the button is tapped
+        
+//        if let searchText = searchTextField.text, !searchText.isEmpty {
+//            if let encodedSearchText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+//               let apiUrl = URL(string: "https://api.appworks-school.tw/api/1.0/products/search?keyword=\(encodedSearchText)") {
+//                
+//                // 使用 URLSession 进行网络请求
+//                let session = URLSession.shared
+//                let task = session.dataTask(with: apiUrl) { (data, _, error) in
+//                    if let error = error {
+//                        print("Error: \(error)")
+//                        return
+//                    }
+//                    
+//                    if let data = data {
+//                        do {
+//                            let result = try JSONSerialization.jsonObject(with: data, options: [])
+//                            // 打印解析的结果
+//                            print("Received data: \(result)")
+//                            
+//                            if let productList = result as? [Any], !productList.isEmpty {
+//                                // 如果没有查到商品，显示警告框
+//                                DispatchQueue.main.async {
+//                                    let alertController = UIAlertController(title: "无此商品", message: "很抱歉，没有查到相关商品。", preferredStyle: .alert)
+//                                    alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
+//                                    self.present(alertController, animated: true, completion: nil)
+//                                }
+//                            } else {
+//                                // 如果查到了商品，将搜索记录插入到数组并刷新表格
+//                                self.searchHistory.insert(searchText, at: 0)
+//                                DispatchQueue.main.async {
+//                                    self.searchTableView.reloadData()
+//                                }
+//                            }
+//                        } catch {
+//                            print("Error parsing JSON: \(error)")
+//                        }
+//                    }
+//                }
+//                task.resume()
+//            }
+//        }
+        searchTextField.text = ""
+        self.present(ProductListViewController(), animated: true, completion: nil)
     }
     
 }

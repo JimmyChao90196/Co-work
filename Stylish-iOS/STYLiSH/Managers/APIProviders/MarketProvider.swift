@@ -60,6 +60,10 @@ class MarketProvider {
     func fetchProductForAccessories(paging: Int, completion: @escaping ProductsResponseWithPaging) {
         fetchProducts(request: STMarketRequest.accessories(paging: paging), completion: completion)
     }
+    
+    func fetchProductForSearch(paging: Int, completion: @escaping ProductsResponseWithPaging) {
+        fetchProducts(request: STMarketRequest.accessories(paging: paging), completion: completion)
+    }
 
     // MARK: - Private method
     private func fetchProducts(request: STMarketRequest, completion: @escaping ProductsResponseWithPaging) {
