@@ -12,6 +12,7 @@ class SearchViewController: UIViewController {
     
     let searchTableView = UITableView()
     let searchTextField = UITextField()
+    let searchButton = UIButton()
     
     var searchHistory: [String] = ["無商品收尋紀錄", "無商品收尋紀錄", "無商品收尋紀錄", "無商品收尋紀錄"]
     
@@ -20,7 +21,9 @@ class SearchViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setupSearchTableView()
         setupTextField()
+        setupSearchButton()
         setupConstraint()
+        
     }
     func setupSearchTableView() {
         searchTableView.delegate = self
@@ -35,10 +38,19 @@ class SearchViewController: UIViewController {
         view.addSubview(searchTextField)
     }
     
+    func setupSearchButton() {
+        searchButton.setTitle("Search", for: .normal)
+        searchButton.setTitleColor(.systemBlue, for: .normal)
+        searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+        
+        view.addSubview(searchButton)
+    }
+    
     func setupConstraint() {
         
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         searchTableView.translatesAutoresizingMaskIntoConstraints = false
+        searchButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             searchTableView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor),
@@ -48,7 +60,11 @@ class SearchViewController: UIViewController {
             
             searchTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
+            searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -110),
+            
+            searchButton.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor),
+            searchButton.leadingAnchor.constraint(greaterThanOrEqualTo: searchTextField.trailingAnchor, constant: 20),
+            searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
         ])
     }
 }
@@ -84,25 +100,30 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let searchHeaderView = UIView()
-
+        
         let label = UILabel()
         label.text = "收尋紀錄"
         label.translatesAutoresizingMaskIntoConstraints = false
         searchHeaderView.addSubview(label)
-
+        
         NSLayoutConstraint.activate([
             
             label.leadingAnchor.constraint(equalTo: searchHeaderView.leadingAnchor, constant: 15),
             label.trailingAnchor.constraint(equalTo: searchHeaderView.trailingAnchor, constant: -15),
             label.centerYAnchor.constraint(equalTo: searchHeaderView.centerYAnchor)
-
+            
         ])
-
+        
         return searchHeaderView
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
-
+    
+    @objc func searchButtonTapped() {
+        // Handle search button action here
+        // You can implement the search functionality when the button is tapped
+    }
+    
 }
