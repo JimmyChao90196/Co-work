@@ -7,6 +7,8 @@ target 'STYLiSH' do
   use_frameworks!
 
   # Pods for STYLiSH
+  inhibit_all_warnings!
+
   pod 'Kingfisher', '~> 7.6.0'
   pod 'MJRefresh'
   pod 'IQKeyboardManagerSwift'

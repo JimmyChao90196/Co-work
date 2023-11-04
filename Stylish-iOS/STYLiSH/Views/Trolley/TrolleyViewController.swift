@@ -116,7 +116,6 @@ extension TrolleyViewController: UITableViewDataSource {
 
 extension TrolleyViewController: UITableViewDelegate {
     
-    
 }
 
 
