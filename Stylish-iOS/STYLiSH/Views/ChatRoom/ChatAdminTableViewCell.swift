@@ -11,8 +11,12 @@ import Foundation
 class ChatAdminTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = String(describing: ChatAdminTableViewCell.self)
+    let chatManager = ChatManager.shared
     
-    var customView = CustomShapeView(color: .systemPink, frame: CGRect(x: 0, y: 0, width: 40, height: 20))
+    var customView = CustomShapeView(
+        color: ChatManager.adminColor,
+        frame: CGRect(x: 0, y: 0, width: 40, height: 20))
+    
     var messageLabel = UILabel()
     var timeLabel = UILabel()
     var textBG = UIView()
@@ -43,7 +47,7 @@ class ChatAdminTableViewCell: UITableViewCell {
         customView.backgroundColor = .clear
         
         textBG.setCornerRadius(12)
-            .setbackgroundColor(.systemPink)
+            .setbackgroundColor(ChatManager.adminColor)
         timeLabel.font = UIFont(name: "PingFangTC-Light", size: 12)
         timeLabel.textColor = .lightGray
         
@@ -62,7 +66,7 @@ class ChatAdminTableViewCell: UITableViewCell {
         messageLabel.textAlignment = .center
         timeLabel.textAlignment = .center
         timeLabel.setTextColor(.gray)
-        messageLabel.setTextColor(.white)
+        messageLabel.setTextColor(.hexToUIColor(hex: "#3F3A3A"))
     }
 
     private func setupConstraint() {

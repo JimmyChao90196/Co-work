@@ -9,9 +9,14 @@
 import Foundation
 import UIKit
 
-class ChatProvider {
+class ChatManager {
     
-    static let shared = ChatProvider()
+    static let shared = ChatManager()
+    
+    static let userColor: UIColor = .hexToUIColor(hex: "#3F3A3A")
+    static let adminColor: UIColor = .hexToUIColor(hex: "CCCCCC")
+    
+    
     
     func userAppendMessages(inputText: String) {
         mockConversationData.append(ChatMessage(sendTime: Date(), isUser: true, content: inputText))

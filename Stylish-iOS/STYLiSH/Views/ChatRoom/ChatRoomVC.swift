@@ -13,31 +13,29 @@ class ChatRoomViewController: UIViewController {
 
     var titleView = UILabel()
     var tableView = ChatTableView()
-    var chatProvider = ChatProvider.shared
+    var chatProvider = ChatManager.shared
     let footerView = UIView()
     var inputField = UITextField()
     var isUser = true
     
     var switchButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        
-        button.backgroundColor = .yellow
+        button.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         button.setTitle("User", for: .normal)
         return button
     }()
     
     var sendButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         
-        button.backgroundColor = .cyan
-        button.setImage(UIImage(systemName: "paperplane"), for: .normal)
+        button.setImage(UIImage(systemName: "paperplane")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.contentMode = .scaleAspectFill
         return button
     }()
     
     // MARK: - View did load -
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
         setup()
         setupConstranit()
         configureTitle()
@@ -66,6 +64,7 @@ class ChatRoomViewController: UIViewController {
         guard let text = inputField.text, !text.isEmpty else { return }
         
         if self.isUser {
+            
             chatProvider.userAppendMessages(inputText: text)
             
         } else {
@@ -99,18 +98,26 @@ class ChatRoomViewController: UIViewController {
     
     // MARK: - Basic setup -
     func setup() {
+        tableView.backgroundColor = .white
+        view.backgroundColor = .white
+        
         view.addSubviews([tableView, footerView])
         footerView.addSubviews([inputField, sendButton, switchButton])
         
+        switchButton.setTitleColor(.hexToUIColor(hex: "3F3A3A"), for: .normal)
+        sendButton.tintColor = .hexToUIColor(hex: "#3F3A3A")
+        
         inputField.textAlignment = .left
         inputField.placeholder = "  Aa"
+        inputField.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
         inputField.setCornerRadius(10)
         
         tableView.delegate = self
         tableView.dataSource = self
         
-        footerView.backgroundColor = .gray
-        inputField.backgroundColor = .lightGray
+        footerView.backgroundColor = .hexToUIColor(hex: "#F5F5F5")
+        footerView.setBoarderColor(.hexToUIColor(hex: "#CCCCCC"))
+        footerView.setBoarderWidth(1)
         
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         switchButton.addTarget(self, action: #selector(switchButtonClicked), for: .touchUpInside)
@@ -121,12 +128,12 @@ class ChatRoomViewController: UIViewController {
         switchButton.leadingConstr(to: footerView.leadingAnchor, 10)
             .centerYConstr(to: footerView.centerYAnchor, 0)
             .heightConstr(40)
-            .widthConstr(40)
+            .widthConstr(55)
         
         sendButton.trailingConstr(to: view.trailingAnchor, -10)
             .centerYConstr(to: footerView.centerYAnchor, 0)
-            .widthConstr(35)
-            .heightConstr(35)
+            .widthConstr(50)
+            .heightConstr(50)
         
         footerView.leadingConstr(to: view.leadingAnchor, 0)
             .trailingConstr(to: view.trailingAnchor, 10)
@@ -149,6 +156,11 @@ class ChatRoomViewController: UIViewController {
 
 // MARK: - Delegate and DataSource method -
 extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         chatProvider.mockConversationData.count
     }
