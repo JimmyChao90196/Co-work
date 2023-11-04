@@ -13,22 +13,23 @@ enum STMarketRequest: STRequest {
     case women(paging: Int)
     case men(paging: Int)
     case accessories(paging: Int)
+    case search(keywodr: String, paging: Int)
 
     var headers: [String: String] {
         switch self {
-        case .hots, .women, .men, .accessories: return [:]
+        case .hots, .women, .men, .accessories, .search: return [:]
         }
     }
 
     var body: Data? {
         switch self {
-        case .hots, .women, .men, .accessories: return nil
+        case .hots, .women, .men, .accessories, .search: return nil
         }
     }
 
     var method: String {
         switch self {
-        case .hots, .women, .men, .accessories: return STHTTPMethod.GET.rawValue
+        case .hots, .women, .men, .accessories, .search: return STHTTPMethod.GET.rawValue
         }
     }
 
@@ -38,6 +39,7 @@ enum STMarketRequest: STRequest {
         case .women(let paging): return "/products/women?paging=\(paging)"
         case .men(let paging): return "/products/men?paging=\(paging)"
         case .accessories(let paging): return "/products/accessories?paging=\(paging)"
+        case .search(let keyword, let paging): return "/products/search?keyword=\(keyword)&paging=\(paging)"
         }
     }
 }

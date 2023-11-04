@@ -61,8 +61,8 @@ class MarketProvider {
         fetchProducts(request: STMarketRequest.accessories(paging: paging), completion: completion)
     }
     
-    func fetchProductForSearch(paging: Int, completion: @escaping ProductsResponseWithPaging) {
-        fetchProducts(request: STMarketRequest.accessories(paging: paging), completion: completion)
+    func fetchProductForSearch(keyword: String, paging: Int, completion: @escaping ProductsResponseWithPaging) {
+        fetchProducts(request: STMarketRequest.search(keywodr: keyword, paging: paging), completion: completion)
     }
 
     // MARK: - Private method
