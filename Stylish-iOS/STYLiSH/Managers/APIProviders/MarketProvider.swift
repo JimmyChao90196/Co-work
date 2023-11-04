@@ -20,6 +20,7 @@ class MarketProvider {
         case men(Int)
         case women(Int)
         case accessories(Int)
+        case search(Int)
     }
     
     init(httpClient: HTTPClientProtocol) {

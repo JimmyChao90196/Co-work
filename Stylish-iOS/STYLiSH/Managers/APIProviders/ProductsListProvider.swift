@@ -9,11 +9,12 @@
 import Foundation
 
 class ProductsProvider: ProductListDataProvider {
-
+    
     enum ProductType {
         case men
         case women
         case accessories
+        case search
     }
 
     private let productType: ProductType
@@ -25,11 +26,12 @@ class ProductsProvider: ProductListDataProvider {
         self.dataProvider = dataProvider
     }
 
-    func fetchData(paging: Int, completion: @escaping ProductsResponseWithPaging) {
+    func fetchData(keyword: String?, paging: Int, completion: @escaping ProductsResponseWithPaging) {
         switch productType {
         case .women: dataProvider.fetchProductForWomen(paging: paging, completion: completion)
         case .men: dataProvider.fetchProductForMen(paging: paging, completion: completion)
         case .accessories: dataProvider.fetchProductForAccessories(paging: paging, completion: completion)
+        case .search: dataProvider.fetchProductForSearch(keyword: keyword!, paging: paging, completion: completion)
         }
     }
 }

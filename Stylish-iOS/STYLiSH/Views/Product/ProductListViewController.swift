@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ProductListDataProvider {
-    func fetchData(paging: Int, completion: @escaping ProductsResponseWithPaging)
+    func fetchData(keyword: String?, paging: Int, completion: @escaping ProductsResponseWithPaging)
 }
 
 class ProductListViewController: STCompondViewController {
@@ -65,7 +65,7 @@ class ProductListViewController: STCompondViewController {
         datas = []
         resetNoMoreData()
 
-        provider?.fetchData(paging: 0, completion: { [weak self] result in
+        provider?.fetchData(keyword: nil, paging: 0, completion: { [weak self] result in
             self?.endHeaderRefreshing()
             switch result {
             case .success(let response):
@@ -82,7 +82,7 @@ class ProductListViewController: STCompondViewController {
             endWithNoMoreData()
             return
         }
-        provider?.fetchData(paging: paging, completion: { [weak self] result in
+        provider?.fetchData(keyword: nil, paging: paging, completion: { [weak self] result in
             self?.endFooterRefreshing()
             guard let self = self else { return }
             switch result {
