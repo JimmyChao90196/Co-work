@@ -8,9 +8,9 @@
 import UIKit
 import Foundation
 
-class ChatTableViewCell: UITableViewCell {
+class ChatUserTableViewCell: UITableViewCell {
     
-    static let reuseIdentifier = String(describing: ChatTableViewCell.self)
+    static let reuseIdentifier = String(describing: ChatUserTableViewCell.self)
     var messageLabel = UILabel()
     var textBG = UIView()
     
@@ -51,7 +51,7 @@ class ChatTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate( [
             textBG.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             textBG.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            textBG.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.centerXAnchor, constant: 0),
+            textBG.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.centerXAnchor, constant: -80),
             textBG.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
             
             messageLabel.leadingAnchor.constraint(equalTo: textBG.leadingAnchor, constant: 20),

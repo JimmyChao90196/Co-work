@@ -12,6 +12,8 @@ import UIKit
 // MARK: - Add multiple subview
 extension UIView {
     
+    
+    
     @discardableResult
     func addSubviews(_ views: [UIView]) -> Self {
         views.forEach {
@@ -201,14 +203,14 @@ extension UIView {
     }
     
     @discardableResult
-    func centerXConstr(to anchor: NSLayoutXAxisAnchor, distance: CGFloat = 0) -> Self {
+    func centerXConstr(to anchor: NSLayoutXAxisAnchor, _ distance: CGFloat = 0) -> Self {
         translatesAutoresizingMaskIntoConstraints = false
         centerXAnchor.constraint(equalTo: anchor, constant: distance).isActive = true
         return self
     }
     
     @discardableResult
-    func centerYConstr(to anchor: NSLayoutYAxisAnchor, distance: CGFloat = 0) -> Self {
+    func centerYConstr(to anchor: NSLayoutYAxisAnchor, _ distance: CGFloat = 0) -> Self {
         translatesAutoresizingMaskIntoConstraints = false
         centerYAnchor.constraint(equalTo: anchor, constant: distance).isActive = true
         return self

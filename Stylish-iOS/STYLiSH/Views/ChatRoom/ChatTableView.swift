@@ -20,9 +20,10 @@ class ChatTableView: UITableView {
     
     func setupTableView() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.register(ChatTableViewCell.self, forCellReuseIdentifier: ChatTableViewCell.reuseIdentifier )
+        self.register(ChatUserTableViewCell.self, forCellReuseIdentifier: ChatUserTableViewCell.reuseIdentifier )
+        self.register(ChatAdminTableViewCell.self, forCellReuseIdentifier: ChatAdminTableViewCell.reuseIdentifier)
         
-        //Self sizing row height
+        // Self sizing row height
         self.rowHeight = UITableView.automaticDimension
         self.estimatedRowHeight = 150
         self.separatorStyle = .none

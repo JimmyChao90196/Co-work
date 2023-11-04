@@ -8,11 +8,14 @@
 
 import Foundation
 
-enum SenderType {
-    case user, admin
+// Define a struct to represent the message.
+struct ChatMessage: Codable {
+    let sendTime: Date
+    let isUser: Bool
+    let content: String
 }
 
-struct ChatMessage {
-    let sender: SenderType
-    let messages: [String]
+// Define a struct to represent the data model that holds an array of messages.
+struct ChatData: Codable {
+    var data: [ChatMessage]
 }
