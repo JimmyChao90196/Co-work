@@ -112,7 +112,7 @@ extension UILabel{
     }
     
     @discardableResult
-    func customSetup( _ text:String, _ fontName: String, _ fontSize: CGFloat, _ spacing: CGFloat, hexColor: String) -> Self{
+    func customSetup( _ text:String, _ fontName: String, _ fontSize: CGFloat, _ spacing: CGFloat, hexColor: String) -> Self {
         
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont(name: fontName, size: fontSize) ?? UIFont(),
@@ -127,9 +127,8 @@ extension UILabel{
     }
 }
 
-
-//MARK: - UIColor -
-extension UIColor{
+// MARK: - UIColor -
+extension UIColor {
     
     //The purpose of this function is to convert hex color to rgb.
     static func hexToUIColor(hex: String) -> UIColor {

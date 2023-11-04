@@ -19,10 +19,10 @@ class ChatRoomViewController: UIViewController {
     var isUser = true
     
     var switchButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         
         button.backgroundColor = .yellow
-        button.setImage(UIImage(systemName: "arrow.left.arrow.right"), for: .normal)
+        button.setTitle("User", for: .normal)
         return button
     }()
     
@@ -68,7 +68,7 @@ class ChatRoomViewController: UIViewController {
         if self.isUser {
             chatProvider.userAppendMessages(inputText: text)
             
-        }else {
+        } else {
             
             chatProvider.adminAppendMessages(inputText: text)
         }
@@ -80,6 +80,11 @@ class ChatRoomViewController: UIViewController {
     
     @objc func switchButtonClicked() {
         isUser.toggle()
+        if isUser {
+            switchButton.setTitle("User", for: .normal)
+        } else {
+            switchButton.setTitle("Admin", for: .normal)
+        }
     }
     
     func scrollToBottom() {
@@ -94,8 +99,8 @@ class ChatRoomViewController: UIViewController {
     
     // MARK: - Basic setup -
     func setup() {
-        view.addSubviews([tableView, footerView, switchButton])
-        footerView.addSubviews([inputField, sendButton])
+        view.addSubviews([tableView, footerView])
+        footerView.addSubviews([inputField, sendButton, switchButton])
         
         inputField.textAlignment = .left
         inputField.placeholder = "  Aa"
@@ -109,17 +114,14 @@ class ChatRoomViewController: UIViewController {
         
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         switchButton.addTarget(self, action: #selector(switchButtonClicked), for: .touchUpInside)
-        
-        // Navigation title
-        
     }
     
     func setupConstranit() {
         
-        switchButton.centerXConstr(to: view.centerXAnchor, 0)
-            .topConstr(to: view.safeAreaLayoutGuide.topAnchor, 20)
-            .heightConstr(50)
-            .widthConstr(50)
+        switchButton.leadingConstr(to: footerView.leadingAnchor, 10)
+            .centerYConstr(to: footerView.centerYAnchor, 0)
+            .heightConstr(40)
+            .widthConstr(40)
         
         sendButton.trailingConstr(to: view.trailingAnchor, -10)
             .centerYConstr(to: footerView.centerYAnchor, 0)
@@ -131,7 +133,7 @@ class ChatRoomViewController: UIViewController {
             .bottomConstr(to: view.safeAreaLayoutGuide.bottomAnchor, 0)
             .heightConstr(50)
         
-        inputField.leadingConstr(to: footerView.leadingAnchor, 10)
+        inputField.leadingConstr(to: switchButton.trailingAnchor, 10)
             .trailingConstr(to: sendButton.leadingAnchor, -10)
             .bottomConstr(to: footerView.bottomAnchor, -10)
             .topConstr(to: footerView.topAnchor, 10)
@@ -165,7 +167,11 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             ) as? ChatUserTableViewCell else { return UITableViewCell()}
             
+            let date = chatProvider.mockConversationData[indexPath.row].sendTime
             cell.messageLabel.text = chatProvider.mockConversationData[indexPath.row].content
+            cell.timeLabel.text = dateFormatter.string(from: date)
+            cell.backgroundColor = .clear
+
             return cell
             
         case false:
@@ -174,9 +180,11 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             ) as? ChatAdminTableViewCell else { return UITableViewCell()}
             
+            let formattedDate = dateFormatter.string(from: chatProvider.mockConversationData[indexPath.row].sendTime)
             cell.messageLabel.text = chatProvider.mockConversationData[indexPath.row].content
-            let date = chatProvider.mockConversationData[indexPath.row].sendTime
-            cell.timeLabel.text = dateFormatter.string(from: date)
+            cell.timeLabel.text = formattedDate
+            cell.backgroundColor = .clear
+            
             return cell
         }
     }

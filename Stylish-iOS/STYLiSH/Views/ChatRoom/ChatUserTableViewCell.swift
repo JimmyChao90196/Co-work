@@ -11,7 +11,10 @@ import Foundation
 class ChatUserTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = String(describing: ChatUserTableViewCell.self)
+    
+    var customView = CustomShapeView(color: .blue, frame: CGRect(x: 0, y: 0, width: 40, height: 20))
     var messageLabel = UILabel()
+    var timeLabel = UILabel()
     var textBG = UIView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -35,22 +38,38 @@ class ChatUserTableViewCell: UITableViewCell {
     
     private func setup() {
         messageLabel.numberOfLines = 0
-        textBG.setCornerRadius(20)
+        customView.backgroundColor = .clear
+        
+        timeLabel.font = UIFont(name: "PingFangTC-Light", size: 12)
+        timeLabel.textColor = .lightGray
+        
+        textBG.setCornerRadius(12)
             .setbackgroundColor(.blue)
     }
     
     private func addTo() {
-        contentView.addSubviews([textBG])
-        textBG.addSubview(messageLabel)
-        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubviews([textBG, timeLabel, customView])
+        textBG.addSubviews([messageLabel])
+        
         messageLabel.textAlignment = .center
+        timeLabel.textAlignment = .center
+        timeLabel.setTextColor(.gray)
         messageLabel.setTextColor(.white)
     }
 
     private func setupConstraint() {
+        
+        customView.centerXConstr(to: textBG.trailingAnchor)
+            .topConstr(to: textBG.topAnchor, 0)
+            .heightConstr(20)
+            .widthConstr(40)
+        
+        timeLabel.trailingConstr(to: textBG.trailingAnchor, 0)
+            .topConstr(to: textBG.bottomAnchor, 2)
+            .bottomConstr(to: contentView.bottomAnchor, -2)
+        
         NSLayoutConstraint.activate( [
             textBG.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            textBG.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             textBG.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.centerXAnchor, constant: -80),
             textBG.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
             

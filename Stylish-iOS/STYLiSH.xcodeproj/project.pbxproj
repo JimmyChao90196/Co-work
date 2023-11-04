@@ -137,6 +137,7 @@
 		74DD28002AF5F0FD0048AA8E /* ChatProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DD27FF2AF5F0FD0048AA8E /* ChatProvider.swift */; };
 		74DD28032AF5F1EC0048AA8E /* ChatItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DD28022AF5F1EC0048AA8E /* ChatItem.swift */; };
 		74DD28052AF618150048AA8E /* ChatAdminTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DD28042AF618150048AA8E /* ChatAdminTableViewCell.swift */; };
+		74DD28072AF638830048AA8E /* CustomShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DD28062AF638830048AA8E /* CustomShape.swift */; };
 		D306B883B370DFD3ED8ACD74 /* Pods_STYLiSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C2B4AF3EF2ABFF2BB9F7AB /* Pods_STYLiSH.framework */; };
 /* End PBXBuildFile section */
 
@@ -296,6 +297,7 @@
 		74DD27FF2AF5F0FD0048AA8E /* ChatProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatProvider.swift; sourceTree = "<group>"; };
 		74DD28022AF5F1EC0048AA8E /* ChatItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatItem.swift; sourceTree = "<group>"; };
 		74DD28042AF618150048AA8E /* ChatAdminTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAdminTableViewCell.swift; sourceTree = "<group>"; };
+		74DD28062AF638830048AA8E /* CustomShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShape.swift; sourceTree = "<group>"; };
 		E921004E251C9FC3CBC174F5 /* Pods-STYLiSH.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STYLiSH.release.xcconfig"; path = "Target Support Files/Pods-STYLiSH/Pods-STYLiSH.release.xcconfig"; sourceTree = "<group>"; };
 		F551E8F447D7C8DC42B53B98 /* Pods-STYLiSH.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STYLiSH.debug.xcconfig"; path = "Target Support Files/Pods-STYLiSH/Pods-STYLiSH.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -787,6 +789,7 @@
 				748DBC822AF5E17D00CDFD9F /* ChatUserTableViewCell.swift */,
 				748DBC802AF5E09A00CDFD9F /* ChatRoomVC.swift */,
 				74DD28042AF618150048AA8E /* ChatAdminTableViewCell.swift */,
+				74DD28062AF638830048AA8E /* CustomShape.swift */,
 			);
 			path = ChatRoom;
 			sourceTree = "<group>";
@@ -1080,6 +1083,7 @@
 				3CC706122216955900CAD850 /* STBaseNavigationController.swift in Sources */,
 				3C8F191922E5997B00EECE90 /* LobbyTableViewHeaderView.swift in Sources */,
 				3CE7A517223061A9009FF003 /* UserRequest.swift in Sources */,
+				74DD28072AF638830048AA8E /* CustomShape.swift in Sources */,
 				3C09F52122115AB700C5B3E2 /* UIImage+Extension.swift in Sources */,
 				3C6B8FE8222CE53100804EFE /* BasicSelectionCell.swift in Sources */,
 				3C41B8472216667000112F94 /* ProductViewController.swift in Sources */,

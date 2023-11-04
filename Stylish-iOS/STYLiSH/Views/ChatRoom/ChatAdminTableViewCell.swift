@@ -11,12 +11,13 @@ import Foundation
 class ChatAdminTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = String(describing: ChatAdminTableViewCell.self)
+    
+    var customView = CustomShapeView(color: .systemPink, frame: CGRect(x: 0, y: 0, width: 40, height: 20))
     var messageLabel = UILabel()
     var timeLabel = UILabel()
     var textBG = UIView()
     var profileBG = UIView()
     var profilePic = UIImageView(image: UIImage(resource: .icons24PxCustomerService))
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -39,20 +40,22 @@ class ChatAdminTableViewCell: UITableViewCell {
     
     private func setup() {
         messageLabel.numberOfLines = 0
-        timeLabel.customSetup("", "PingFanTC-Regular", 4, 0.0, hexColor: "#CBCBCB")
-        textBG.setCornerRadius(20)
+        customView.backgroundColor = .clear
+        
+        textBG.setCornerRadius(12)
             .setbackgroundColor(.systemPink)
+        timeLabel.font = UIFont(name: "PingFangTC-Light", size: 12)
+        timeLabel.textColor = .lightGray
         
         profileBG.clipsToBounds = true
         profilePic.clipsToBounds = true
         profilePic.backgroundColor = .clear
-        
         profileBG.setCornerRadius(20)
-            .setbackgroundColor(.lightGray)
+            .setbackgroundColor(.hexToUIColor(hex: "#CBCBCB"))
     }
     
     private func addTo() {
-        contentView.addSubviews([textBG, profileBG, timeLabel])
+        contentView.addSubviews([textBG, profileBG, timeLabel, customView])
         textBG.addSubviews([messageLabel])
         profileBG.addSubviews([profilePic])
         
@@ -64,8 +67,13 @@ class ChatAdminTableViewCell: UITableViewCell {
 
     private func setupConstraint() {
         
+        customView.centerXConstr(to: textBG.leadingAnchor, 0)
+            .topConstr(to: textBG.topAnchor, 0)
+            .heightConstr(20)
+            .widthConstr(40)
+        
         profileBG.leadingConstr(to: contentView.leadingAnchor, 10)
-            .topConstr(to: textBG.topAnchor, 5)
+            .topConstr(to: textBG.topAnchor, -20)
             .heightConstr(40)
             .widthConstr(40)
         
@@ -80,7 +88,7 @@ class ChatAdminTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate( [
             textBG.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            textBG.leadingAnchor.constraint(equalTo: profileBG.trailingAnchor, constant: 10),
+            textBG.leadingAnchor.constraint(equalTo: profileBG.trailingAnchor, constant: 20),
             textBG.trailingAnchor.constraint(lessThanOrEqualTo: contentView.centerXAnchor, constant: 80),
             
             messageLabel.leadingAnchor.constraint(equalTo: textBG.leadingAnchor, constant: 20),
