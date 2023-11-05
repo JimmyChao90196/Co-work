@@ -27,6 +27,9 @@ class ProfileViewController: UIViewController {
     
     private let userProvider = UserProvider()
     
+    private let socketIOManager = SocketIOManager.shared
+    
+    
     private var user: User? {
         didSet {
             if let user = user {
@@ -38,6 +41,8 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData()
+        
+        
     }
 
     // MARK: - Action

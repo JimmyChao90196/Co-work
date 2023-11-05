@@ -138,6 +138,7 @@
 		74DD28032AF5F1EC0048AA8E /* ChatItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DD28022AF5F1EC0048AA8E /* ChatItem.swift */; };
 		74DD28052AF618150048AA8E /* ChatAdminTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DD28042AF618150048AA8E /* ChatAdminTableViewCell.swift */; };
 		74DD28072AF638830048AA8E /* CustomShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DD28062AF638830048AA8E /* CustomShape.swift */; };
+		74DD28092AF674540048AA8E /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DD28082AF674540048AA8E /* SocketManager.swift */; };
 		D306B883B370DFD3ED8ACD74 /* Pods_STYLiSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C2B4AF3EF2ABFF2BB9F7AB /* Pods_STYLiSH.framework */; };
 /* End PBXBuildFile section */
 
@@ -298,6 +299,7 @@
 		74DD28022AF5F1EC0048AA8E /* ChatItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatItem.swift; sourceTree = "<group>"; };
 		74DD28042AF618150048AA8E /* ChatAdminTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAdminTableViewCell.swift; sourceTree = "<group>"; };
 		74DD28062AF638830048AA8E /* CustomShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShape.swift; sourceTree = "<group>"; };
+		74DD28082AF674540048AA8E /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		E921004E251C9FC3CBC174F5 /* Pods-STYLiSH.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STYLiSH.release.xcconfig"; path = "Target Support Files/Pods-STYLiSH/Pods-STYLiSH.release.xcconfig"; sourceTree = "<group>"; };
 		F551E8F447D7C8DC42B53B98 /* Pods-STYLiSH.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STYLiSH.debug.xcconfig"; path = "Target Support Files/Pods-STYLiSH/Pods-STYLiSH.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -778,6 +780,7 @@
 				3CE7A51222305916009FF003 /* UserProvider.swift */,
 				3CED4C0B22141E9700121D4B /* MarketProvider.swift */,
 				3CA25518222A484300B286F6 /* ProductsListProvider.swift */,
+				74DD28082AF674540048AA8E /* SocketManager.swift */,
 			);
 			path = APIProviders;
 			sourceTree = "<group>";
@@ -1069,6 +1072,7 @@
 				3C6020E8222BBA3C00312958 /* ProductBasicCell.swift in Sources */,
 				3CE7A51522305E5A009FF003 /* KeyChainManager.swift in Sources */,
 				3C1ACFEB22153114005583E2 /* ProfileCollectionReusableView.swift in Sources */,
+				74DD28092AF674540048AA8E /* SocketManager.swift in Sources */,
 				3C9C0D532215400900595689 /* ProfileItem.swift in Sources */,
 				3C9EF5362213C97D00DEE152 /* MarketRequest.swift in Sources */,
 				3CB801252229AEE30029A552 /* UITableView+Extension.swift in Sources */,
@@ -1382,7 +1386,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = AppWorksSchool.STYLiSHTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1401,7 +1405,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = AppWorksSchool.STYLiSHTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

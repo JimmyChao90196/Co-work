@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SocketIO
 
 class ChatManager {
     
@@ -16,13 +17,11 @@ class ChatManager {
     static let userColor: UIColor = .hexToUIColor(hex: "#3F3A3A")
     static let adminColor: UIColor = .hexToUIColor(hex: "CCCCCC")
     
-    
-    
     func userAppendMessages(inputText: String) {
         mockConversationData.append(ChatMessage(sendTime: Date(), isUser: true, content: inputText))
     }
     
-    func adminAppendMessages(inputText: String){
+    func adminAppendMessages(inputText: String) {
         mockConversationData.append(ChatMessage(sendTime: Date(), isUser: false, content: inputText))
     }
     
@@ -39,5 +38,6 @@ class ChatManager {
         ChatMessage(sendTime: Date(timeIntervalSinceNow: -1 * 60), isUser: false, content: "Sure, looking forward to it. Bye for now!"),
         ChatMessage(sendTime: Date(timeIntervalSinceNow: 0), isUser: true, content: "Bye!")
     ]
-
+    
+    
 }
