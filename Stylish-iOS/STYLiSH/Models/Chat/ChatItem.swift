@@ -19,3 +19,6 @@ struct ChatMessage: Codable {
 struct ChatData: Codable {
     var data: [ChatMessage]
 }
+
+
+

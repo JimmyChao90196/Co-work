@@ -12,8 +12,6 @@ import UIKit
 // MARK: - Add multiple subview
 extension UIView {
     
-    
-    
     @discardableResult
     func addSubviews(_ views: [UIView]) -> Self {
         views.forEach {
@@ -213,5 +211,27 @@ extension UIView {
         translatesAutoresizingMaskIntoConstraints = false
         centerYAnchor.constraint(equalTo: anchor, constant: distance).isActive = true
         return self
+    }
+}
+
+// MARK: - UIViewController -
+extension UIViewController {
+    
+    func presentCustomAlert(title: String, message: String, buttonText: String, buttonAction: @escaping () -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: buttonText, style: .default) { (action) in
+            buttonAction()
+        }
+        
+        alert.addAction(action)
+        
+        // If you want to add a cancel action as well
+        // let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        // alert.addAction(cancelAction)
+        
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }

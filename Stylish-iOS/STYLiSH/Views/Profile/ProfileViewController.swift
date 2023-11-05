@@ -27,8 +27,6 @@ class ProfileViewController: UIViewController {
     
     private let userProvider = UserProvider()
     
-    private let socketIOManager = SocketIOManager()
-    
     private var user: User? {
         didSet {
             if let user = user {
@@ -160,17 +158,38 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 extension ProfileViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ProfileCollectionViewCell else { return }
+
+        let socketIOManager = SocketIOManager()
         
         if cell.textLbl.text == "客服訊息" {
-            let chatRoomVC = ChatRoomViewController()
-            navigationController?.pushViewController(chatRoomVC, animated: true)
             
-            socketIOManager.listenEvents()
+            Task {
+                await socketIOManager.userCheck()
+                await socketIOManager.listenEvents()
+                socketIOManager.recievedCheckEvent = { responce in
+                    
+                    guard responce != "connect" else { return }
+                    let chatRoomVC = UserChatViewController()
+                    self.navigationController?.pushViewController(chatRoomVC, animated: true)
+                }
+            }
         }
         
         if cell.textLbl.text == "admin" {
-            print("Bingo")
+            
+            Task {
+                await socketIOManager.adminCheck()
+                await socketIOManager.listenEvents()
+                
+                
+                socketIOManager.recievedCheckEvent = { responce in
+                    
+                    guard responce != "connect" else { return }
+                    let chatRoomVC = AdminChatViewController()
+                    self.navigationController?.pushViewController(chatRoomVC, animated: true)
+                    
+                }
+            }
         }
-        
     }
 }

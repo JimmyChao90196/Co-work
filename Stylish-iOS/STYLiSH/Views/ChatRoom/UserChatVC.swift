@@ -9,7 +9,10 @@
 import UIKit
 import IQKeyboardManagerSwift
 
-class ChatRoomViewController: UIViewController {
+class UserChatViewController: UIViewController {
+    
+    let socketIOManager = SocketIOManager()
+    let keyChainManager = KeyChainManager.shared
 
     var titleView = UILabel()
     var tableView = ChatTableView()
@@ -17,6 +20,16 @@ class ChatRoomViewController: UIViewController {
     let footerView = UIView()
     var inputField = UITextField()
     var isUser = true
+    
+    var leaveButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+        
+        // Your logic to customize the button
+        button.backgroundColor = .blue
+        button.setTitle("leave the room", for: .normal)
+        
+        return button
+    }()
     
     var switchButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
@@ -60,12 +73,22 @@ class ChatRoomViewController: UIViewController {
     }
     
     // MARK: - Button Action -
+    
+    // Send button clicked
     @objc func sendButtonClicked() {
-        guard let text = inputField.text, !text.isEmpty else { return }
+        guard let text = inputField.text, !text.isEmpty, let token = keyChainManager.token else { return }
         
         if self.isUser {
             
             chatProvider.userAppendMessages(inputText: text)
+            
+            Task {
+                await socketIOManager.sendMessage("user", message: text, token: "\(token)")
+                chatProvider.adminAppendMessages(inputText: text)
+                tableView.reloadData()
+                scrollToBottom()
+                inputField.text = ""
+            }
             
         } else {
             
@@ -77,12 +100,22 @@ class ChatRoomViewController: UIViewController {
         inputField.text = ""
     }
     
+    // Leave button action
+    @objc func leaveButtonClicked() {
+        socketIOManager.userLeave()
+    }
+    
+    // Switch button action
     @objc func switchButtonClicked() {
         isUser.toggle()
         if isUser {
+            
             switchButton.setTitle("User", for: .normal)
+            
         } else {
+            
             switchButton.setTitle("Admin", for: .normal)
+            
         }
     }
     
@@ -121,6 +154,7 @@ class ChatRoomViewController: UIViewController {
         
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         switchButton.addTarget(self, action: #selector(switchButtonClicked), for: .touchUpInside)
+        leaveButton.addTarget(self, action: #selector(leaveButtonClicked), for: .touchUpInside)
     }
     
     func setupConstranit() {
@@ -155,7 +189,7 @@ class ChatRoomViewController: UIViewController {
 }
 
 // MARK: - Delegate and DataSource method -
-extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
+extension UserChatViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -203,7 +237,7 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 // MARK: - Configure title -
-extension ChatRoomViewController {
+extension UserChatViewController {
     func configureTitle() {
         titleView.customSetup("客服中心", "PingFangTC-Medium", 18, 0.0, hexColor: "#3F3A3A")
         titleView.textAlignment = .center
