@@ -55,8 +55,8 @@ class AdminChatViewController: UIViewController {
         configureTitle()
         tableView.reloadData()
         scrollToBottom()
-        
-        // print("\(String(describing: keyChainManager.token))")
+        // Test
+        updateInCommingMessage()
         
     }
     
@@ -123,6 +123,31 @@ class AdminChatViewController: UIViewController {
         }
     }
     
+    func updateInCommingMessage() {
+        
+        socketIOManager.recievedTalkResult = { result in
+            switch result {
+                
+            case .success(let successText):
+                print("Look at me" + successText)
+                self.chatProvider.userAppendMessages(inputText: successText)
+                
+            case .failure(let connectError):
+                print(connectError)
+                
+                self.presentSimpleAlert(
+                    title: "Error",
+                    message: connectError.rawValue,
+                    buttonText: "Ok")
+            }
+        }
+        
+        DispatchQueue.main.async { [self] in
+            tableView.reloadData()
+            scrollToBottom()
+        }
+    }
+    
     // MARK: - Basic setup -
     func setup() {
         tableView.backgroundColor = .white
@@ -149,6 +174,16 @@ class AdminChatViewController: UIViewController {
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         switchButton.addTarget(self, action: #selector(switchButtonClicked), for: .touchUpInside)
         kickButton.addTarget(self, action: #selector(kickButtonClicked), for: .touchUpInside)
+        
+        // Create a UIBarButtonItem with title "Click Me"
+        let kickNavButton = UIBarButtonItem(
+            title: "Kick",
+            style: .plain,
+            target: self,
+            action: #selector(kickButtonClicked))
+
+        // Add the button to the navigation bar on the right side
+        navigationItem.rightBarButtonItem = kickNavButton
     }
     
     func setupConstranit() {

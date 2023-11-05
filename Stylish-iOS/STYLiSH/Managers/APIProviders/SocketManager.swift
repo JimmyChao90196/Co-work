@@ -9,13 +9,13 @@
 import Foundation
 import SocketIO
 
-enum SocketConnectionError: Error {
-    case adminOffLine
-    case adminBusy
-    case adminInRoom
-    case roomDoesntExist
-    case roomOnlyLeftUser
-    case userLeaveTheRoom
+enum SocketConnectionError: String, Error {
+    case adminOffLine = "All admin is offline"
+    case adminBusy = "All admin is busy"
+    case adminInRoom = "Already one admin in room"
+    case roomDoesntExist = "Please connect before talking"
+    case roomOnlyLeftUser = "Admin left the room"
+    case userLeaveTheRoom = "User is removed from room"
 }
 
 class SocketIOManager {
@@ -24,7 +24,8 @@ class SocketIOManager {
     var socket: SocketIOClient
     var recievedTalkEvent: ((String) -> Void)?
     var recievedCheckEvent: ((String) -> Void)?
-    var recievedError: ((Result<String, SocketConnectionError>) -> Void)?
+    var recievedConnectionResult: ((Result<String, SocketConnectionError>) -> Void)?
+    var recievedTalkResult: ((Result<String, SocketConnectionError>) -> Void)?
     
     init() {
         self.manager = SocketManager(
@@ -46,13 +47,11 @@ class SocketIOManager {
     
     // Check user
     func userCheck() async {
-        // socket.emit("user-check", ["userIdentify": ["user", "JWT"]])
         socket.emit("user-check", ["user", "JWT"])
     }
     
     // Check admin
     func adminCheck() async {
-        // socket.emit("user-check", ["userIdentify": ["admin", "JWT"]])
         socket.emit("user-check", ["admin", "JWT"])
     }
     
@@ -74,13 +73,48 @@ class SocketIOManager {
     }
     
     // Listen for specific events
-    func listenEvents() async {
+    func setupListener() async {
+        // listen to talk
         socket.on("talk") { data, _ in
-            guard let dataArray = data[0] as? [String] else {
+            
+            print(data)
+            
+            guard let data = data.first as? String else {
                 print("Received user-check event: not an array"); return }
-            print("Received talk event: \(dataArray)")
+            print("Received talk event: \(data)")
+            
+            if data == "Connect"{
+                
+                self.recievedTalkResult?(.success(data))
+
+            } else {
+                
+                switch data {
+                    
+                case "All admin is offline.":
+                    self.recievedConnectionResult?(.failure(.adminOffLine))
+                    
+                case "All admin is busy.":
+                    self.recievedConnectionResult?(.failure(.adminBusy))
+                    
+                case "Already one admin in room.":
+                    self.recievedConnectionResult?(.failure(.adminInRoom))
+                    
+                case "Please connect before talking.":
+                    self.recievedConnectionResult?(.failure(.roomDoesntExist))
+                    
+                case "Admin left the room.":
+                    self.recievedConnectionResult?(.failure(.roomOnlyLeftUser))
+                    
+                case "User is removed from room.":
+                    self.recievedConnectionResult?(.failure(.userLeaveTheRoom))
+                    
+                default: print("unhandled error"); return
+                }
+            }
         }
         
+        // listen to user-check
         socket.on("user-check") { data, _ in
             
             guard let dataArray = data[0] as? [String] else {
@@ -89,29 +123,28 @@ class SocketIOManager {
             
             if dataArray[0] == "Connect"{
                 
-                self.recievedTalkEvent?(dataArray[0])
-                
-            }else{
+                self.recievedConnectionResult?(.success(dataArray[0]))
+            } else {
                 
                 switch dataArray[1] {
                     
-                case "All admin is offline":
-                    self.recievedError?(.failure(.adminOffLine))
+                case "All admin is offline.":
+                    self.recievedConnectionResult?(.failure(.adminOffLine))
                     
-                case "All admin is busy":
-                    self.recievedError?(.failure(.adminBusy))
+                case "All admin is busy.":
+                    self.recievedConnectionResult?(.failure(.adminBusy))
                     
-                case "Already one admin in room":
-                    self.recievedError?(.failure(.adminInRoom))
+                case "Already one admin in room.":
+                    self.recievedConnectionResult?(.failure(.adminInRoom))
                     
-                case "Please connect before talking":
-                    self.recievedError?(.failure(.roomDoesntExist))
+                case "Please connect before talking.":
+                    self.recievedConnectionResult?(.failure(.roomDoesntExist))
                     
-                case "Admin left the room":
-                    self.recievedError?(.failure(.roomOnlyLeftUser))
+                case "Admin left the room.":
+                    self.recievedConnectionResult?(.failure(.roomOnlyLeftUser))
                     
-                case "User is removed from room":
-                    self.recievedError?(.failure(.userLeaveTheRoom))
+                case "User is removed from room.":
+                    self.recievedConnectionResult?(.failure(.userLeaveTheRoom))
                     
                 default: print("unhandled error"); return
                 }

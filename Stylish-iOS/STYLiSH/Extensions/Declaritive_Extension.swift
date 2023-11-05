@@ -217,11 +217,11 @@ extension UIView {
 // MARK: - UIViewController -
 extension UIViewController {
     
-    func presentCustomAlert(title: String, message: String, buttonText: String, buttonAction: @escaping () -> Void) {
+    func presentSimpleAlert(title: String, message: String, buttonText: String, buttonAction: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let action = UIAlertAction(title: buttonText, style: .default) { (action) in
-            buttonAction()
+        let action = UIAlertAction(title: buttonText, style: .default) { _ in
+            buttonAction?()
         }
         
         alert.addAction(action)

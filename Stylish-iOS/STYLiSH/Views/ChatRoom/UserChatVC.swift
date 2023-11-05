@@ -155,6 +155,15 @@ class UserChatViewController: UIViewController {
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         switchButton.addTarget(self, action: #selector(switchButtonClicked), for: .touchUpInside)
         leaveButton.addTarget(self, action: #selector(leaveButtonClicked), for: .touchUpInside)
+        
+        // Create a UIBarButtonItem with title "Click Me"
+        let leaveNavButton = UIBarButtonItem(title: "leave",
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(leaveButtonClicked))
+
+        // Add the button to the navigation bar on the right side
+        navigationItem.rightBarButtonItem = leaveNavButton
     }
     
     func setupConstranit() {

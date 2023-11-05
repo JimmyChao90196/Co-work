@@ -27,6 +27,8 @@ class ProfileViewController: UIViewController {
     
     private let userProvider = UserProvider()
     
+    let socketIOManager = SocketIOManager()
+    
     private var user: User? {
         didSet {
             if let user = user {
@@ -158,19 +160,29 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 extension ProfileViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ProfileCollectionViewCell else { return }
-
-        let socketIOManager = SocketIOManager()
         
         if cell.textLbl.text == "客服訊息" {
             
             Task {
                 await socketIOManager.userCheck()
-                await socketIOManager.listenEvents()
-                socketIOManager.recievedCheckEvent = { responce in
-                    
-                    guard responce != "connect" else { return }
-                    let chatRoomVC = UserChatViewController()
-                    self.navigationController?.pushViewController(chatRoomVC, animated: true)
+                await socketIOManager.setupListener()
+                socketIOManager.recievedConnectionResult = { result in
+                    switch result {
+                        
+                    case .success(let successText):
+                        print(successText)
+                        
+                        let chatRoomVC = UserChatViewController()
+                        self.navigationController?.pushViewController(chatRoomVC, animated: true)
+                        
+                    case .failure(let connectError):
+                        print(connectError)
+                        
+                        self.presentSimpleAlert(
+                            title: "Error",
+                            message: connectError.rawValue,
+                            buttonText: "Ok")
+                    }
                 }
             }
         }
@@ -179,15 +191,25 @@ extension ProfileViewController: UICollectionViewDelegate {
             
             Task {
                 await socketIOManager.adminCheck()
-                await socketIOManager.listenEvents()
-                
-                
-                socketIOManager.recievedCheckEvent = { responce in
+                await socketIOManager.setupListener()
+                socketIOManager.recievedConnectionResult = { result in
                     
-                    guard responce != "connect" else { return }
-                    let chatRoomVC = AdminChatViewController()
-                    self.navigationController?.pushViewController(chatRoomVC, animated: true)
-                    
+                    switch result {
+                        
+                    case .success(let successText):
+                        print(successText)
+                        
+                        let chatRoomVC = AdminChatViewController()
+                        self.navigationController?.pushViewController(chatRoomVC, animated: true)
+                        
+                    case .failure(let connectError):
+                        print(connectError)
+                        
+                        self.presentSimpleAlert(
+                            title: "Error",
+                            message: connectError.rawValue,
+                            buttonText: "Ok")
+                    }
                 }
             }
         }
