@@ -10,16 +10,56 @@ import Foundation
 import SocketIO
 
 class SocketIOManager {
-    static let shared = SocketIOManager()
     
     var manager: SocketManager
     var socket: SocketIOClient
 
     init() {
-        self.manager = SocketManager(socketURL: URL(string: "http://localhost:3000")!, config: [.log(true), .compress, .connectParams(["token": "ABCDEF"])])
+        self.manager = SocketManager(
+            socketURL: URL(string: "https://deercodeweb.com/")!,
+            config: [.log(true), .compress])
         self.socket = manager.defaultSocket
+        
+        setup()
     }
     
+    func setup() {
+        socket.connect()
+        
+        // Listening
+        socket.on(clientEvent: .connect) { data, _ in
+            print(data)
+        }
+        listenEvents()
+    }
+    
+    // Send messages
+    func sendMessage() {
+        socket.emit("talk", ["userIdentify": ["user", "inputMessage" ,"JWT"]])
+    }
+    
+    // Check user
+    func userCheck(){
+        socket.emit("user-check", ["userIdentify": ["user", "JWT"]])
+    }
+    
+    // Listen for any events
+    func listenForAnyEvent() {
+        socket.onAny { event in
+            print("Received event: \(event.event), with data: \(String(describing: event.items))")
+        }
+    }
+    
+    // Listen for specific events
+    func listenEvents() {
+        socket.on("talk") { data, _ in
+            print("Received talk event: \(data)")
+        }
+        
+        socket.on("user-check") { data, _ in
+            print("Received user-check event: \(data)")
+        }
+    }
     
     /*
     // Connect
@@ -52,7 +92,5 @@ class SocketIOManager {
         print("Received event: \(event.event), with data: \(event.items)")
     }
     */
-    
-    
     
 }

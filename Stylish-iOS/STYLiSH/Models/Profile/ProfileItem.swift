@@ -89,7 +89,7 @@ enum ServiceItem: ProfileItem {
         case .customService: return NSLocalizedString("客服訊息")
         case .systomReport: return NSLocalizedString("系統回饋")
         case .bindPhone: return NSLocalizedString("手機綁定")
-        case .setting: return NSLocalizedString("設定")
+        case .setting: return NSLocalizedString("admin")
         }
     }
 }

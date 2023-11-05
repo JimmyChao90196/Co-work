@@ -27,8 +27,7 @@ class ProfileViewController: UIViewController {
     
     private let userProvider = UserProvider()
     
-    private let socketIOManager = SocketIOManager.shared
-    
+    private let socketIOManager = SocketIOManager()
     
     private var user: User? {
         didSet {
@@ -41,7 +40,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData()
-        
         
     }
 
@@ -161,11 +159,18 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - Delegate methods
 extension ProfileViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       guard let cell = collectionView.cellForItem(at: indexPath) as? ProfileCollectionViewCell else { return }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ProfileCollectionViewCell else { return }
         
         if cell.textLbl.text == "客服訊息" {
             let chatRoomVC = ChatRoomViewController()
             navigationController?.pushViewController(chatRoomVC, animated: true)
+            
+            socketIOManager.listenEvents()
         }
+        
+        if cell.textLbl.text == "admin" {
+            print("Bingo")
+        }
+        
     }
 }

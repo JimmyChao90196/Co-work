@@ -13,7 +13,7 @@ class ChatUserTableViewCell: UITableViewCell {
     static let reuseIdentifier = String(describing: ChatUserTableViewCell.self)
     
     var customView = CustomShapeView(
-        color: ChatManager.userColor,
+        color: ChatProvider.userColor,
         frame: CGRect(x: 0, y: 0, width: 40, height: 20))
     
     var messageLabel = UILabel()
@@ -47,7 +47,7 @@ class ChatUserTableViewCell: UITableViewCell {
         timeLabel.textColor = .lightGray
         
         textBG.setCornerRadius(12)
-            .setbackgroundColor(ChatManager.userColor)
+            .setbackgroundColor(ChatProvider.userColor)
     }
     
     private func addTo() {

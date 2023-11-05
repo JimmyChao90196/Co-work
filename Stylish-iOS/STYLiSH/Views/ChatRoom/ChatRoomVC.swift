@@ -13,7 +13,7 @@ class ChatRoomViewController: UIViewController {
 
     var titleView = UILabel()
     var tableView = ChatTableView()
-    var chatProvider = ChatManager.shared
+    var chatProvider = ChatProvider.shared
     let footerView = UIView()
     var inputField = UITextField()
     var isUser = true
