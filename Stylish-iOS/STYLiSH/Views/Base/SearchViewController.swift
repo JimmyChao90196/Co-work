@@ -170,7 +170,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             productListVC.searchKeywordClosure?(searchText)
             
             self.navigationController?.pushViewController(productListVC, animated: true)
-            self.searchHistory.insert(searchText, at: 0)
+
+            if let index = searchHistory.firstIndex(of: searchText) {
+                searchHistory.remove(at: index)
+                searchHistory.insert(searchText, at: 0)
+            } else {
+                searchHistory.insert(searchText, at: 0)
+            }
             UserDefaults.standard.set(searchHistory, forKey: "SearchHistory")
             self.searchTableView.reloadData()
             searchTextField.text = ""

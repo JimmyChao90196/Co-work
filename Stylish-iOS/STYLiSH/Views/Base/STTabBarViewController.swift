@@ -10,7 +10,7 @@ import UIKit
 
 class STTabBarViewController: UITabBarController {
 
-    private let tabs: [Tab] = [.lobby, .product, .trolley, .profile, .history]
+    private let tabs: [Tab] = [.lobby, .product, .trolley, .history, .profile]
     
     private var trolleyTabBarItem: UITabBarItem?
     
@@ -80,6 +80,8 @@ extension STTabBarViewController {
                 return .asset(.Icons_36px_Cart_Normal)
             case .profile:
                 return .asset(.Icons_36px_Profile_Normal)
+            case .history:
+                return .asset(.Icons_History)
             }
         }
         
@@ -93,6 +95,8 @@ extension STTabBarViewController {
                 return .asset(.Icons_36px_Cart_Selected)
             case .profile:
                 return .asset(.Icons_36px_Profile_Selected)
+            case .history:
+                return .asset(.Icons_History)
             }
         }
     }
@@ -107,7 +111,8 @@ extension STTabBarViewController: UITabBarControllerDelegate {
     ) -> Bool {
         guard
             let navVC = viewController as? UINavigationController,
-            navVC.viewControllers.first is ProfileViewController
+            navVC.viewControllers.first is ProfileViewController ||
+                navVC.viewControllers.first is HistoryViewController
         else {
             return true
         }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SFSymbols
 
 class LobbyViewController: STBaseViewController {
 
@@ -33,7 +34,8 @@ class LobbyViewController: STBaseViewController {
         lobbyView.beginHeaderRefresh()
         
         // Add search button on navigation bar top left.
-        let searchButton = UIBarButtonItem(image: UIImage(named: "Icons_24px_Back02"), style: .plain, target: self, action: #selector(searchButtonTapped))
+        let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchButtonTapped))
+        searchButton.tintColor = .darkGray
         navigationItem.rightBarButtonItem = searchButton
         
     }
