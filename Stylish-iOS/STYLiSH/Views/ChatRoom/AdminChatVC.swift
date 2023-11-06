@@ -55,9 +55,8 @@ class AdminChatViewController: UIViewController {
         configureTitle()
         tableView.reloadData()
         scrollToBottom()
-        // Test
-        updateInCommingMessage()
         
+        updateInCommingMessage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -123,6 +122,8 @@ class AdminChatViewController: UIViewController {
         }
     }
     
+    
+    // MARK: - Action for incomming event
     func updateInCommingMessage() {
         
         // Handle close result

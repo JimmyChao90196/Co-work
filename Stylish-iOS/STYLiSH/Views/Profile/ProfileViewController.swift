@@ -163,32 +163,42 @@ extension ProfileViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ProfileCollectionViewCell else { return }
         
+        // If the user tapped customer service
         if cell.textLbl.text == "客服訊息" {
+            socketIOManager.setup()
             
-//            Task {
-//                await socketIOManager.userCheck(token: keyChainManager.token ?? "none")
-//                await socketIOManager.setupListener()
-//                socketIOManager.recievedConnectionResult = { result in
-//                    switch result {
-//                        
-//                    case .success(let successText):
-//                        print(successText)
-//                        
-//                        let chatRoomVC = UserChatViewController()
-//                        self.navigationController?.pushViewController(chatRoomVC, animated: true)
-//                        
-//                    case .failure(let connectError):
-//                        print(connectError)
-//                        
-//                        self.presentSimpleAlert(
-//                            title: "Error",
-//                            message: connectError.rawValue,
-//                            buttonText: "Ok")
-//                    }
-//                }
-//            }
+            socketIOManager.listenForConnected { id in
+                print("Socket connected and id is: \(id)")
+                self.socketIOManager.setupListener()
+                self.socketIOManager.userCheck(token: self.keyChainManager.token ?? "none")
+                
+                self.socketIOManager.recievedConnectionResult = { result in
+                    
+                    switch result {
+                        
+                    case .success(let successText):
+                        print(successText)
+                        
+                        let chatRoomVC = UserChatViewController()
+                        self.navigationController?.pushViewController(chatRoomVC, animated: true)
+                        
+                    case .failure(let connectError):
+                        print(connectError)
+                        
+                        self.presentSimpleAlert(
+                            title: "Error",
+                            message: connectError.rawValue,
+                            buttonText: "Ok")
+                    }
+                }
+            }
+            
+            socketIOManager.listenForDisconnected { id in
+                print("Socket disconnected and id is: \(id)")
+            }
         }
-        
+ 
+        // If the user tapped admin
         if cell.textLbl.text == "admin" {
             socketIOManager.setup()
             
@@ -221,54 +231,8 @@ extension ProfileViewController: UICollectionViewDelegate {
             socketIOManager.listenForDisconnected { id in
                 print("Socket disconnected and id is: \(id)")
             }
-            
-            // socketIOManager.setupListener()
-            // socketIOManager.listenForAnyEvent()
-   
-//            socketIOManager.adminCheck(token: keyChainManager.token ?? "none")
-//            socketIOManager.recievedConnectionResult = { result in
-//                
-//                switch result {
-//                    
-//                case .success(let successText):
-//                    print(successText)
-//                    
-//                    let chatRoomVC = AdminChatViewController()
-//                    self.navigationController?.pushViewController(chatRoomVC, animated: true)
-//                    
-//                case .failure(let connectError):
-//                    print(connectError)
-//                    
-//                    self.presentSimpleAlert(
-//                        title: "Error",
-//                        message: connectError.rawValue,
-//                        buttonText: "Ok")
-//                }
-//            }
-//            Task {
-//                await socketIOManager.setup()
-//                await socketIOManager.setupListener()
-//                await socketIOManager.adminCheck(token: keyChainManager.token ?? "none")
-//                socketIOManager.recievedConnectionResult = { result in
-//                    
-//                    switch result {
-//                        
-//                    case .success(let successText):
-//                        print(successText)
-//                        
-//                        let chatRoomVC = AdminChatViewController()
-//                        self.navigationController?.pushViewController(chatRoomVC, animated: true)
-//                        
-//                    case .failure(let connectError):
-//                        print(connectError)
-//                        
-//                        self.presentSimpleAlert(
-//                            title: "Error",
-//                            message: connectError.rawValue,
-//                            buttonText: "Ok")
-//                    }
-//                }
-//            }
         }
     }
 }
+
+

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 import IQKeyboardManagerSwift
 
 class UserChatViewController: UIViewController {
@@ -54,6 +55,8 @@ class UserChatViewController: UIViewController {
         configureTitle()
         tableView.reloadData()
         scrollToBottom()
+        
+        updateInCommingMessage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,7 +87,7 @@ class UserChatViewController: UIViewController {
             
             Task {
                 await socketIOManager.sendMessage("user", message: text, token: "\(token)")
-                chatProvider.adminAppendMessages(inputText: text)
+                // chatProvider.userAppendMessages(inputText: text)
                 tableView.reloadData()
                 scrollToBottom()
                 inputField.text = ""
@@ -126,6 +129,56 @@ class UserChatViewController: UIViewController {
                 section: 0)
             
             tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+    
+    // MARK: - Action for incomming event.
+    func updateInCommingMessage() {
+        
+        // Handle close result
+        socketIOManager.recievedCloseResult = { result in
+            switch result {
+                
+            case .success(let successText):
+                print("Look at me:" + successText)
+                self.navigationController?.popViewController(animated: true)
+
+            case .failure(let connectError):
+                print(connectError)
+                
+                self.presentSimpleAlert(
+                    title: "Error",
+                    message: connectError.rawValue,
+                    buttonText: "Ok")
+            }
+        }
+        
+        // Handle talk result
+        socketIOManager.recievedTalkResult = { result in
+            switch result {
+                
+            case .success(let successText):
+                print("Look at me" + successText)
+                self.chatProvider.adminAppendMessages(inputText: successText)
+                
+                DispatchQueue.main.async { [self] in
+                    tableView.reloadData()
+                    scrollToBottom()
+                }
+                
+            case .failure(let connectError):
+                print(connectError)
+                
+                self.presentSimpleAlert(
+                    title: "Error",
+                    message: connectError.rawValue,
+                    buttonText: "Ok")
+            }
+        }
+        
+        DispatchQueue.main.async { [self] in
+            tableView.reloadData()
+            scrollToBottom()
         }
     }
     
