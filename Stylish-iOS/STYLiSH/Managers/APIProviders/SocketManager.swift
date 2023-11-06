@@ -31,6 +31,7 @@ class SocketIOManager {
     var recievedConnectionResult: ((Result<String, SocketConnectionError>) -> Void)?
     var recievedTalkResult: ((Result<String, SocketConnectionError>) -> Void)?
     var recievedCloseResult: ((Result<String, SocketConnectionError>) -> Void)?
+    var recievedLeaveEvent: ((String) -> Void)?
         
     func setup() {
         self.manager = SocketManager(
@@ -97,6 +98,21 @@ class SocketIOManager {
         }
     }
     
+    // Custom listener for close event
+    func listenOnLeave() {
+        socket.on("user-check") { data, _ in
+            guard let dataArray = data[0] as? [String] else {
+                print("data found nil"); return }
+            
+            if dataArray[0] == "Connect"{
+                
+            } else {
+                
+                self.recievedLeaveEvent?(dataArray[1])
+            }
+        }
+    }
+    
     // Listen for specific events
     func setupListener() {
         // listen to user-close
@@ -105,15 +121,8 @@ class SocketIOManager {
             guard let dataArray = data[0] as? [String] else {
                 print("Received user-close event: not an array"); return }
             print("Received user-close event: \(dataArray)")
-            
-            if dataArray[0] == "Connect"{
-                
-                self.recievedCloseResult?(.success(dataArray[0]))
-                
-            } else {
-                
-                self.errorHandeling(switchTaret: dataArray[0])
-            }
+
+            self.errorHandeling(switchTaret: dataArray[0])
         }
         
         // listen to talk
@@ -142,7 +151,7 @@ class SocketIOManager {
                 
             } else {
                 
-                self.errorHandeling(switchTaret: dataArray[0])
+                self.errorHandeling(switchTaret: dataArray[1])
             }
         }
     }

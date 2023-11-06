@@ -31,6 +31,8 @@ class ProfileViewController: UIViewController {
     
     let keyChainManager = KeyChainManager.shared
     
+    let customHTTPClient = CustomHTTPClient.shared
+    
     private var user: User? {
         didSet {
             if let user = user {
@@ -42,7 +44,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData()
-        
     }
 
     // MARK: - Action

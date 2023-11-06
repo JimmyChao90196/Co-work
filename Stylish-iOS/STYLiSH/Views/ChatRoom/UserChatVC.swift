@@ -56,6 +56,7 @@ class UserChatViewController: UIViewController {
         tableView.reloadData()
         scrollToBottom()
         
+        socketIOManager.listenOnLeave()
         updateInCommingMessage()
     }
     
@@ -135,21 +136,12 @@ class UserChatViewController: UIViewController {
     // MARK: - Action for incomming event.
     func updateInCommingMessage() {
         
-        // Handle close result
-        socketIOManager.recievedCloseResult = { result in
-            switch result {
+        // Handle leave event
+        socketIOManager.recievedLeaveEvent = { error in
+            self.presentSimpleAlert(title: "Warning", message: error, buttonText: "Ok") {
                 
-            case .success(let successText):
-                print("Look at me:" + successText)
+                // Pop back to view controller
                 self.navigationController?.popViewController(animated: true)
-
-            case .failure(let connectError):
-                print(connectError)
-                
-                self.presentSimpleAlert(
-                    title: "Error",
-                    message: connectError.rawValue,
-                    buttonText: "Ok")
             }
         }
         
@@ -175,7 +167,6 @@ class UserChatViewController: UIViewController {
                     buttonText: "Ok")
             }
         }
-        
         DispatchQueue.main.async { [self] in
             tableView.reloadData()
             scrollToBottom()
@@ -217,6 +208,9 @@ class UserChatViewController: UIViewController {
 
         // Add the button to the navigation bar on the right side
         navigationItem.rightBarButtonItem = leaveNavButton
+        
+        // Setup listener
+        // socketIOManager.setupListener()
     }
     
     func setupConstranit() {

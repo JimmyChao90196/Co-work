@@ -122,26 +122,8 @@ class AdminChatViewController: UIViewController {
         }
     }
     
-    
     // MARK: - Action for incomming event
     func updateInCommingMessage() {
-        
-        // Handle close result
-        socketIOManager.recievedCloseResult = { result in
-            switch result {
-                
-            case .success(let successText):
-                print("Look at me:" + successText)
-
-            case .failure(let connectError):
-                print(connectError)
-                
-                self.presentSimpleAlert(
-                    title: "Error",
-                    message: connectError.rawValue,
-                    buttonText: "Ok")
-            }
-        }
         
         // Handle talk result
         socketIOManager.recievedTalkResult = { result in
