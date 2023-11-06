@@ -110,6 +110,13 @@ class AdminChatViewController: UIViewController {
     // Kick button action
     @objc func kickButtonClicked() {
         socketIOManager.kickout(token: keyChainManager.token ?? "none")
+        
+        presentSimpleAlert(
+            title: "Warning",
+            message: "User is kicked out",
+            buttonText: "Ok") {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     func scrollToBottom() {

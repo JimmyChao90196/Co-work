@@ -20,5 +20,15 @@ struct ChatData: Codable {
     var data: [ChatMessage]
 }
 
-
+struct Message: Codable {
+    let content: String
+    let isUser: Bool
+    let sendTime: Date
+    
+    enum CodingKeys: String, CodingKey {
+        case content
+        case isUser
+        case sendTime
+    }
+}
 

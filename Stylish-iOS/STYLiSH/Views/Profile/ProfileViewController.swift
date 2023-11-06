@@ -31,8 +31,6 @@ class ProfileViewController: UIViewController {
     
     let keyChainManager = KeyChainManager.shared
     
-    //let customHTTPClient = CustomHTTPClient.shared
-    
     private var user: User? {
         didSet {
             if let user = user {

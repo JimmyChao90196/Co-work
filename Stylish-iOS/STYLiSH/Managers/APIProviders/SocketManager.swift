@@ -17,6 +17,7 @@ enum SocketConnectionError: String, Error {
     case roomOnlyLeftUser = "Admin left the room"
     case userLeaveTheRoom = "User is removed from room"
     case alreadyConnected = "You are already connected"
+    case jwtVerifyError = "JWT token error"
 }
 
 class SocketIOManager {
@@ -35,7 +36,7 @@ class SocketIOManager {
         
     func setup() {
         self.manager = SocketManager(
-            socketURL: URL(string: "https://deercodeweb.com/")!,
+            socketURL: URL(string: "https://handsomelai.shop/")!,
             config: [.log(true)])
         self.socket = manager.defaultSocket
         
@@ -127,17 +128,17 @@ class SocketIOManager {
         
         // listen to talk
         socket.on("talk") { data, _ in
-            
             print("look at me: \(data)")
             
-            guard let data = data.first as? String else {
-                print("Received user-check event: not an array"); return }
-            print("Received talk event: \(data)")
-            
-            self.recievedTalkResult?(.success(data))
-        
+            if let dataArray = data as? [[String: Any]],
+               let firstMessageDict = dataArray.first,
+               let content = firstMessageDict["content"] as? String {
+                print("Received message content: \(content)")
+                
+                self.recievedTalkResult?(.success(content))
+            }
         }
-        
+
         // listen to user-check
         socket.on("user-check") { data, _ in
             
@@ -158,6 +159,9 @@ class SocketIOManager {
     
     func errorHandeling(switchTaret: String) {
         switch switchTaret {
+            
+        case "JWT token error.":
+            self.recievedConnectionResult?(.failure(.jwtVerifyError))
             
         case "All admin is offline.":
             self.recievedConnectionResult?(.failure(.adminOffLine))
@@ -216,3 +220,14 @@ class SocketIOManager {
  print("Received event: \(event.event), with data: \(event.items)")
  }
  */
+
+extension DateFormatter {
+    static let iso8601Full: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
+}
