@@ -31,4 +31,3 @@ struct Message: Codable {
         case sendTime
     }
 }
-

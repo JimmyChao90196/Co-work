@@ -31,6 +31,8 @@ class ProfileViewController: UIViewController {
     
     let keyChainManager = KeyChainManager.shared
     
+    let lkProgressHud = LKProgressHUD.shared
+    
     private var user: User? {
         didSet {
             if let user = user {
@@ -165,6 +167,8 @@ extension ProfileViewController: UICollectionViewDelegate {
         
         // If the user tapped customer service
         if cell.textLbl.text == "客服訊息" {
+            
+            LKProgressHUD.showFor(1.5)
             socketIOManager.setup()
             
             socketIOManager.listenForConnected { id in
@@ -200,6 +204,8 @@ extension ProfileViewController: UICollectionViewDelegate {
  
         // If the user tapped admin
         if cell.textLbl.text == "admin" {
+            
+            LKProgressHUD.showFor(1.5)
             socketIOManager.setup()
             
             socketIOManager.listenForConnected { id in

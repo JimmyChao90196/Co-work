@@ -71,6 +71,19 @@ class LKProgressHUD {
         shared.hud.textLabel.text = "Loading"
         shared.hud.show(in: shared.view)
     }
+    
+    static func showFor(_ seconds: Double) {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async {
+                showFor(seconds)
+            }
+            return
+        }
+        shared.hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
+        shared.hud.textLabel.text = "Loading"
+        shared.hud.show(in: shared.view)
+        shared.hud.dismiss(afterDelay: 1.5)
+    }
 
     static func dismiss() {
         if !Thread.isMainThread {
