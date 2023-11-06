@@ -156,6 +156,7 @@ class ProductListViewController: STCompondViewController {
             return cell
         }
         
+        print("12321\(product.mainImage)")
         product.mainImage = "https://handsomelai.shop\(product.mainImage)"
 
         productCell.layoutCell(

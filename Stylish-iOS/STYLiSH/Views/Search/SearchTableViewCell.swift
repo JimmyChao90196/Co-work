@@ -14,6 +14,7 @@ class SearchTableViewCell: UITableViewCell {
     let searchLabel = UILabel()
     let deleteButton = UIButton()
     
+    
     // Delete by Closure.
     var deleteButtonAction: ((SearchTableViewCell) -> Void)?
     

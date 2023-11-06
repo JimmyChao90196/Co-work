@@ -20,7 +20,7 @@ struct UserObject: Codable {
 
 struct User: Codable {
     let id: Int?
-    let provider: String
+    let provider: String?
     let name: String
     let email: String
     let picture: String

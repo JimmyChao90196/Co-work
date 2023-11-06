@@ -13,6 +13,7 @@ class SearchViewController: UIViewController {
     let searchTableView = UITableView()
     let searchTextField = UITextField()
     let searchButton = UIButton()
+    let image = UIImageView()
     
     var searchHistory: [String] = []
     
@@ -22,7 +23,9 @@ class SearchViewController: UIViewController {
         setupSearchTableView()
         setupTextField()
         setupSearchButton()
+        setupImage()
         setupConstraint()
+        
         if let savedSearchHistory = UserDefaults.standard.stringArray(forKey: "SearchHistory") {
                searchHistory = savedSearchHistory
            }
@@ -52,11 +55,18 @@ class SearchViewController: UIViewController {
         view.addSubview(searchButton)
     }
     
+    func setupImage() {
+        image.image = UIImage(named: "Image_Logo02")
+        image.contentMode = .scaleAspectFit
+        view.addSubview(image)
+    }
+    
     func setupConstraint() {
         
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         searchTableView.translatesAutoresizingMaskIntoConstraints = false
         searchButton.translatesAutoresizingMaskIntoConstraints = false
+        image.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             searchTableView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 10),
@@ -70,7 +80,12 @@ class SearchViewController: UIViewController {
             
             searchButton.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor),
             searchButton.leadingAnchor.constraint(greaterThanOrEqualTo: searchTextField.trailingAnchor, constant: 20),
-            searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
+            searchButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            
+            image.topAnchor.constraint(equalTo: searchTableView.bottomAnchor),
+            image.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            image.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            image.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50)
         ])
     }
 }

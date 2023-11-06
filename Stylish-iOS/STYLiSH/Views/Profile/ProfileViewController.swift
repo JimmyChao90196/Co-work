@@ -46,6 +46,7 @@ class ProfileViewController: UIViewController {
             switch result {
             case .success(let user):
                 self?.user = user
+                print(user)
             case .failure:
                 LKProgressHUD.showFailure(text: "讀取資料失敗！")
             }
