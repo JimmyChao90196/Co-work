@@ -29,6 +29,12 @@ class ProductListViewController: STCompondViewController {
         setupTableView()
         setupCollectionView()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    
+        collectionView.frame = view.safeAreaLayoutGuide.layoutFrame
+    }
 
     // MARK: - Private method
     private func setupTableView() {

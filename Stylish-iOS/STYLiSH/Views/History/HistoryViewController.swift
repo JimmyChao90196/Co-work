@@ -33,9 +33,24 @@ class HistoryViewController: STCompondViewController {
         super.viewDidLoad()
 
         fetchData()
+        navigationItem.title = "History"
+        navigationController?.navigationBar.backgroundColor = .white
         
-        setupTableView()
+        let marketProvider = MarketProvider(httpClient: HTTPClient.shared)
+        provider = ProductsProvider(
+            productType: ProductsProvider.ProductType.history,
+            dataProvider: marketProvider
+        )
+        let productListVC = HistoryViewController()
+        productListVC.provider = provider
+    
         setupCollectionView()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    
+        collectionView.frame = view.safeAreaLayoutGuide.layoutFrame
     }
     
     private func fetchData() {
@@ -50,14 +65,6 @@ class HistoryViewController: STCompondViewController {
     }
     
     // MARK: - Private method
-    private func setupTableView() {
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .white
-        tableView.lk_registerCellWithNib(
-            identifier: String(describing: ProductTableViewCell.self),
-            bundle: nil
-        )
-    }
 
     private func setupCollectionView() {
         collectionView.backgroundColor = .white
@@ -78,6 +85,7 @@ class HistoryViewController: STCompondViewController {
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 24.0
         collectionView.collectionViewLayout = flowLayout
+        
     }
 
     // MARK: - Override super class method
@@ -125,32 +133,6 @@ class HistoryViewController: STCompondViewController {
         guard let detailVC = productDetailVC as? ProductDetailViewController else { return }
         detailVC.product = product
         show(detailVC, sender: nil)
-    }
-
-    // MARK: - UITableViewDataSource
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: String(describing: ProductTableViewCell.self),
-            for: indexPath
-        )
-        guard
-            let productCell = cell as? ProductTableViewCell,
-            let product = datas[indexPath.section][indexPath.row] as? Product
-        else {
-            return cell
-        }
-        productCell.layoutCell(
-            image: product.mainImage,
-            title: product.title,
-            price: product.price
-        )
-        return productCell
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        guard let product = datas[indexPath.section][indexPath.row] as? Product else { return }
-        showProductDetailViewController(product: product)
     }
 
     // MARK: - UICollectionViewDataSource

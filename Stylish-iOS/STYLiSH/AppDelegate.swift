@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             withAppKey: Bundle.STValueForString(key: STConstant.tapPayAppKey),
             with: TPDServerType.sandBox
         )
-
+        UITabBar.appearance().tintColor = UIColor.darkGray
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 
         return true

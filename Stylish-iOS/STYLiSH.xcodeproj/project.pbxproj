@@ -392,9 +392,6 @@
 				3C6020E7222BBA3C00312958 /* ProductBasicCell.swift */,
 				3CCB3BC5222AAC8300976A1C /* LKGalleryView.swift */,
 				3C6B8FE6222CE53100804EFE /* BasicSelectionCell.swift */,
-				73DE17042AF558AF0099DCD5 /* SearchViewController.swift */,
-				73DE17082AF60EC80099DCD5 /* SearchTableViewCell.swift */,
-				73BCD7812AF74AC400731BF6 /* HistoryViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -595,6 +592,8 @@
 		3CD2912E22113CE4008B8A2D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				73BCD7842AF7A45700731BF6 /* History */,
+				73BCD7832AF7A44700731BF6 /* Search */,
 				3C3369102227CDAF008A5A7A /* Base */,
 				5AE6F61E29E3F94A003764C6 /* Auth */,
 				5AE6F62029E3F954003764C6 /* TapPay */,
@@ -772,6 +771,23 @@
 				3CA25518222A484300B286F6 /* ProductsListProvider.swift */,
 			);
 			path = APIProviders;
+			sourceTree = "<group>";
+		};
+		73BCD7832AF7A44700731BF6 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				73DE17042AF558AF0099DCD5 /* SearchViewController.swift */,
+				73DE17082AF60EC80099DCD5 /* SearchTableViewCell.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		73BCD7842AF7A45700731BF6 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				73BCD7812AF74AC400731BF6 /* HistoryViewController.swift */,
+			);
+			path = History;
 			sourceTree = "<group>";
 		};
 		F26A8A19BFED7C956C38BFE8 /* Frameworks */ = {

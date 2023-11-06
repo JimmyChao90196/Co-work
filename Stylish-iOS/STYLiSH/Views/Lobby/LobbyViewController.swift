@@ -42,7 +42,6 @@ class LobbyViewController: STBaseViewController {
     
     @objc func searchButtonTapped() {
             self.navigationController?.pushViewController(SearchViewController(), animated: true)
-        
     }
 
     // MARK: - Action

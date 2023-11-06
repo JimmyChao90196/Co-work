@@ -8,13 +8,14 @@
 
 import Foundation
 
-class ProductsProvider: ProductListDataProvider {
+class ProductsProvider: ProductListDataProvider, HistoryProductListDataProvider {
     
     enum ProductType {
         case men
         case women
         case accessories
         case search
+        case history
     }
 
     private let productType: ProductType
@@ -32,6 +33,7 @@ class ProductsProvider: ProductListDataProvider {
         case .men: dataProvider.fetchProductForMen(paging: paging, completion: completion)
         case .accessories: dataProvider.fetchProductForAccessories(paging: paging, completion: completion)
         case .search: dataProvider.fetchProductForSearch(keyword: keyword!, paging: paging, completion: completion)
+        case .history: dataProvider.fetchProductForHistory(paging: paging, completion: completion)
         }
     }
 }
