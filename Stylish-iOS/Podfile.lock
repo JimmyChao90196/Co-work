@@ -12,7 +12,11 @@ PODS:
   - KeychainAccess (4.2.2)
   - Kingfisher (7.9.1)
   - MJRefresh (3.7.5)
-  - SwiftLint (0.52.2)
+  - SFSymbols (0.9.5)
+  - Socket.IO-Client-Swift (16.1.0):
+    - Starscream (~> 4.0.6)
+  - Starscream (4.0.6)
+  - SwiftLint (0.53.0)
 
 DEPENDENCIES:
   - FBSDKLoginKit
@@ -59,8 +63,11 @@ SPEC CHECKSUMS:
   KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   Kingfisher: 1d14e9f59cbe19389f591c929000332bf70efd32
   MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
-  SwiftLint: 1ac76dac888ca05cb0cf24d0c85887ec1209961d
+  SFSymbols: 529a3714941859d03907fee7c41d1a225aa2df54
+  Socket.IO-Client-Swift: ee4b8f80a3db18dd7f32b266ddf273310609443c
+  Starscream: fb2c4510bebf908c62bd383bcf05e673720e91fd
+  SwiftLint: 5ce4d6a8ff83f1b5fd5ad5dbf30965d35af65e44
 
-PODFILE CHECKSUM: 976305e42e4d1d7c46d2474e9480ac8d3aea95ff
+PODFILE CHECKSUM: 4ac08d8a9bdd4d42f46dfeeacb82b1d2934e7fe4
 
 COCOAPODS: 1.13.0
