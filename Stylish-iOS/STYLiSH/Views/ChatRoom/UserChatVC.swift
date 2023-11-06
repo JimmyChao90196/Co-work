@@ -11,7 +11,7 @@ import IQKeyboardManagerSwift
 
 class UserChatViewController: UIViewController {
     
-    let socketIOManager = SocketIOManager()
+    let socketIOManager = SocketIOManager.shared
     let keyChainManager = KeyChainManager.shared
 
     var titleView = UILabel()
@@ -102,7 +102,7 @@ class UserChatViewController: UIViewController {
     
     // Leave button action
     @objc func leaveButtonClicked() {
-        socketIOManager.userLeave()
+        socketIOManager.userLeave(token: keyChainManager.token ?? "none")
     }
     
     // Switch button action

@@ -12,7 +12,7 @@ import IQKeyboardManagerSwift
 
 class AdminChatViewController: UIViewController {
     
-    let socketIOManager = SocketIOManager()
+    let socketIOManager = SocketIOManager.shared
     let keyChainManager = KeyChainManager.shared
 
     var titleView = UILabel()
@@ -110,7 +110,7 @@ class AdminChatViewController: UIViewController {
     
     // Kick button action
     @objc func kickButtonClicked() {
-        socketIOManager.kickout()
+        socketIOManager.kickout(token: keyChainManager.token ?? "none")
     }
     
     func scrollToBottom() {
@@ -125,12 +125,35 @@ class AdminChatViewController: UIViewController {
     
     func updateInCommingMessage() {
         
+        // Handle close result
+        socketIOManager.recievedCloseResult = { result in
+            switch result {
+                
+            case .success(let successText):
+                print("Look at me:" + successText)
+
+            case .failure(let connectError):
+                print(connectError)
+                
+                self.presentSimpleAlert(
+                    title: "Error",
+                    message: connectError.rawValue,
+                    buttonText: "Ok")
+            }
+        }
+        
+        // Handle talk result
         socketIOManager.recievedTalkResult = { result in
             switch result {
                 
             case .success(let successText):
                 print("Look at me" + successText)
                 self.chatProvider.userAppendMessages(inputText: successText)
+                
+                DispatchQueue.main.async { [self] in
+                    tableView.reloadData()
+                    scrollToBottom()
+                }
                 
             case .failure(let connectError):
                 print(connectError)
