@@ -168,6 +168,10 @@ extension ProfileViewController: UICollectionViewDelegate {
         // If the user tapped customer service
         if cell.textLbl.text == "客服訊息" {
             
+            // Temp
+            // let chatRoomVC = UserChatViewController()
+            // self.navigationController?.pushViewController(chatRoomVC, animated: true)
+            
             LKProgressHUD.showFor(1.5)
             socketIOManager.setup()
             
@@ -205,6 +209,10 @@ extension ProfileViewController: UICollectionViewDelegate {
         // If the user tapped admin
         if cell.textLbl.text == "admin" {
             
+            // Temp
+            // let chatRoomVC = AdminChatViewController()
+            // self.navigationController?.pushViewController(chatRoomVC, animated: true)
+            
             LKProgressHUD.showFor(1.5)
             socketIOManager.setup()
             
@@ -240,5 +248,3 @@ extension ProfileViewController: UICollectionViewDelegate {
         }
     }
 }
-
-

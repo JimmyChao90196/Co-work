@@ -8,20 +8,17 @@
 import UIKit
 import Foundation
 
-class ChatAdminTableViewCell: UITableViewCell {
+class ChatRightTableViewCell: UITableViewCell {
     
-    static let reuseIdentifier = String(describing: ChatAdminTableViewCell.self)
-    let chatManager = ChatProvider.shared
+    static let reuseIdentifier = String(describing: ChatRightTableViewCell.self)
     
     var customView = CustomShapeView(
-        color: ChatProvider.adminColor,
+        color: ChatProvider.userColor,
         frame: CGRect(x: 0, y: 0, width: 40, height: 20))
     
     var messageLabel = UILabel()
     var timeLabel = UILabel()
     var textBG = UIView()
-    var profileBG = UIView()
-    var profilePic = UIImageView(image: UIImage(resource: .icons24PxCustomerService))
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -46,54 +43,38 @@ class ChatAdminTableViewCell: UITableViewCell {
         messageLabel.numberOfLines = 0
         customView.backgroundColor = .clear
         
-        textBG.setCornerRadius(12)
-            .setbackgroundColor(ChatProvider.adminColor)
         timeLabel.font = UIFont(name: "PingFangTC-Light", size: 12)
         timeLabel.textColor = .lightGray
         
-        profileBG.clipsToBounds = true
-        profilePic.clipsToBounds = true
-        profilePic.backgroundColor = .clear
-        profileBG.setCornerRadius(20)
-            .setbackgroundColor(.hexToUIColor(hex: "#CBCBCB"))
+        textBG.setCornerRadius(12)
+            .setbackgroundColor(ChatProvider.userColor)
     }
     
     private func addTo() {
-        contentView.addSubviews([textBG, profileBG, timeLabel, customView])
+        contentView.addSubviews([textBG, timeLabel, customView])
         textBG.addSubviews([messageLabel])
-        profileBG.addSubviews([profilePic])
         
         messageLabel.textAlignment = .center
         timeLabel.textAlignment = .center
         timeLabel.setTextColor(.gray)
-        messageLabel.setTextColor(.hexToUIColor(hex: "#3F3A3A"))
+        messageLabel.setTextColor(.white)
     }
 
     private func setupConstraint() {
         
-        customView.centerXConstr(to: textBG.leadingAnchor, 0)
+        customView.centerXConstr(to: textBG.trailingAnchor)
             .topConstr(to: textBG.topAnchor, 0)
             .heightConstr(20)
             .widthConstr(40)
         
-        profileBG.leadingConstr(to: contentView.leadingAnchor, 10)
-            .topConstr(to: textBG.topAnchor, -20)
-            .heightConstr(40)
-            .widthConstr(40)
-        
-        profilePic.leadingConstr(to: profileBG.leadingAnchor, 5)
-            .trailingConstr(to: profileBG.trailingAnchor, -5)
-            .topConstr(to: profileBG.topAnchor, 5)
-            .bottomConstr(to: profileBG.bottomAnchor, -5)
-        
-        timeLabel.leadingConstr(to: textBG.leadingAnchor, 0)
+        timeLabel.trailingConstr(to: textBG.trailingAnchor, 0)
             .topConstr(to: textBG.bottomAnchor, 2)
             .bottomConstr(to: contentView.bottomAnchor, -2)
         
         NSLayoutConstraint.activate( [
             textBG.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            textBG.leadingAnchor.constraint(equalTo: profileBG.trailingAnchor, constant: 20),
-            textBG.trailingAnchor.constraint(lessThanOrEqualTo: contentView.centerXAnchor, constant: 80),
+            textBG.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.centerXAnchor, constant: -80),
+            textBG.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
             
             messageLabel.leadingAnchor.constraint(equalTo: textBG.leadingAnchor, constant: 20),
             messageLabel.trailingAnchor.constraint(equalTo: textBG.trailingAnchor, constant: -20),

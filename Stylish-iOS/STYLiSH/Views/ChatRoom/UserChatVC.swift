@@ -265,9 +265,9 @@ extension UserChatViewController: UITableViewDelegate, UITableViewDataSource {
         switch isUser {
         case true:
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: ChatUserTableViewCell.reuseIdentifier,
+                withIdentifier: ChatRightTableViewCell.reuseIdentifier,
                 for: indexPath
-            ) as? ChatUserTableViewCell else { return UITableViewCell()}
+            ) as? ChatRightTableViewCell else { return UITableViewCell()}
             
             let date = chatProvider.mockConversationData[indexPath.row].sendTime
             cell.messageLabel.text = chatProvider.mockConversationData[indexPath.row].content
@@ -278,9 +278,9 @@ extension UserChatViewController: UITableViewDelegate, UITableViewDataSource {
             
         case false:
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: ChatAdminTableViewCell.reuseIdentifier,
+                withIdentifier: ChatLeftTableViewCell.reuseIdentifier,
                 for: indexPath
-            ) as? ChatAdminTableViewCell else { return UITableViewCell()}
+            ) as? ChatLeftTableViewCell else { return UITableViewCell()}
             
             let formattedDate = dateFormatter.string(from: chatProvider.mockConversationData[indexPath.row].sendTime)
             cell.messageLabel.text = chatProvider.mockConversationData[indexPath.row].content

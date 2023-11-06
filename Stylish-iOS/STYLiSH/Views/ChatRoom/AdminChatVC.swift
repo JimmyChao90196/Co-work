@@ -251,11 +251,13 @@ extension AdminChatViewController: UITableViewDelegate, UITableViewDataSource {
         switch isUser {
         case true:
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: ChatUserTableViewCell.reuseIdentifier,
+                withIdentifier: ChatLeftTableViewCell.reuseIdentifier,
                 for: indexPath
-            ) as? ChatUserTableViewCell else { return UITableViewCell()}
+            ) as? ChatLeftTableViewCell else { return UITableViewCell()}
             
             let date = chatProvider.mockConversationData[indexPath.row].sendTime
+            cell.profilePic.image = UIImage(resource: .icons36PxProfileSelected)
+            
             cell.messageLabel.text = chatProvider.mockConversationData[indexPath.row].content
             cell.timeLabel.text = dateFormatter.string(from: date)
             cell.backgroundColor = .clear
@@ -263,13 +265,13 @@ extension AdminChatViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         case false:
-            
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: ChatAdminTableViewCell.reuseIdentifier,
+                withIdentifier: ChatRightTableViewCell.reuseIdentifier,
                 for: indexPath
-            ) as? ChatAdminTableViewCell else { return UITableViewCell()}
+            ) as? ChatRightTableViewCell else { return UITableViewCell()}
             
             let formattedDate = dateFormatter.string(from: chatProvider.mockConversationData[indexPath.row].sendTime)
+            
             cell.messageLabel.text = chatProvider.mockConversationData[indexPath.row].content
             cell.timeLabel.text = formattedDate
             cell.backgroundColor = .clear
