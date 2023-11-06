@@ -140,6 +140,10 @@
 		74DD28052AF618150048AA8E /* ChatAdminTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DD28042AF618150048AA8E /* ChatAdminTableViewCell.swift */; };
 		74DD28072AF638830048AA8E /* CustomShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DD28062AF638830048AA8E /* CustomShape.swift */; };
 		74DD28092AF674540048AA8E /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DD28082AF674540048AA8E /* SocketManager.swift */; };
+		73BCD7802AF691F800731BF6 /* History.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73BCD77F2AF691F800731BF6 /* History.storyboard */; };
+		73BCD7822AF74AC400731BF6 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BCD7812AF74AC400731BF6 /* HistoryViewController.swift */; };
+		73DE17052AF558AF0099DCD5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE17042AF558AF0099DCD5 /* SearchViewController.swift */; };
+		73DE17092AF60EC80099DCD5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE17082AF60EC80099DCD5 /* SearchTableViewCell.swift */; };
 		D306B883B370DFD3ED8ACD74 /* Pods_STYLiSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C2B4AF3EF2ABFF2BB9F7AB /* Pods_STYLiSH.framework */; };
 /* End PBXBuildFile section */
 
@@ -302,6 +306,10 @@
 		74DD28042AF618150048AA8E /* ChatAdminTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAdminTableViewCell.swift; sourceTree = "<group>"; };
 		74DD28062AF638830048AA8E /* CustomShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShape.swift; sourceTree = "<group>"; };
 		74DD28082AF674540048AA8E /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		73BCD77F2AF691F800731BF6 /* History.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = History.storyboard; sourceTree = "<group>"; };
+		73BCD7812AF74AC400731BF6 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		73DE17042AF558AF0099DCD5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		73DE17082AF60EC80099DCD5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		E921004E251C9FC3CBC174F5 /* Pods-STYLiSH.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STYLiSH.release.xcconfig"; path = "Target Support Files/Pods-STYLiSH/Pods-STYLiSH.release.xcconfig"; sourceTree = "<group>"; };
 		F551E8F447D7C8DC42B53B98 /* Pods-STYLiSH.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-STYLiSH.debug.xcconfig"; path = "Target Support Files/Pods-STYLiSH/Pods-STYLiSH.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -595,6 +603,7 @@
 				5AE6F62529E3FA9F003764C6 /* Managers */,
 				3CD2913022113CF3008B8A2D /* Models */,
 				3CD2912E22113CE4008B8A2D /* Views */,
+				73BCD77F2AF691F800731BF6 /* History.storyboard */,
 				3CD2911C221135E2008B8A2D /* AppDelegate.swift */,
 				3CD29128221135E3008B8A2D /* Info.plist */,
 			);
@@ -604,6 +613,8 @@
 		3CD2912E22113CE4008B8A2D /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				73BCD7842AF7A45700731BF6 /* History */,
+				73BCD7832AF7A44700731BF6 /* Search */,
 				3C3369102227CDAF008A5A7A /* Base */,
 				5AE6F61E29E3F94A003764C6 /* Auth */,
 				5AE6F62029E3F954003764C6 /* TapPay */,
@@ -808,6 +819,23 @@
 			path = Chat;
 			sourceTree = "<group>";
 		};
+		73BCD7832AF7A44700731BF6 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				73DE17042AF558AF0099DCD5 /* SearchViewController.swift */,
+				73DE17082AF60EC80099DCD5 /* SearchTableViewCell.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		73BCD7842AF7A45700731BF6 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				73BCD7812AF74AC400731BF6 /* HistoryViewController.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
 		F26A8A19BFED7C956C38BFE8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -906,6 +934,7 @@
 				3CED80902301204200B7DA8E /* Auth.storyboard in Resources */,
 				3CED80A1230124DD00B7DA8E /* Product.storyboard in Resources */,
 				3C4B10CE22292732009942B7 /* card_amex@2x.png in Resources */,
+				73BCD7802AF691F800731BF6 /* History.storyboard in Resources */,
 				3CED80A62301256200B7DA8E /* Profile.storyboard in Resources */,
 				3CD29127221135E3008B8A2D /* LaunchScreen.storyboard in Resources */,
 				3C4B10D622292732009942B7 /* card_amex.png in Resources */,
@@ -1022,6 +1051,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C0DD87822134EC100F5237E /* UIFont+Extension.swift in Sources */,
+				73DE17052AF558AF0099DCD5 /* SearchViewController.swift in Sources */,
 				3CE7A507223042CE009FF003 /* STBaseTextField.swift in Sources */,
 				3CB80E78222FCCC20095F18C /* Bundle+Extension.swift in Sources */,
 				3CE7A519223064C7009FF003 /* UserObject.swift in Sources */,
@@ -1042,6 +1072,8 @@
 				3C33691F2227DC7B008A5A7A /* TrolleySelectionView.swift in Sources */,
 				3C831C6422E9AF8F00112298 /* STOrderUserInputCell.swift in Sources */,
 				3C4B10E222292EBB009942B7 /* STTapPayViewController.swift in Sources */,
+				73BCD7822AF74AC400731BF6 /* HistoryViewController.swift in Sources */,
+				73DE17092AF60EC80099DCD5 /* SearchTableViewCell.swift in Sources */,
 				3C831C8A22EAAF7A00112298 /* STPaymentInfoTableViewCell.swift in Sources */,
 				748DBC812AF5E09A00CDFD9F /* UserChatVC.swift in Sources */,
 				3C990F6C22E5C78200F2FCEA /* ProductDetailView.swift in Sources */,
@@ -1264,6 +1296,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1320,6 +1353,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

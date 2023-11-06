@@ -48,6 +48,16 @@ extension STRequest {
         request.httpMethod = method
         return request
     }
+    
+    func makeSchoolRequest() -> URLRequest {
+        let urlString = "https://api.appworks-school.tw/api/1.0/marketing/hots"
+        let url = URL(string: urlString)!
+        var request = URLRequest(url: url)
+        request.allHTTPHeaderFields = headers
+        request.httpBody = body
+        request.httpMethod = method
+        return request
+    }
 }
 
 protocol HTTPClientProtocol {
@@ -69,6 +79,45 @@ class HTTPClient: HTTPClientProtocol {
     ) {
         URLSession.shared.dataTask(
             with: stRequest.makeRequest(),
+            completionHandler: { (data, response, error) in
+                if let error = error {
+                    completion(.failure(.urlSessionError(error)))
+                    return
+                }
+
+                // swiftlint:disable force_cast
+                let httpResponse = response as! HTTPURLResponse
+                // swiftlint:enable force_cast
+                let statusCode = httpResponse.statusCode
+                switch statusCode {
+                case 200..<300:
+                    completion(.success(data!))
+                case 400..<500:
+                    completion(.failure(.clientError(data!)))
+                case 500..<600:
+                    completion(.failure(.serverError))
+                default:
+                    completion(.failure(.unexpectedError))
+                }
+            }).resume()
+    }
+}
+
+class HTTPSchoolClient: HTTPClientProtocol {
+
+    static let shared = HTTPSchoolClient()
+
+    private let decoder = JSONDecoder()
+    private let encoder = JSONEncoder()
+
+    private init() {}
+
+    func request(
+        _ stRequest: STRequest,
+        completion: @escaping (Result<Data, STHTTPClientError>) -> Void
+    ) {
+        URLSession.shared.dataTask(
+            with: stRequest.makeSchoolRequest(),
             completionHandler: { (data, response, error) in
                 if let error = error {
                     completion(.failure(.urlSessionError(error)))

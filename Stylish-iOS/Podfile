@@ -7,6 +7,8 @@ target 'STYLiSH' do
   use_frameworks!
 
   # Pods for STYLiSH
+  inhibit_all_warnings!
+  
   pod 'Kingfisher'
   pod 'MJRefresh'
   pod 'IQKeyboardManagerSwift'
@@ -15,6 +17,7 @@ target 'STYLiSH' do
   pod 'FBSDKLoginKit'
   pod 'SwiftLint'
   pod 'Socket.IO-Client-Swift'
+  pod 'SFSymbols'
 
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|

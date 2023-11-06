@@ -12,6 +12,7 @@ extension UIStoryboard {
     static var lobby: UIStoryboard { return stStoryboard(name: "Lobby") }
     static var product: UIStoryboard { return stStoryboard(name: "Product") }
     static var trolley: UIStoryboard { return stStoryboard(name: "Trolley") }
+    static var history: UIStoryboard { return stStoryboard(name: "History") }
     static var profile: UIStoryboard { return stStoryboard(name: "Profile") }
     static var auth: UIStoryboard { return stStoryboard(name: "Auth") }
 

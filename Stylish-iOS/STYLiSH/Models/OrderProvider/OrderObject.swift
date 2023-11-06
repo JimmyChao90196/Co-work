@@ -138,7 +138,7 @@ enum Payment: String, Codable {
 }
 
 struct OrderListObject: Codable {
-    let id: String
+    let id: String?
     let name: String
     let price: Int
     let color: Color

@@ -26,8 +26,8 @@ struct Product: Codable {
     let colors: [Color]
     let sizes: [String]
     let variants: [Variant]
-    let mainImage: String
-    let images: [String]
+    var mainImage: String
+    var images: [String]
 
     var size: String {
         return (sizes.first ?? "") + " - " + (sizes.last ?? "")

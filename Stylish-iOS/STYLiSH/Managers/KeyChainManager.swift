@@ -28,6 +28,7 @@ class KeyChainManager {
                     return item["value"] as? String
                 }
             }
+            print("serverKey: \(serverKey)")
             return nil
         }
         set {

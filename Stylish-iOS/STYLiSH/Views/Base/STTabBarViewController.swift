@@ -10,7 +10,7 @@ import UIKit
 
 class STTabBarViewController: UITabBarController {
 
-    private let tabs: [Tab] = [.lobby, .product, .trolley, .profile]
+    private let tabs: [Tab] = [.lobby, .product, .trolley, .history, .profile]
     
     private var trolleyTabBarItem: UITabBarItem?
     
@@ -50,6 +50,7 @@ extension STTabBarViewController {
         case product
         case profile
         case trolley
+        case history
 
         func makeViewController() -> UIViewController {
             let controller: UIViewController
@@ -58,6 +59,7 @@ extension STTabBarViewController {
             case .product: controller = UIStoryboard.product.instantiateInitialViewController()!
             case .profile: controller = UIStoryboard.profile.instantiateInitialViewController()!
             case .trolley: controller = UIStoryboard.trolley.instantiateInitialViewController()!
+            case .history: controller = UIStoryboard.history.instantiateInitialViewController()!
             }
             controller.tabBarItem = makeTabBarItem()
             controller.tabBarItem.imageInsets = UIEdgeInsets(top: 6.0, left: 0.0, bottom: -6.0, right: 0.0)
@@ -78,6 +80,8 @@ extension STTabBarViewController {
                 return .asset(.Icons_36px_Cart_Normal)
             case .profile:
                 return .asset(.Icons_36px_Profile_Normal)
+            case .history:
+                return .asset(.Icons_36px_Clock_Normal)
             }
         }
         
@@ -91,6 +95,8 @@ extension STTabBarViewController {
                 return .asset(.Icons_36px_Cart_Selected)
             case .profile:
                 return .asset(.Icons_36px_Profile_Selected)
+            case .history:
+                return .asset(.Icons_36px_Clock_Selected)
             }
         }
     }
@@ -105,7 +111,8 @@ extension STTabBarViewController: UITabBarControllerDelegate {
     ) -> Bool {
         guard
             let navVC = viewController as? UINavigationController,
-            navVC.viewControllers.first is ProfileViewController
+            navVC.viewControllers.first is ProfileViewController ||
+                navVC.viewControllers.first is HistoryViewController
         else {
             return true
         }

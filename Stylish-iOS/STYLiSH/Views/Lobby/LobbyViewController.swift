@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SFSymbols
 
 class LobbyViewController: STBaseViewController {
 
@@ -22,15 +23,25 @@ class LobbyViewController: STBaseViewController {
         }
     }
 
-    private let marketProvider = MarketProvider(httpClient: HTTPClient.shared)
+    private let marketProvider = MarketProvider(httpClient: HTTPSchoolClient.shared)
 
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.titleView = UIImageView(image: .asset(.Icons_36px_Home_Normal))
+        navigationItem.titleView = UIImageView(image: .asset(.Image_Logo02))
         
         lobbyView.beginHeaderRefresh()
+        
+        // Add search button on navigation bar top left.
+        let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchButtonTapped))
+        searchButton.tintColor = .darkGray
+        navigationItem.rightBarButtonItem = searchButton
+        
+    }
+    
+    @objc func searchButtonTapped() {
+            self.navigationController?.pushViewController(SearchViewController(), animated: true)
     }
 
     // MARK: - Action

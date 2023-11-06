@@ -47,9 +47,11 @@ class ProductDetailViewController: STBaseViewController {
         didSet {
             guard let product = product, let galleryView = galleryView else { return }
             galleryView.datas = product.images
+            
         }
+        
     }
-
+    
     private var pickerViewController: ProductPickerController?
 
     override var isHideNavigationBar: Bool { return true }
@@ -62,8 +64,11 @@ class ProductDetailViewController: STBaseViewController {
 
         setupTableView()
 
-        guard let product = product else { return }
+        guard var product = product else { return }
+        
+        product.images = product.images.map { "https://handsomelai.shop" + $0 }
         galleryView.datas = product.images
+
     }
 
     private func setupTableView() {

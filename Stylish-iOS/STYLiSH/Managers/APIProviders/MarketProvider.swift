@@ -20,6 +20,8 @@ class MarketProvider {
         case men(Int)
         case women(Int)
         case accessories(Int)
+        case search(Int)
+        case history(Int)
     }
     
     init(httpClient: HTTPClientProtocol) {
@@ -60,7 +62,15 @@ class MarketProvider {
     func fetchProductForAccessories(paging: Int, completion: @escaping ProductsResponseWithPaging) {
         fetchProducts(request: STMarketRequest.accessories(paging: paging), completion: completion)
     }
+    
+    func fetchProductForSearch(keyword: String, paging: Int, completion: @escaping ProductsResponseWithPaging) {
+        fetchProducts(request: STMarketRequest.search(keywodr: keyword, paging: paging), completion: completion)
+    }
 
+    func fetchProductForHistory(paging: Int, completion: @escaping ProductsResponseWithPaging) {
+        fetchProducts(request: STMarketRequest.history(paging: paging), completion: completion)
+    }
+    
     // MARK: - Private method
     private func fetchProducts(request: STMarketRequest, completion: @escaping ProductsResponseWithPaging) {
         HTTPClient.shared.request(request, completion: { [weak self] result in

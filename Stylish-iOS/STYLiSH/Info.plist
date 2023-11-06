@@ -65,7 +65,7 @@
 		<false/>
 	</dict>
 	<key>STBaseURL</key>
-	<string>https://api.appworks-school.tw/api/1.0</string>
+	<string>https://handsomelai.shop/api</string>
 	<key>STTapPayAppID</key>
 	<integer>12348</integer>
 	<key>STTapPayAppKey</key>

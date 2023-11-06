@@ -1,50 +1,70 @@
 //
-//  ProductListViewController.swift
+//  HistoryViewController.swift
 //  STYLiSH
 //
-//  Created by WU CHIH WEI on 2019/2/19.
-//  Copyright © 2019 AppWorks School. All rights reserved.
+//  Created by Ray Chang on 2023/11/5.
+//  Copyright © 2023 AppWorks School. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-protocol ProductListDataProvider {
+protocol HistoryProductListDataProvider {
     func fetchData(keyword: String?, paging: Int, completion: @escaping ProductsResponseWithPaging)
 }
 
-class ProductListViewController: STCompondViewController {
-
-    var provider: ProductListDataProvider?
-    var searchKeywordClosure: ((String?) -> Void)?
+class HistoryViewController: STCompondViewController {
+    
+    var provider: HistoryProductListDataProvider?
+    
+    private let userProvider = UserProvider()
+    
+    private var user: User? {
+        didSet {
+            if let user = user {
+            }
+        }
+    }
     
     private var paging: Int? = 0
     var keyword: String?
     
-    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .white
-
-        setupTableView()
+        
+        fetchData()
+        navigationItem.title = "History"
+        navigationController?.navigationBar.backgroundColor = .white
+        
+        let marketProvider = MarketProvider(httpClient: HTTPClient.shared)
+        provider = ProductsProvider(
+            productType: ProductsProvider.ProductType.history,
+            dataProvider: marketProvider
+        )
+        let productListVC = HistoryViewController()
+        productListVC.provider = provider
+    
         setupCollectionView()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     
         collectionView.frame = view.safeAreaLayoutGuide.layoutFrame
     }
-
-    // MARK: - Private method
-    private func setupTableView() {
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .white
-        tableView.lk_registerCellWithNib(
-            identifier: String(describing: ProductTableViewCell.self),
-            bundle: nil
-        )
+    
+    private func fetchData() {
+        userProvider.getUserProfile(completion: { [weak self] result in
+            switch result {
+            case .success(let user):
+                self?.user = user
+            case .failure:
+                LKProgressHUD.showFailure(text: "讀取資料失敗！")
+            }
+        })
     }
+    
+    // MARK: - Private method
 
     private func setupCollectionView() {
         collectionView.backgroundColor = .white
@@ -65,6 +85,7 @@ class ProductListViewController: STCompondViewController {
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 24.0
         collectionView.collectionViewLayout = flowLayout
+        
     }
 
     // MARK: - Override super class method
@@ -114,32 +135,6 @@ class ProductListViewController: STCompondViewController {
         show(detailVC, sender: nil)
     }
 
-    // MARK: - UITableViewDataSource
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: String(describing: ProductTableViewCell.self),
-            for: indexPath
-        )
-        guard
-            let productCell = cell as? ProductTableViewCell,
-            let product = datas[indexPath.section][indexPath.row] as? Product
-        else {
-            return cell
-        }
-        productCell.layoutCell(
-            image: product.mainImage,
-            title: product.title,
-            price: product.price
-        )
-        return productCell
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        guard let product = datas[indexPath.section][indexPath.row] as? Product else { return }
-        showProductDetailViewController(product: product)
-    }
-
     // MARK: - UICollectionViewDataSource
     override func collectionView(
         _ collectionView: UICollectionView,
@@ -151,14 +146,10 @@ class ProductListViewController: STCompondViewController {
         )
         guard
             let productCell = cell as? ProductCollectionViewCell,
-            var product = datas[indexPath.section][indexPath.row] as? Product
+            let product = datas[indexPath.section][indexPath.row] as? Product
         else {
             return cell
         }
-        
-        print("12321\(product.mainImage)")
-        product.mainImage = "https://handsomelai.shop\(product.mainImage)"
-
         productCell.layoutCell(
             image: product.mainImage,
             title: product.title,
