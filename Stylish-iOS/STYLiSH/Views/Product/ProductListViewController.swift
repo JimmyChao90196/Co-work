@@ -151,10 +151,13 @@ class ProductListViewController: STCompondViewController {
         )
         guard
             let productCell = cell as? ProductCollectionViewCell,
-            let product = datas[indexPath.section][indexPath.row] as? Product
+            var product = datas[indexPath.section][indexPath.row] as? Product
         else {
             return cell
         }
+        
+        product.mainImage = "https://handsomelai.shop\(product.mainImage)"
+
         productCell.layoutCell(
             image: product.mainImage,
             title: product.title,
