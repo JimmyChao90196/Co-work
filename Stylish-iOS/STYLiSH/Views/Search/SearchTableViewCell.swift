@@ -14,9 +14,9 @@ class SearchTableViewCell: UITableViewCell {
     let searchLabel = UILabel()
     let deleteButton = UIButton()
     
-    
     // Delete by Closure.
     var deleteButtonAction: ((SearchTableViewCell) -> Void)?
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -57,6 +57,7 @@ class SearchTableViewCell: UITableViewCell {
         deleteButton.setTitleColor(.red, for: .normal)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(deleteButton)
+    
     }
     
     func setupSearchLabel() {

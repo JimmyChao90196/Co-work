@@ -23,7 +23,7 @@ class LobbyViewController: STBaseViewController {
         }
     }
 
-    private let marketProvider = MarketProvider(httpClient: HTTPClient.shared)
+    private let marketProvider = MarketProvider(httpClient: HTTPSchoolClient.shared)
 
     // MARK: - View Life Cycle
     override func viewDidLoad() {

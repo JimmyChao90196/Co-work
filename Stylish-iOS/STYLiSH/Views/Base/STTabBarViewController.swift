@@ -81,7 +81,7 @@ extension STTabBarViewController {
             case .profile:
                 return .asset(.Icons_36px_Profile_Normal)
             case .history:
-                return .asset(.Icons_History)
+                return .asset(.Icons_36px_Clock_Normal)
             }
         }
         
@@ -96,7 +96,7 @@ extension STTabBarViewController {
             case .profile:
                 return .asset(.Icons_36px_Profile_Selected)
             case .history:
-                return .asset(.Icons_History)
+                return .asset(.Icons_36px_Clock_Selected)
             }
         }
     }

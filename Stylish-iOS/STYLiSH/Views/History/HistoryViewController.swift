@@ -31,7 +31,7 @@ class HistoryViewController: STCompondViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         fetchData()
         navigationItem.title = "History"
         navigationController?.navigationBar.backgroundColor = .white

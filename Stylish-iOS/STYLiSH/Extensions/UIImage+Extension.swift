@@ -11,7 +11,8 @@ import UIKit
 // swiftlint:disable identifier_name
 enum ImageAsset: String {
 
-    case Icons_History
+    case Icons_36px_Clock_Normal
+    case Icons_36px_Clock_Selected
     
     // Profile tab - Tab
     case Icons_36px_Home_Normal
@@ -61,12 +62,6 @@ enum ImageAsset: String {
 
 extension UIImage {
     static func asset(_ asset: ImageAsset) -> UIImage? {
-        switch asset {
-        case .Icons_History:
-            let symbolImage = UIImage(systemName: "clock.arrow.circlepath")
-            return symbolImage?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 24))
-        default:
-            return UIImage(named: asset.rawValue)
-        }
+        return UIImage(named: asset.rawValue)
     }
 }

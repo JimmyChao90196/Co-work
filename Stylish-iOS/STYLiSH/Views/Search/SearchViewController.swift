@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
     let searchTextField = UITextField()
     let searchButton = UIButton()
     let image = UIImageView()
+    let deleteAllButton = UIButton()
     
     var searchHistory: [String] = []
     
@@ -24,11 +25,20 @@ class SearchViewController: UIViewController {
         setupTextField()
         setupSearchButton()
         setupImage()
+        setupDeleteAllButton()
         setupConstraint()
         
         if let savedSearchHistory = UserDefaults.standard.stringArray(forKey: "SearchHistory") {
-               searchHistory = savedSearchHistory
-           }
+            searchHistory = savedSearchHistory
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if searchHistory.isEmpty {
+             searchHistory.append("最近無收尋紀錄")
+             searchTableView.reloadData()
+         }
     }
     
     func setupSearchTableView() {
@@ -61,12 +71,20 @@ class SearchViewController: UIViewController {
         view.addSubview(image)
     }
     
+    func setupDeleteAllButton() {
+        deleteAllButton.setTitle("Delete All", for: .normal)
+        deleteAllButton.setTitleColor(.lightGray, for: .normal)
+        deleteAllButton.addTarget(self, action: #selector(deleteAllButtonTapped), for: .touchUpInside)
+        view.addSubview(deleteAllButton)
+    }
+    
     func setupConstraint() {
         
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         searchTableView.translatesAutoresizingMaskIntoConstraints = false
         searchButton.translatesAutoresizingMaskIntoConstraints = false
         image.translatesAutoresizingMaskIntoConstraints = false
+        deleteAllButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             searchTableView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 10),
@@ -85,7 +103,11 @@ class SearchViewController: UIViewController {
             image.topAnchor.constraint(equalTo: searchTableView.bottomAnchor),
             image.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             image.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            image.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50)
+            image.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            
+            deleteAllButton.topAnchor.constraint(equalTo: searchTableView.topAnchor, constant: 25),
+            deleteAllButton.heightAnchor.constraint(equalTo: searchButton.heightAnchor),
+            deleteAllButton.trailingAnchor.constraint(equalTo: searchTableView.trailingAnchor, constant: -20)
         ])
     }
 }
@@ -100,10 +122,19 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? SearchTableViewCell {
             cell.searchLabel.text = String(searchHistory[indexPath.row])
             
-            // Delete by Closure.
-            cell.deleteButtonAction = { [weak self] cell in
-                self?.deleteCell(for: cell)
+            if searchHistory[indexPath.row] == "最近無收尋紀錄" {
+                cell.deleteButton.isHidden = true
+                cell.isUserInteractionEnabled = false
+            } else {
+                cell.deleteButton.isHidden = false
+                cell.isUserInteractionEnabled = true
+                // Delete by Closure.
+                cell.deleteButtonAction = { [weak self] cell in
+                    self?.deleteCell(for: cell)
+                    
+                }
             }
+            
             return cell
         } else {
             return UITableViewCell()
@@ -117,6 +148,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             print("Delete search history: \(searchHistory)")
             
             UserDefaults.standard.set(searchHistory, forKey: "SearchHistory")
+            
+            if searchHistory.isEmpty {
+                searchHistory.append("最近無收尋紀錄")
+                searchTableView.reloadData()
+            }
         }
     }
     
@@ -124,23 +160,23 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         print("Tapped")
         let selectedCell = tableView.cellForRow(at: indexPath) as? SearchTableViewCell
         let searchText = selectedCell?.searchLabel.text
-            var provider: ProductListDataProvider?
-            let marketProvider = MarketProvider(httpClient: HTTPClient.shared)
-            provider = ProductsProvider(
-                productType: ProductsProvider.ProductType.search,
-                dataProvider: marketProvider
-            )
-            
-            let productListVC = ProductListViewController()
-            productListVC.provider = provider
-            
-            productListVC.searchKeywordClosure = { keyword in
-                productListVC.keyword = keyword
-            }
-
-            productListVC.searchKeywordClosure?(searchText)
-        self.navigationController?.pushViewController(productListVC, animated: true)
+        var provider: ProductListDataProvider?
+        let marketProvider = MarketProvider(httpClient: HTTPClient.shared)
+        provider = ProductsProvider(
+            productType: ProductsProvider.ProductType.search,
+            dataProvider: marketProvider
+        )
+        
+        let productListVC = ProductListViewController()
+        productListVC.provider = provider
+        
+        productListVC.searchKeywordClosure = { keyword in
+            productListVC.keyword = keyword
         }
+        
+        productListVC.searchKeywordClosure?(searchText)
+        self.navigationController?.pushViewController(productListVC, animated: true)
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let searchHeaderView = UIView()
@@ -181,17 +217,22 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             productListVC.searchKeywordClosure = { keyword in
                 productListVC.keyword = keyword
             }
-
+            
             productListVC.searchKeywordClosure?(searchText)
             
             self.navigationController?.pushViewController(productListVC, animated: true)
-
+            
+            if searchHistory.first == "最近無收尋紀錄" {
+                searchHistory.removeFirst()
+            }
+            
             if let index = searchHistory.firstIndex(of: searchText) {
                 searchHistory.remove(at: index)
                 searchHistory.insert(searchText, at: 0)
             } else {
                 searchHistory.insert(searchText, at: 0)
             }
+            
             UserDefaults.standard.set(searchHistory, forKey: "SearchHistory")
             self.searchTableView.reloadData()
             searchTextField.text = ""
@@ -208,5 +249,17 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func deleteAllButtonTapped() {
+        searchHistory.removeAll()
+        UserDefaults.standard.removeObject(forKey: "SearchHistory")
+        searchTableView.reloadData()
+        print(searchHistory)
+        
+        if searchHistory.isEmpty {
+             searchHistory.append("最近無收尋紀錄")
+             searchTableView.reloadData()
+         }
     }
 }
