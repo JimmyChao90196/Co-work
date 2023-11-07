@@ -53,6 +53,8 @@ class ProfileViewController: UIViewController {
         // Customize navigation bar
         UINavigationBar.appearance().backgroundColor = .hexToUIColor(hex: "#3F3A3A")
         
+        print(keyChainManager.token)
+        
     }
 
     // MARK: - Action
@@ -278,6 +280,12 @@ extension ProfileViewController: UICollectionViewDelegate {
                     
                 case .success(let successText):
                     print(successText)
+                    
+                    DispatchQueue.main.async {
+                        let chatRoomVC = AdminChatViewController()
+                        self.navigationController?.pushViewController(chatRoomVC, animated: true)
+                        
+                    }
                     
                     // Fetch chat history
 //                    self.chatManager.fetchHistory { result in

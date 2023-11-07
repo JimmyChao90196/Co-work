@@ -54,20 +54,14 @@ class ChatManager {
             print("before decoding: \(data)")
             
             let decoder = JSONDecoder()
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-//            dateFormatter.dateFormat = "HH:mm:ss"
-//            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-//            decoder.dateDecodingStrategy = .formatted(dateFormatter)
             
-            // Configure the `JSONDecoder` to parse the date format
-            // decoder.dateDecodingStrategy = .iso8601
             do {
                 let chatData = try decoder.decode(ChatData.self, from: data)
                 
                 print("look at me.... + \(chatData.data)")
                 
                 completion(.success(chatData.data))
+                
             } catch {
                 completion(.failure(error))
             }

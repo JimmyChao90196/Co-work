@@ -235,3 +235,35 @@ extension UIViewController {
         }
     }
 }
+
+
+// MARK: - Formatted extension -
+
+extension String {
+    func customFormat() -> String? {
+        // DateFormatter to parse the ISO 8601 date string
+        let iso8601Formatter = ISO8601DateFormatter()
+        iso8601Formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+        // Parse the string into a Date object
+        guard let date = iso8601Formatter.date(from: self) else { return nil }
+
+        // DateFormatter to format the Date object into the desired string format
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei") // Set timezone to Asia/Taipei
+        dateFormatter.dateFormat = "EEEE HH:mm:ss" // Weekday, hour, minute, second
+
+        // Format the Date object into a string
+        return dateFormatter.string(from: date)
+    }
+}
+
+// Example usage:
+// let iso8601String = "2023-11-07T07:40:47.320Z"
+// if let formattedString = iso8601String.toWeekdayTimeFormat() {
+//    print(formattedString) // Output will be in the format "Weekday Hour:Minute:Second"
+// } else {
+//    print("Failed to format date string")
+// }
+

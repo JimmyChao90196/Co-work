@@ -10,7 +10,7 @@ import Foundation
 
 // Define a struct to represent the message.
 struct ChatMessage: Codable {
-    let sendTime: Date
+    let sendTime: String
     let isUser: Bool
     let content: String
 }

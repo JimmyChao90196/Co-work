@@ -22,6 +22,7 @@ class AdminChatViewController: UIViewController {
     let footerView = UIView()
     var inputField = UITextField()
     var isUser = false
+    var isUserInTheRoom = false
     
     var kickButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
@@ -55,7 +56,7 @@ class AdminChatViewController: UIViewController {
         setupConstranit()
         configureTitle()
         tableView.reloadData()
-        scrollToBottom()
+        // scrollToBottom()
         updateInCommingMessage()
     }
     
@@ -120,6 +121,11 @@ class AdminChatViewController: UIViewController {
     }
     
     func scrollToBottom() {
+        
+        if tableView.numberOfRows(inSection: 0) == 0 {
+            return
+        }
+        
         DispatchQueue.main.async { [self] in
             let indexPath = IndexPath(
                 row: tableView.numberOfRows(inSection: 0) - 1,
@@ -135,7 +141,9 @@ class AdminChatViewController: UIViewController {
         // Handle token recieved event
         socketIOManager.recievedUserToken = { userToken in
             
-            // LKProgressHUD.showFor(1.5)
+            self.presentSimpleAlert(title: "Success", message: "User enter the room", buttonText: "Ok") {
+                self.isUserInTheRoom.toggle()
+            }
         
             // Fetch chat history
             self.chatManager.fetchHistory(userToken: userToken ) { result in
@@ -284,8 +292,12 @@ extension AdminChatViewController: UITableViewDelegate, UITableViewDataSource {
             let date = chatProvider.conversationHistory[indexPath.row].sendTime
             cell.profilePic.image = UIImage(resource: .icons36PxProfileSelected)
             
-            cell.messageLabel.text = chatProvider.conversationHistory[indexPath.row].content
-            cell.timeLabel.text = dateFormatter.string(from: date)
+            cell.messageLabel.text = 
+            chatProvider.conversationHistory[indexPath.row].content
+            
+            cell.timeLabel.text =
+            chatProvider.conversationHistory[indexPath.row].sendTime.customFormat()
+            
             cell.backgroundColor = .clear
 
             return cell
@@ -296,10 +308,12 @@ extension AdminChatViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             ) as? ChatRightTableViewCell else { return UITableViewCell()}
             
-            let formattedDate = dateFormatter.string(from: chatProvider.conversationHistory[indexPath.row].sendTime)
+            cell.messageLabel.text = 
+            chatProvider.conversationHistory[indexPath.row].content
             
-            cell.messageLabel.text = chatProvider.conversationHistory[indexPath.row].content
-            cell.timeLabel.text = formattedDate
+            cell.timeLabel.text =
+            chatProvider.conversationHistory[indexPath.row].sendTime.customFormat()
+            
             cell.backgroundColor = .clear
             
             return cell

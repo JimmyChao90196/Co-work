@@ -18,26 +18,14 @@ class ChatProvider {
     static let adminColor: UIColor = .hexToUIColor(hex: "CCCCCC")
     
     func userAppendMessages(inputText: String) {
-        conversationHistory.append(ChatMessage(sendTime: Date(), isUser: true, content: inputText))
+        
+        conversationHistory.append(ChatMessage(sendTime: "1699345032.169744", isUser: true, content: inputText))
     }
     
     func adminAppendMessages(inputText: String) {
-        conversationHistory.append(ChatMessage(sendTime: Date(), isUser: false, content: inputText))
+        conversationHistory.append(ChatMessage(sendTime: "1699345032.169744", isUser: false, content: inputText))
     }
     
     // Mock data
-    var conversationHistory = [
-        ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: -19 * 60),
-            isUser: true, content: "Hi there!"),
-        ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: -18 * 60),
-            isUser: false, content: "Hey! How are you?"),
-        ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: -18 * 60),
-            isUser: true, content: "Fine"),
-        ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: -18 * 60),
-            isUser: false, content: "Get lost then!!")
-    ]
+    var conversationHistory: [ChatMessage] = [ ]
 }

@@ -15,7 +15,6 @@ class UserChatViewController: UIViewController {
     let socketIOManager = SocketIOManager.shared
     let keyChainManager = KeyChainManager.shared
     
-
     var titleView = UILabel()
     var tableView = ChatTableView()
     var chatProvider = ChatProvider.shared
@@ -262,10 +261,6 @@ extension UserChatViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let isUser = chatProvider.conversationHistory[indexPath.row].isUser
         
-        // Date formatter
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE HH:mm"
-        
         switch isUser {
         case true:
             guard let cell = tableView.dequeueReusableCell(
@@ -275,7 +270,7 @@ extension UserChatViewController: UITableViewDelegate, UITableViewDataSource {
             
             let date = chatProvider.conversationHistory[indexPath.row].sendTime
             cell.messageLabel.text = chatProvider.conversationHistory[indexPath.row].content
-            cell.timeLabel.text = dateFormatter.string(from: date)
+            cell.timeLabel.text = "On hold"
             cell.backgroundColor = .clear
 
             return cell
@@ -286,9 +281,12 @@ extension UserChatViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             ) as? ChatLeftTableViewCell else { return UITableViewCell()}
             
-            let formattedDate = dateFormatter.string(from: chatProvider.conversationHistory[indexPath.row].sendTime)
-            cell.messageLabel.text = chatProvider.conversationHistory[indexPath.row].content
-            cell.timeLabel.text = formattedDate
+            cell.messageLabel.text = 
+            chatProvider.conversationHistory[indexPath.row].content
+            
+            cell.timeLabel.text =
+            chatProvider.conversationHistory[indexPath.row].sendTime.customFormat()
+            
             cell.backgroundColor = .clear
             
             return cell
