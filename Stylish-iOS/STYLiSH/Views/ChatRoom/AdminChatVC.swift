@@ -14,6 +14,7 @@ class AdminChatViewController: UIViewController {
     
     let socketIOManager = SocketIOManager.shared
     let keyChainManager = KeyChainManager.shared
+    let chatManager = ChatManager.shared
 
     var titleView = UILabel()
     var tableView = ChatTableView()
@@ -55,7 +56,6 @@ class AdminChatViewController: UIViewController {
         configureTitle()
         tableView.reloadData()
         scrollToBottom()
-        
         updateInCommingMessage()
     }
     
@@ -132,6 +132,29 @@ class AdminChatViewController: UIViewController {
     // MARK: - Action for incomming event
     func updateInCommingMessage() {
         
+        // Handle token recieved event
+        socketIOManager.recievedUserToken = { userToken in
+            
+            // LKProgressHUD.showFor(1.5)
+        
+            // Fetch chat history
+            self.chatManager.fetchHistory(userToken: userToken ) { result in
+                switch result {
+                case .success(let history):
+                    print("Successfully fetched history: \(history)")
+                    self.chatProvider.conversationHistory.append(contentsOf: history)
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        self.scrollToBottom()
+                    }
+                    
+                case .failure(let error):
+                    print("Failed fetching history \(error)")
+                }
+            }
+        }
+        
         // Handle talk result
         socketIOManager.recievedTalkResult = { result in
             switch result {
@@ -198,7 +221,7 @@ class AdminChatViewController: UIViewController {
         // Add the button to the navigation bar on the right side
         navigationItem.rightBarButtonItem = kickNavButton
         
-        //Customize navigation bar
+        // Customize navigation bar
         UINavigationBar.appearance().backgroundColor = .hexToUIColor(hex: "#3F3A3A")
     }
     
@@ -241,11 +264,11 @@ extension AdminChatViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        chatProvider.mockConversationData.count
+        chatProvider.conversationHistory.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let isUser = chatProvider.mockConversationData[indexPath.row].isUser
+        let isUser = chatProvider.conversationHistory[indexPath.row].isUser
         
         // Date formatter
         let dateFormatter = DateFormatter()
@@ -258,10 +281,10 @@ extension AdminChatViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             ) as? ChatLeftTableViewCell else { return UITableViewCell()}
             
-            let date = chatProvider.mockConversationData[indexPath.row].sendTime
+            let date = chatProvider.conversationHistory[indexPath.row].sendTime
             cell.profilePic.image = UIImage(resource: .icons36PxProfileSelected)
             
-            cell.messageLabel.text = chatProvider.mockConversationData[indexPath.row].content
+            cell.messageLabel.text = chatProvider.conversationHistory[indexPath.row].content
             cell.timeLabel.text = dateFormatter.string(from: date)
             cell.backgroundColor = .clear
 
@@ -273,9 +296,9 @@ extension AdminChatViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             ) as? ChatRightTableViewCell else { return UITableViewCell()}
             
-            let formattedDate = dateFormatter.string(from: chatProvider.mockConversationData[indexPath.row].sendTime)
+            let formattedDate = dateFormatter.string(from: chatProvider.conversationHistory[indexPath.row].sendTime)
             
-            cell.messageLabel.text = chatProvider.mockConversationData[indexPath.row].content
+            cell.messageLabel.text = chatProvider.conversationHistory[indexPath.row].content
             cell.timeLabel.text = formattedDate
             cell.backgroundColor = .clear
             

@@ -33,6 +33,10 @@ class ProfileViewController: UIViewController {
     
     let lkProgressHud = LKProgressHUD.shared
     
+    let chatManager = ChatManager.shared
+    
+    let chatProvider = ChatProvider.shared
+    
     private var user: User? {
         didSet {
             if let user = user {
@@ -44,6 +48,11 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData()
+        print(keyChainManager.token ?? "none")
+        
+        // Customize navigation bar
+        UINavigationBar.appearance().backgroundColor = .hexToUIColor(hex: "#3F3A3A")
+        
     }
 
     // MARK: - Action
@@ -169,84 +178,138 @@ extension ProfileViewController: UICollectionViewDelegate {
         
         // If the user tapped customer service
         if cell.textLbl.text == "客服訊息" {
+            userTapped()
+        }
+ 
+        if cell.textLbl.text == "admin" {
+            adminTapped()
+        }
+        
+        if cell.textLbl.text == "收藏" {
+            testTapped()
+        }
+    }
+    
+    // MARK: - If user is tapped -
+    func userTapped() {
+        LKProgressHUD.showFor(1.5)
+        socketIOManager.setup()
+        
+        socketIOManager.listenForConnected { id in
+            print("Socket connected and id is: \(id)")
+            self.socketIOManager.setupListener()
+            self.socketIOManager.userCheck(token: self.keyChainManager.token ?? "none")
             
-            // Temp
-            // let chatRoomVC = UserChatViewController()
-            // self.navigationController?.pushViewController(chatRoomVC, animated: true)
-            
-            LKProgressHUD.showFor(1.5)
-            socketIOManager.setup()
-            
-            socketIOManager.listenForConnected { id in
-                print("Socket connected and id is: \(id)")
-                self.socketIOManager.setupListener()
-                self.socketIOManager.userCheck(token: self.keyChainManager.token ?? "none")
+            self.socketIOManager.recievedConnectionResult = { result in
                 
-                self.socketIOManager.recievedConnectionResult = { result in
+                switch result {
                     
-                    switch result {
-                        
-                    case .success(let successText):
-                        print(successText)
-                        
+                case .success(let successText):
+                    print(successText)
+                    
+                    DispatchQueue.main.async {
                         let chatRoomVC = UserChatViewController()
                         self.navigationController?.pushViewController(chatRoomVC, animated: true)
                         
-                    case .failure(let connectError):
-                        print(connectError)
-                        
-                        self.presentSimpleAlert(
-                            title: "Error",
-                            message: connectError.rawValue,
-                            buttonText: "Ok")
                     }
+                    
+                    // Fetch chat history
+                    self.chatManager.fetchHistory { result in
+                        switch result {
+                        case .success(let history):
+                            print("Successfully fetched history: \(history)")
+                            self.chatProvider.conversationHistory.append(contentsOf: history)
+                            
+                            DispatchQueue.main.async {
+                                let chatRoomVC = UserChatViewController()
+                                self.navigationController?.pushViewController(chatRoomVC, animated: true)
+                            }
+                            
+                        case .failure(let error):
+                            print("You failed: \(error)")
+                        }
+                    }
+                    
+                case .failure(let connectError):
+                    print(connectError)
+                    
+                    self.presentSimpleAlert(
+                        title: "Error",
+                        message: connectError.rawValue,
+                        buttonText: "Ok")
                 }
-            }
-            
-            socketIOManager.listenForDisconnected { id in
-                print("Socket disconnected and id is: \(id)")
             }
         }
- 
-        // If the user tapped admin
-        if cell.textLbl.text == "admin" {
-            
-            // Temp
-            // let chatRoomVC = AdminChatViewController()
-            // self.navigationController?.pushViewController(chatRoomVC, animated: true)
-            
-            LKProgressHUD.showFor(1.5)
-            socketIOManager.setup()
-            
-            socketIOManager.listenForConnected { id in
-                print("Socket connected and id is: \(id)")
-                self.socketIOManager.setupListener()
-                self.socketIOManager.adminCheck(token: self.keyChainManager.token ?? "none")
+        
+        // Listen for disconnection
+        socketIOManager.listenForDisconnected { id in
+            print("Socket disconnected and id is: \(id)")
+        }
+    }
+    
+    // MARK: - If test button is tapped -
+    func testTapped() {
+
+        // Fetch chat history
+        self.chatManager.fetchHistory { result in
+            switch result {
+            case .success(let history):
+                print("Successfully fetched history: \(history)")
                 
-                self.socketIOManager.recievedConnectionResult = { result in
+            case .failure(let error):
+                print("You failed: \(error)")
+            }
+        }
+    }
+    
+    // MARK: - If admin is tapped -
+    func adminTapped() {
+        LKProgressHUD.showFor(1.5)
+        socketIOManager.setup()
+        
+        socketIOManager.listenForConnected { id in
+            print("Socket connected and id is: \(id)")
+            self.socketIOManager.setupListener()
+            self.socketIOManager.adminCheck(token: self.keyChainManager.token ?? "none")
+            
+            self.socketIOManager.recievedConnectionResult = { result in
+                
+                switch result {
                     
-                    switch result {
-                        
-                    case .success(let successText):
-                        print(successText)
-                        
-                        let chatRoomVC = AdminChatViewController()
-                        self.navigationController?.pushViewController(chatRoomVC, animated: true)
-                        
-                    case .failure(let connectError):
-                        print(connectError)
-                        
-                        self.presentSimpleAlert(
-                            title: "Error",
-                            message: connectError.rawValue,
-                            buttonText: "Ok")
-                    }
+                case .success(let successText):
+                    print(successText)
+                    
+                    // Fetch chat history
+//                    self.chatManager.fetchHistory { result in
+//                        switch result {
+//                        case .success(let history):
+//                            print("Successfully fetched history: \(history)")
+//                            self.chatProvider.conversationHistory.append(contentsOf: history)
+//                            
+//                            DispatchQueue.main.async {
+//                                let chatRoomVC = AdminChatViewController()
+//                                self.navigationController?.pushViewController(chatRoomVC, animated: true)
+//                            }
+//                            
+//                        case .failure(let error):
+//                            print("You failed: \(error)")
+//                        }
+//                    }
+                    
+                case .failure(let connectError):
+                    print(connectError)
+                    
+                    self.presentSimpleAlert(
+                        title: "Error",
+                        message: connectError.rawValue,
+                        buttonText: "Ok")
                 }
             }
-            
-            socketIOManager.listenForDisconnected { id in
-                print("Socket disconnected and id is: \(id)")
-            }
+        }
+        
+        // Listen for disconnection
+        socketIOManager.listenForDisconnected { id in
+            print("Socket disconnected and id is: \(id)")
         }
     }
 }

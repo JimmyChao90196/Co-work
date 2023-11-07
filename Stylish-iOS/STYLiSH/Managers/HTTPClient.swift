@@ -58,6 +58,8 @@ extension STRequest {
         request.httpMethod = method
         return request
     }
+
+    
 }
 
 protocol HTTPClientProtocol {
@@ -67,7 +69,6 @@ protocol HTTPClientProtocol {
 class HTTPClient: HTTPClientProtocol {
 
     static let shared = HTTPClient()
-
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
 
@@ -141,3 +142,4 @@ class HTTPSchoolClient: HTTPClientProtocol {
             }).resume()
     }
 }
+

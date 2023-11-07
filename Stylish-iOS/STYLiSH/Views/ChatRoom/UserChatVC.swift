@@ -14,6 +14,7 @@ class UserChatViewController: UIViewController {
     
     let socketIOManager = SocketIOManager.shared
     let keyChainManager = KeyChainManager.shared
+    
 
     var titleView = UILabel()
     var tableView = ChatTableView()
@@ -255,11 +256,11 @@ extension UserChatViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        chatProvider.mockConversationData.count
+        chatProvider.conversationHistory.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let isUser = chatProvider.mockConversationData[indexPath.row].isUser
+        let isUser = chatProvider.conversationHistory[indexPath.row].isUser
         
         // Date formatter
         let dateFormatter = DateFormatter()
@@ -272,8 +273,8 @@ extension UserChatViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             ) as? ChatRightTableViewCell else { return UITableViewCell()}
             
-            let date = chatProvider.mockConversationData[indexPath.row].sendTime
-            cell.messageLabel.text = chatProvider.mockConversationData[indexPath.row].content
+            let date = chatProvider.conversationHistory[indexPath.row].sendTime
+            cell.messageLabel.text = chatProvider.conversationHistory[indexPath.row].content
             cell.timeLabel.text = dateFormatter.string(from: date)
             cell.backgroundColor = .clear
 
@@ -285,8 +286,8 @@ extension UserChatViewController: UITableViewDelegate, UITableViewDataSource {
                 for: indexPath
             ) as? ChatLeftTableViewCell else { return UITableViewCell()}
             
-            let formattedDate = dateFormatter.string(from: chatProvider.mockConversationData[indexPath.row].sendTime)
-            cell.messageLabel.text = chatProvider.mockConversationData[indexPath.row].content
+            let formattedDate = dateFormatter.string(from: chatProvider.conversationHistory[indexPath.row].sendTime)
+            cell.messageLabel.text = chatProvider.conversationHistory[indexPath.row].content
             cell.timeLabel.text = formattedDate
             cell.backgroundColor = .clear
             

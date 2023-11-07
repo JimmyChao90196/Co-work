@@ -17,17 +17,22 @@ struct ChatMessage: Codable {
 
 // Define a struct to represent the data model that holds an array of messages.
 struct ChatData: Codable {
-    var data: [ChatMessage]
+    let data: [ChatMessage]
 }
 
-struct Message: Codable {
-    let content: String
-    let isUser: Bool
-    let sendTime: Date
-    
-    enum CodingKeys: String, CodingKey {
-        case content
-        case isUser
-        case sendTime
-    }
+// struct Message: Codable {
+//    let content: String
+//    let isUser: Bool
+//    let sendTime: Date
+//    
+//    enum CodingKeys: String, CodingKey {
+//        case content
+//        case isUser
+//        case sendTime
+//    }
+// }
+
+// Define the structure of chat history request body
+struct ChatHistoryBody: Codable {
+    var jwtToken: String
 }

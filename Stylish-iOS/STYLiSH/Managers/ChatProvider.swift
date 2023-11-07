@@ -18,15 +18,15 @@ class ChatProvider {
     static let adminColor: UIColor = .hexToUIColor(hex: "CCCCCC")
     
     func userAppendMessages(inputText: String) {
-        mockConversationData.append(ChatMessage(sendTime: Date(), isUser: true, content: inputText))
+        conversationHistory.append(ChatMessage(sendTime: Date(), isUser: true, content: inputText))
     }
     
     func adminAppendMessages(inputText: String) {
-        mockConversationData.append(ChatMessage(sendTime: Date(), isUser: false, content: inputText))
+        conversationHistory.append(ChatMessage(sendTime: Date(), isUser: false, content: inputText))
     }
     
     // Mock data
-    var mockConversationData = [
+    var conversationHistory = [
         ChatMessage(
             sendTime: Date(timeIntervalSinceNow: -19 * 60),
             isUser: true, content: "Hi there!"),
@@ -34,28 +34,10 @@ class ChatProvider {
             sendTime: Date(timeIntervalSinceNow: -18 * 60),
             isUser: false, content: "Hey! How are you?"),
         ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: -17 * 60),
-            isUser: true, content: "I'm good, thanks! And you?"),
+            sendTime: Date(timeIntervalSinceNow: -18 * 60),
+            isUser: true, content: "Fine"),
         ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: -16 * 60),
-            isUser: false, content: "Doing well. Working on a project."),
-        ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: -15 * 60),
-            isUser: true, content: "Oh, what kind of project?"),
-        ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: -4 * 60),
-            isUser: true, content: "Definitely will. How's your family?"),
-        ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: -3 * 60),
-            isUser: false, content: "Everyone's great, thanks for asking!"),
-        ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: -2 * 60),
-            isUser: true, content: "Glad to hear that. Let's catch up more soon."),
-        ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: -1 * 60),
-            isUser: false, content: "Sure, looking forward to it. Bye for now!"),
-        ChatMessage(
-            sendTime: Date(timeIntervalSinceNow: 0),
-            isUser: true, content: "Bye!")
+            sendTime: Date(timeIntervalSinceNow: -18 * 60),
+            isUser: false, content: "Get lost then!!")
     ]
 }

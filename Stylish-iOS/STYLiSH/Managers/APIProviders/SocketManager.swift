@@ -32,6 +32,7 @@ class SocketIOManager {
     var recievedConnectionResult: ((Result<String, SocketConnectionError>) -> Void)?
     var recievedTalkResult: ((Result<String, SocketConnectionError>) -> Void)?
     var recievedCloseResult: ((Result<String, SocketConnectionError>) -> Void)?
+    var recievedUserToken: ((String) -> Void)?
     var recievedLeaveEvent: ((String) -> Void)?
         
     func setup() {
@@ -149,6 +150,11 @@ class SocketIOManager {
             if dataArray[0] == "Connect"{
                 
                 self.recievedConnectionResult?(.success(dataArray[0]))
+                
+            } else if dataArray[0] == "Notice admin user connect" {
+                
+                print("token recieved: \(dataArray[2])")
+                self.recievedUserToken?(dataArray[2])
                 
             } else {
                 
