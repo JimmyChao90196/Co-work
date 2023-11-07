@@ -22,7 +22,18 @@ class AdminChatViewController: UIViewController {
     let footerView = UIView()
     var inputField = UITextField()
     var isUser = false
-    var isUserInTheRoom = false
+    var isUserInTheRoom = false {
+        didSet {
+            if isUserInTheRoom == false {
+                inputField.isEnabled = false
+                inputField.placeholder = "Can't type if user is not in the room"
+                
+            } else {
+                inputField.isEnabled = true
+                inputField.placeholder = " Aa"
+            }
+        }
+    }
     
     var kickButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
@@ -204,7 +215,7 @@ class AdminChatViewController: UIViewController {
         sendButton.tintColor = .hexToUIColor(hex: "#3F3A3A")
         
         inputField.textAlignment = .left
-        inputField.placeholder = "  Aa"
+        inputField.placeholder = "Can't type if user is not in the room"
         inputField.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
         inputField.setCornerRadius(10)
         
