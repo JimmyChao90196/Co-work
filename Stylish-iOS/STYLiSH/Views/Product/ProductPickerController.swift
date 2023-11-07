@@ -199,7 +199,7 @@ extension ProductPickerController: UITableViewDataSource {
             return 10
         }
         
-        //return datas.count
+        // greturn datas.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -220,7 +220,7 @@ extension ProductPickerController: UITableViewDataSource {
                 for: indexPath) as? BranchCell
             else { return UITableViewCell() }
             
-            cell.branchNameLabel.text = String(indexPath.row)
+            // cell.branchNameLabel.text = String(indexPath.row)
             
             return cell
         }
@@ -229,6 +229,11 @@ extension ProductPickerController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension ProductPickerController: UITableViewDelegate {
+    
+     // Close Button action
+     @objc func closeButtonTapped() {
+         delegate?.dismissPicker(self)
+     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         UITableView.automaticDimension
@@ -250,6 +255,7 @@ extension ProductPickerController: UITableViewDelegate {
             guard let product = product else { return CartHeaderView() }
             let price = "NT$\(product.price)"
             let headerView = CartHeaderView(title: product.title, price: price)
+            headerView.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
             return headerView
             
         } else {
@@ -300,7 +306,7 @@ func addTo() {
 // Setup buttons
 func setupButton() {
     closeButton.setImage(UIImage(named: "Icons_24px_Close"), for: .normal)
-    closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+    //closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
     
     NSLayoutConstraint.activate([
         closeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
@@ -308,11 +314,6 @@ func setupButton() {
         closeButton.heightAnchor.constraint(equalToConstant: 24),
         closeButton.widthAnchor.constraint(equalTo: closeButton.heightAnchor, multiplier: 1)
     ])
-}
-
-// Button action
-@objc func closeButtonTapped() {
-    // NotificationCenter.default.post(name: .closeCartView, object: nil)
 }
 
 // Setup cart view
