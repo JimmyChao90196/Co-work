@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ProductListDataProvider {
-    func fetchData(keyword: String?, paging: Int, completion: @escaping ProductsResponseWithPaging)
+    func fetchData(keyword: String?, paging: Int, id: Int?, completion: @escaping ProductsResponseWithPaging)
 }
 
 class ProductListViewController: STCompondViewController {
@@ -19,6 +19,7 @@ class ProductListViewController: STCompondViewController {
     
     private var paging: Int? = 0
     var keyword: String?
+    var id: Int?
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -73,7 +74,7 @@ class ProductListViewController: STCompondViewController {
         datas = []
         resetNoMoreData()
 
-        provider?.fetchData(keyword: keyword, paging: 0, completion: { [weak self] result in
+        provider?.fetchData(keyword: keyword, paging: 0, id: id, completion: { [weak self] result in
             self?.endHeaderRefreshing()
             switch result {
             case .success(let response):
@@ -90,7 +91,7 @@ class ProductListViewController: STCompondViewController {
             endWithNoMoreData()
             return
         }
-        provider?.fetchData(keyword: keyword, paging: paging, completion: { [weak self] result in
+        provider?.fetchData(keyword: keyword, paging: paging, id: id, completion: { [weak self] result in
             self?.endFooterRefreshing()
             guard let self = self else { return }
             switch result {
@@ -111,6 +112,7 @@ class ProductListViewController: STCompondViewController {
         )
         guard let detailVC = productDetailVC as? ProductDetailViewController else { return }
         detailVC.product = product
+        detailVC.selectProductId = product.id
         show(detailVC, sender: nil)
     }
 
@@ -171,6 +173,7 @@ class ProductListViewController: STCompondViewController {
         collectionView.deselectItem(at: indexPath, animated: true)
         
         guard let product = datas[indexPath.section][indexPath.row] as? Product else { return }
+        
         showProductDetailViewController(product: product)
     }
 }

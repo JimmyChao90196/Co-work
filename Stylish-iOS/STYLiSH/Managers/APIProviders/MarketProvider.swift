@@ -10,6 +10,8 @@ import Foundation
 
 typealias PromotionHanlder = (Result<[PromotedProducts], Error>) -> Void
 typealias ProductsResponseWithPaging = (Result<STSuccessParser<[Product]>, Error>) -> Void
+typealias ProductsResponseWithIdentifier = (Result<STSuccessParser<[Product]>, Error>) -> Void
+typealias ProductsResponseWithHistory = (Result<STSuccessParser<[Product]>, Error>) -> Void
 
 class MarketProvider {
 
@@ -22,6 +24,7 @@ class MarketProvider {
         case accessories(Int)
         case search(Int)
         case history(Int)
+        case detail(Int)
     }
     
     init(httpClient: HTTPClientProtocol) {
@@ -71,8 +74,31 @@ class MarketProvider {
         fetchProducts(request: STMarketRequest.history(paging: paging), completion: completion)
     }
     
+    func fetchProductForDetail(id: Int, completion: @escaping ProductsResponseWithIdentifier) {
+        fetchDetails(request: STMarketRequest.details(id: 161), completion: completion)
+    }
+    
     // MARK: - Private method
     private func fetchProducts(request: STMarketRequest, completion: @escaping ProductsResponseWithPaging) {
+        HTTPClient.shared.request(request, completion: { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                do {
+                    let response = try self.decoder.decode(STSuccessParser<[Product]>.self, from: data)
+                    DispatchQueue.main.async {
+                        completion(.success(response))
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        })
+    }
+    
+    private func fetchDetails(request: STMarketRequest, completion: @escaping ProductsResponseWithIdentifier) {
         HTTPClient.shared.request(request, completion: { [weak self] result in
             guard let self = self else { return }
             switch result {

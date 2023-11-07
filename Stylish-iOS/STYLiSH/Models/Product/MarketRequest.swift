@@ -15,22 +15,23 @@ enum STMarketRequest: STRequest {
     case accessories(paging: Int)
     case search(keywodr: String, paging: Int)
     case history(paging: Int)
+    case details(id: Int)
 
     var headers: [String: String] {
         switch self {
-        case .hots, .women, .men, .accessories, .search, .history: return [:]
+        case .hots, .women, .men, .accessories, .search, .history, .details: return [:]
         }
     }
 
     var body: Data? {
         switch self {
-        case .hots, .women, .men, .accessories, .search, .history: return nil
+        case .hots, .women, .men, .accessories, .search, .history, .details: return nil
         }
     }
 
     var method: String {
         switch self {
-        case .hots, .women, .men, .accessories, .search, .history: return STHTTPMethod.GET.rawValue
+        case .hots, .women, .men, .accessories, .search, .history, .details: return STHTTPMethod.GET.rawValue
         }
     }
 
@@ -41,7 +42,8 @@ enum STMarketRequest: STRequest {
         case .men(let paging): return "/products/men?paging=\(paging)"
         case .accessories(let paging): return "/products/accessories?paging=\(paging)"
         case .search(let keyword, let paging): return "/products/search?keyword=\(keyword)&paging=\(paging)"
-        case .history(let paging): return "/products/women?paging=\(paging)"
+        case .history: return "/user/browsingHistory"
+        case .details(let id): return "/products/details?id=\(id)"
         }
     }
 }
