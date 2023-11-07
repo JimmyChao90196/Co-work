@@ -51,7 +51,7 @@ class ProfileViewController: UIViewController {
         print(keyChainManager.token ?? "none")
         
         // Customize navigation bar
-        UINavigationBar.appearance().backgroundColor = .hexToUIColor(hex: "#3F3A3A")
+        // UINavigationBar.appearance().backgroundColor = .hexToUIColor(hex: "#3F3A3A")
         
         print(keyChainManager.token)
         
