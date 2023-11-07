@@ -29,6 +29,8 @@ protocol ProductPickerControllerDelegate: AnyObject {
 
 class ProductPickerController: UIViewController {
 
+    var shopStockData: ShopStocksData?
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -79,6 +81,8 @@ class ProductPickerController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(shopStockData as Any)
         
         self.tableView.sectionHeaderHeight = UITableView.automaticDimension
         self.tableView.estimatedSectionHeaderHeight = 50

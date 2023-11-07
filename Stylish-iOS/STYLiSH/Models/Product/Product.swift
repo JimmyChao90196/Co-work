@@ -99,3 +99,33 @@ struct DataClass: Codable {
     }
 }
 
+// MARK: - Welcome
+struct ShopStocksData: Codable {
+    let data: [Datum]
+}
+
+// MARK: - Datum
+struct Datum: Codable {
+    let colorCode, size: String
+    let shopStocks: [ShopStock]
+
+    enum CodingKeys: String, CodingKey {
+        case colorCode = "color_code"
+        case size, shopStocks
+    }
+}
+
+// MARK: - ShopStock
+struct ShopStock: Codable {
+    let id: Int
+    let name, lat, lng, address, phone: String
+    let openTime, closeTime: String
+    let stock: Int
+
+    enum CodingKeys: String, CodingKey {
+        case id, name, lat, lng, address, phone
+        case openTime = "open_time"
+        case closeTime = "close_time"
+        case stock
+    }
+}
