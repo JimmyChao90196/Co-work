@@ -25,10 +25,12 @@ class AdminChatViewController: UIViewController {
     var isUserInTheRoom = false {
         didSet {
             if isUserInTheRoom == false {
+                IQKeyboardManager.shared.enable = false
                 inputField.isEnabled = false
                 inputField.placeholder = "Can't type if user is not in the room"
                 
             } else {
+                IQKeyboardManager.shared.enable = true
                 inputField.isEnabled = true
                 inputField.placeholder = " Aa"
             }
@@ -215,9 +217,12 @@ class AdminChatViewController: UIViewController {
         sendButton.tintColor = .hexToUIColor(hex: "#3F3A3A")
         
         inputField.textAlignment = .left
-        inputField.placeholder = "Can't type if user is not in the room"
+        inputField.placeholder = "User not in the room"
         inputField.backgroundColor = .hexToUIColor(hex: "#CCCCCC")
         inputField.setCornerRadius(10)
+        
+        IQKeyboardManager.shared.enable = false
+        inputField.isEnabled = false
         
         tableView.delegate = self
         tableView.dataSource = self
