@@ -91,16 +91,6 @@ class HistoryViewController: STCompondViewController {
         
     }
     
-    private func showProductDetailViewController(product: Product) {
-        let productDetailVC = UIStoryboard.product.instantiateViewController(withIdentifier:
-            String(describing: ProductDetailViewController.self)
-        )
-        guard let detailVC = productDetailVC as? ProductDetailViewController else { return }
-        detailVC.product = product
-        detailVC.selectProductId = product.id
-        show(detailVC, sender: nil)
-    }
-    
     // MARK: - UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -130,12 +120,17 @@ class HistoryViewController: STCompondViewController {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        
-        guard let product = datas[indexPath.section][indexPath.row] as? Product else { return }
-        showProductDetailViewController(product: product)
-    }
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        collectionView.deselectItem(at: indexPath, animated: true)
+//        
+//        let product = historyProducts[indexPath.row] // 获取选定单元格的产品对象
+//        let productDetailVC = UIStoryboard.product.instantiateViewController(withIdentifier:
+//            String(describing: ProductDetailViewController.self)
+//        )
+//        guard let detailVC = productDetailVC as? ProductDetailViewController else { return }
+//        detailVC.selectProductId = product.data.id
+//        show(detailVC, sender: nil)
+//    }
     
     func fetchHistoryProducts() {
         let apiURL = URL(string: "https://handsomelai.shop/api/user/browsingHistory")

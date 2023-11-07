@@ -90,6 +90,7 @@ struct DataClass: Codable {
     let id: Int
     let category, title, mainImage: String
     let price: Int
+    
 
     enum CodingKeys: String, CodingKey {
         case id, category, title

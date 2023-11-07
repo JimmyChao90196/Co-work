@@ -197,10 +197,14 @@ class ProductDetailViewController: STBaseViewController {
                 print("發生錯誤：\(error!)")
             } else if let data = data {
                 do {
-                    // 解析 JSON 回應
-                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        // 在這裡處理 JSON 資料
-                        print("取得的資料：\(json)")
+                    let decoder = JSONDecoder()
+                    let response = try decoder.decode(Product.self, from: data)
+                    
+                    self.product = response
+ 
+                    DispatchQueue.main.async {
+                        // Reload the tableView on the main thread
+                        self.tableView.reloadData()
                     }
                 } catch {
                     // 處理 JSON 解析錯誤
