@@ -11,10 +11,12 @@ import Foundation
 struct STSuccessParser<T: Codable>: Codable {
     let data: T
     let paging: Int?
+    let timestamp: String?
     
     enum CodingKeys: String, CodingKey {
         case data
         case paging = "next_paging"
+        case timestamp
     }
 }
 

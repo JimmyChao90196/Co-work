@@ -6,10 +6,22 @@
 //  Copyright © 2019 AppWorks School. All rights reserved.
 //
 
+import Foundation
 import UIKit
+
+protocol DetailProductDataProvider {
+    func fetchData(keyword: String?, paging: Int, id: Int?, completion: @escaping ProductsResponseWithIdentifier)
+}
 
 class ProductDetailViewController: STBaseViewController {
 
+    var provider: DetailProductDataProvider?
+    
+    var selectProductId: Int?
+    
+    private var paging: Int?
+    var keyword: String?
+    
     private struct Segue {
         static let picker = "SeguePicker"
     }
@@ -61,14 +73,25 @@ class ProductDetailViewController: STBaseViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getDetailData(id: selectProductId!)
 
+//        provider?.fetchData(keyword: nil, paging: 0, id: 123, completion: { result in
+//            switch result {
+//            case .success(let data):
+//                print(data.data)
+//            case .failure(let error):
+//                print(error)
+//            }
+//        })
+        
         setupTableView()
-
+        
         guard var product = product else { return }
         
         product.images = product.images.map { "https://handsomelai.shop" + $0 }
         galleryView.datas = product.images
-
+        
     }
 
     private func setupTableView() {
@@ -152,6 +175,45 @@ class ProductDetailViewController: STBaseViewController {
             addToCarBtn.isEnabled = false
             addToCarBtn.backgroundColor = .B4
         }
+    }
+    
+    func getDetailData(id: Int) {
+        let apiURL = URL(string: "https://handsomelai.shop/api/products/details?id=\(id)")
+        
+        // 創建一個URLSession配置
+        
+        let token = KeyChainManager.shared.token
+        
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Authorization": token ?? nil]
+        
+        // 創建一個URLSession並套用上述配置
+        let session = URLSession(configuration: config)
+        
+        // 創建一個 URLSession 任務
+        let task = session.dataTask(with: apiURL!) { (data, response, error) in
+            if error != nil {
+                // 處理錯誤
+                print("發生錯誤：\(error!)")
+            } else if let data = data {
+                do {
+                    let decoder = JSONDecoder()
+                    let response = try decoder.decode(Product.self, from: data)
+                    
+                    self.product = response
+ 
+                    DispatchQueue.main.async {
+                        // Reload the tableView on the main thread
+                        self.tableView.reloadData()
+                    }
+                } catch {
+                    // 處理 JSON 解析錯誤
+                    print("JSON 解析錯誤：\(error)")
+                }
+            }
+        }
+        
+        task.resume()
     }
 }
 

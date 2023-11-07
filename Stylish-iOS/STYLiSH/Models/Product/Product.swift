@@ -73,3 +73,29 @@ struct Variant: Codable {
         case stock
     }
 }
+
+
+struct Welcome: Codable {
+    let records: [Record]
+}
+
+// MARK: - Record
+struct Record: Codable {
+    let timestamp: String
+    let data: DataClass
+}
+
+// MARK: - DataClass
+struct DataClass: Codable {
+    let id: Int
+    let category, title, mainImage: String
+    let price: Int
+    
+
+    enum CodingKeys: String, CodingKey {
+        case id, category, title
+        case mainImage = "main_image"
+        case price
+    }
+}
+

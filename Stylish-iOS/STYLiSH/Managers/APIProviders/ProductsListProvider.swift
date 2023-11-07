@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ProductsProvider: ProductListDataProvider, HistoryProductListDataProvider {
+class ProductsProvider: ProductListDataProvider, HistoryProductListDataProvider, DetailProductDataProvider {
     
     enum ProductType {
         case men
@@ -16,6 +16,7 @@ class ProductsProvider: ProductListDataProvider, HistoryProductListDataProvider 
         case accessories
         case search
         case history
+        case detail
     }
 
     private let productType: ProductType
@@ -27,13 +28,14 @@ class ProductsProvider: ProductListDataProvider, HistoryProductListDataProvider 
         self.dataProvider = dataProvider
     }
 
-    func fetchData(keyword: String?, paging: Int, completion: @escaping ProductsResponseWithPaging) {
+    func fetchData(keyword: String?, paging: Int, id: Int?, completion: @escaping ProductsResponseWithPaging) {
         switch productType {
         case .women: dataProvider.fetchProductForWomen(paging: paging, completion: completion)
         case .men: dataProvider.fetchProductForMen(paging: paging, completion: completion)
         case .accessories: dataProvider.fetchProductForAccessories(paging: paging, completion: completion)
         case .search: dataProvider.fetchProductForSearch(keyword: keyword!, paging: paging, completion: completion)
         case .history: dataProvider.fetchProductForHistory(paging: paging, completion: completion)
+        case .detail: dataProvider.fetchProductForDetail(id: id!, completion: completion)
         }
     }
 }

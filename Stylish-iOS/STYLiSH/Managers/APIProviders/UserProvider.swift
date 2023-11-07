@@ -37,6 +37,7 @@ class UserProvider {
                 completion(.failure(error))
             }
         })
+        print("KeyChainManager.shared.token: \(String(describing: KeyChainManager.shared.token))")
     }
 
     func loginWithFaceBook(from: UIViewController, completion: @escaping FacebookResponse) {
