@@ -124,6 +124,11 @@ class UserChatViewController: UIViewController {
     }
     
     func scrollToBottom() {
+        
+        if tableView.numberOfRows(inSection: 0) == 0 {
+            return
+        }
+        
         DispatchQueue.main.async { [self] in
             let indexPath = IndexPath(
                 row: tableView.numberOfRows(inSection: 0) - 1,
@@ -135,6 +140,22 @@ class UserChatViewController: UIViewController {
     
     // MARK: - Action for incomming event.
     func updateInCommingMessage() {
+        
+        // Handle admin leave event
+        socketIOManager.recievedConnectionResult = { result in
+            
+            switch result {
+            case .success( _ ): print("Yes")
+                
+            case .failure(let connectError):
+                print(connectError)
+                
+                self.presentSimpleAlert(
+                    title: "Error",
+                    message: connectError.rawValue,
+                    buttonText: "Ok")
+            }
+        }
         
         // Handle leave event
         socketIOManager.recievedLeaveEvent = { error in
@@ -270,7 +291,7 @@ extension UserChatViewController: UITableViewDelegate, UITableViewDataSource {
             
             let date = chatProvider.conversationHistory[indexPath.row].sendTime
             cell.messageLabel.text = chatProvider.conversationHistory[indexPath.row].content
-            cell.timeLabel.text = "On hold"
+            cell.timeLabel.text = chatProvider.conversationHistory[indexPath.row].sendTime.customFormat()
             cell.backgroundColor = .clear
 
             return cell

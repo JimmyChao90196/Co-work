@@ -137,6 +137,7 @@ class SocketIOManager {
                 print("Received message content: \(content)")
                 
                 self.recievedTalkResult?(.success(content))
+                
             }
         }
 
@@ -159,6 +160,7 @@ class SocketIOManager {
             } else {
                 
                 self.errorHandeling(switchTaret: dataArray[1])
+                
             }
         }
     }

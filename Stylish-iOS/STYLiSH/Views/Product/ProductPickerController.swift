@@ -80,6 +80,8 @@ class ProductPickerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        
+        tableView.register(BranchCell.self, forCellReuseIdentifier: BranchCell.reuseIdentifier)
     }
 
     private func setupTableView() {
@@ -176,15 +178,44 @@ class ProductPickerController: UIViewController {
 
 // MARK: - UITableViewDataSource
 extension ProductPickerController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        2
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datas.count
+        
+        if section == 0 {
+            return datas.count
+        } else {
+            return 10
+        }
+        
+        //return datas.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: datas[indexPath.row].identifier, for: indexPath)
-        manipulaterCell(cell, type: datas[indexPath.row])
-        return cell
+        
+        if indexPath.section == 0 {
+            
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: datas[indexPath.row].identifier,
+                for: indexPath)
+            manipulaterCell(cell, type: datas[indexPath.row])
+            
+            return cell
+        
+        } else {
+            
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: BranchCell.reuseIdentifier,
+                for: indexPath) as? BranchCell
+            else { return UITableViewCell() }
+            
+            cell.branchNameLabel.text = String(indexPath.row)
+            
+            return cell
+        }
     }
 }
 
@@ -192,13 +223,32 @@ extension ProductPickerController: UITableViewDataSource {
 extension ProductPickerController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 108.0
+        
+        if section == 0 {
+            return 108.0
+        } else {
+            return 0
+        }
+        
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let product = product else { return headerView }
-        titleLabel.text = product.title
-        priceLabel.text = "NT$ \(product.price)"
-        return headerView
+        
+        if section == 0 {
+            
+            guard let product = product else { return headerView }
+            titleLabel.text = product.title
+            priceLabel.text = "NT$ \(product.price)"
+            return headerView
+            
+        } else {
+            
+            return UIView()
+        }
     }
+}
+
+// MARK: - HeaderView -
+class CustomHeaderView {
+    
 }

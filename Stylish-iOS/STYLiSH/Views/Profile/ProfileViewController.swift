@@ -171,7 +171,7 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: - Delegate methods
+// MARK: - Delegate methods -
 extension ProfileViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
@@ -209,11 +209,12 @@ extension ProfileViewController: UICollectionViewDelegate {
                 case .success(let successText):
                     print(successText)
                     
+                    /*
                     DispatchQueue.main.async {
                         let chatRoomVC = UserChatViewController()
                         self.navigationController?.pushViewController(chatRoomVC, animated: true)
-                        
                     }
+                    */
                     
                     // Fetch chat history
                     self.chatManager.fetchHistory { result in
