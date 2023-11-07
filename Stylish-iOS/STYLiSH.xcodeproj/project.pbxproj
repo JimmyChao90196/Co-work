@@ -136,6 +136,7 @@
 		73DE17092AF60EC80099DCD5 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DE17082AF60EC80099DCD5 /* SearchTableViewCell.swift */; };
 		745D7FBB2AF9E0E6000688F0 /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745D7FBA2AF9E0E6000688F0 /* ChatManager.swift */; };
 		745D7FBD2AFA49F3000688F0 /* BranchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745D7FBC2AFA49F3000688F0 /* BranchCell.swift */; };
+		745D7FBF2AFA7B20000688F0 /* PickerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745D7FBE2AFA7B20000688F0 /* PickerHeaderView.swift */; };
 		748DA7582AF7988A00BBAECB /* AdminChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748DA7572AF7988A00BBAECB /* AdminChatVC.swift */; };
 		748DBC812AF5E09A00CDFD9F /* UserChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748DBC802AF5E09A00CDFD9F /* UserChatVC.swift */; };
 		748DBC842AF5E17D00CDFD9F /* ChatRightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748DBC822AF5E17D00CDFD9F /* ChatRightTableViewCell.swift */; };
@@ -304,6 +305,7 @@
 		73DE17082AF60EC80099DCD5 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		745D7FBA2AF9E0E6000688F0 /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
 		745D7FBC2AFA49F3000688F0 /* BranchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BranchCell.swift; sourceTree = "<group>"; };
+		745D7FBE2AFA7B20000688F0 /* PickerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerHeaderView.swift; sourceTree = "<group>"; };
 		748DA7572AF7988A00BBAECB /* AdminChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminChatVC.swift; sourceTree = "<group>"; };
 		748DBC802AF5E09A00CDFD9F /* UserChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserChatVC.swift; sourceTree = "<group>"; };
 		748DBC822AF5E17D00CDFD9F /* ChatRightTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRightTableViewCell.swift; sourceTree = "<group>"; };
@@ -544,6 +546,7 @@
 		3CC706132216B32700CAD850 /* Product */ = {
 			isa = PBXGroup;
 			children = (
+				745D7FBE2AFA7B20000688F0 /* PickerHeaderView.swift */,
 				745D7FBC2AFA49F3000688F0 /* BranchCell.swift */,
 				3C7036D0222C4E0A00F6C58B /* ProductPickerController.swift */,
 				3C41B8462216667000112F94 /* ProductViewController.swift */,
@@ -1143,6 +1146,7 @@
 				748DBC842AF5E17D00CDFD9F /* ChatRightTableViewCell.swift in Sources */,
 				745D7FBD2AFA49F3000688F0 /* BranchCell.swift in Sources */,
 				3C33863F221BB2B800ED97E4 /* ProductListViewController.swift in Sources */,
+				745D7FBF2AFA7B20000688F0 /* PickerHeaderView.swift in Sources */,
 				3C6020E6222BB03400312958 /* STBaseViewController.swift in Sources */,
 				3CEBE07E222F979F0064EF82 /* JGProgressHUDWrapper.swift in Sources */,
 				3CCB3BC6222AAC8300976A1C /* LKGalleryView.swift in Sources */,
