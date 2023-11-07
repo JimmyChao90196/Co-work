@@ -162,8 +162,10 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Delegate methods
 extension ProfileViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ProfileCollectionViewCell else { return }
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) 
+                as? ProfileCollectionViewCell else { return }
         
         // If the user tapped customer service
         if cell.textLbl.text == "客服訊息" {

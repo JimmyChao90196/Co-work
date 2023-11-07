@@ -197,6 +197,9 @@ class AdminChatViewController: UIViewController {
 
         // Add the button to the navigation bar on the right side
         navigationItem.rightBarButtonItem = kickNavButton
+        
+        //Customize navigation bar
+        UINavigationBar.appearance().backgroundColor = .hexToUIColor(hex: "#3F3A3A")
     }
     
     func setupConstranit() {

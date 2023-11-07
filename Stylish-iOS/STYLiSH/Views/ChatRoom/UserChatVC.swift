@@ -209,6 +209,9 @@ class UserChatViewController: UIViewController {
         // Add the button to the navigation bar on the right side
         navigationItem.rightBarButtonItem = leaveNavButton
         
+        // Customize navigation bar tint color
+        UINavigationBar.appearance().backgroundColor = .hexToUIColor(hex: "#3F3A3A")
+        
         // Setup listener
         // socketIOManager.setupListener()
     }

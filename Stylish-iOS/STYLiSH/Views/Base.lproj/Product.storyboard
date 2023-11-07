@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mIU-pU-Sui">
-                                        <rect key="frame" x="0.0" y="0.0" width="138" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="103.66666666666667" height="44"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="女裝">
                                             <color key="titleColor" name="B3"/>
@@ -34,7 +35,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ELV-1w-gpV">
-                                        <rect key="frame" x="138" y="0.0" width="138" height="44"/>
+                                        <rect key="frame" x="103.66666666666669" y="0.0" width="103.33333333333331" height="44"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="男裝">
                                             <color key="titleColor" name="B3"/>
@@ -47,7 +48,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vep-Ll-LpG">
-                                        <rect key="frame" x="276" y="0.0" width="138" height="44"/>
+                                        <rect key="frame" x="206.99999999999997" y="0.0" width="103.66666666666666" height="44"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="配件">
                                             <color key="titleColor" name="B3"/>
@@ -57,6 +58,17 @@
                                         </state>
                                         <connections>
                                             <action selector="onChangeProducts:" destination="Yka-na-vga" eventType="touchUpInside" id="m8d-XF-HlH"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGT-5a-72D" userLabel="預購">
+                                        <rect key="frame" x="310.66666666666669" y="0.0" width="103.33333333333331" height="44"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="預購">
+                                            <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
+                                            <color key="baseForegroundColor" name="B3"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="onChangeProducts:" destination="Yka-na-vga" eventType="touchUpInside" id="FHG-mW-RlC"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -72,7 +84,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iT1-40-Gaf">
-                                <rect key="frame" x="0.0" y="132" width="138" height="1"/>
+                                <rect key="frame" x="0.0" y="132" width="103.66666666666667" height="1"/>
                                 <color key="backgroundColor" name="B1"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="Gb5-n1-hO0"/>
@@ -96,6 +108,12 @@
                                     <segue destination="iS0-b9-T4S" kind="embed" identifier="SegueWomen" id="cAL-Qr-2Xg"/>
                                 </connections>
                             </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OFh-Z4-GGX" userLabel="Pre order page Container View">
+                                <rect key="frame" x="0.0" y="133" width="414" height="729"/>
+                                <connections>
+                                    <segue destination="sP5-RK-Rpb" kind="embed" id="hEg-qG-tjC"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ssr-DQ-tiu"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -109,15 +127,19 @@
                             <constraint firstItem="EzC-7D-T5k" firstAttribute="top" secondItem="nzb-lH-MQR" secondAttribute="top" id="DFH-oG-6bo"/>
                             <constraint firstItem="ssr-DQ-tiu" firstAttribute="trailing" secondItem="ovl-mw-pYu" secondAttribute="trailing" id="Dxe-Ud-5aU"/>
                             <constraint firstItem="EzC-7D-T5k" firstAttribute="bottom" secondItem="nzb-lH-MQR" secondAttribute="bottom" id="EOu-TH-pAr"/>
+                            <constraint firstItem="OFh-Z4-GGX" firstAttribute="top" secondItem="EzC-7D-T5k" secondAttribute="top" id="JZP-jz-D2A"/>
                             <constraint firstItem="Wo4-r2-uEs" firstAttribute="leading" secondItem="ssr-DQ-tiu" secondAttribute="leading" id="KT7-tl-RDa"/>
                             <constraint firstItem="nzb-lH-MQR" firstAttribute="trailing" secondItem="Wo4-r2-uEs" secondAttribute="trailing" id="MKE-YF-jnu"/>
                             <constraint firstItem="ssr-DQ-tiu" firstAttribute="trailing" secondItem="Wo4-r2-uEs" secondAttribute="trailing" id="PJ8-bn-4Qy"/>
                             <constraint firstItem="Wo4-r2-uEs" firstAttribute="top" secondItem="ovl-mw-pYu" secondAttribute="bottom" id="PU3-vp-hRH"/>
+                            <constraint firstItem="OFh-Z4-GGX" firstAttribute="trailing" secondItem="EzC-7D-T5k" secondAttribute="trailing" id="Pnf-mm-toS"/>
                             <constraint firstItem="EzC-7D-T5k" firstAttribute="leading" secondItem="nzb-lH-MQR" secondAttribute="leading" id="QTf-7v-Q9k"/>
+                            <constraint firstItem="OFh-Z4-GGX" firstAttribute="leading" secondItem="EzC-7D-T5k" secondAttribute="leading" id="Stu-TC-bfh"/>
                             <constraint firstItem="Mfk-Mn-LZ1" firstAttribute="leading" secondItem="ssr-DQ-tiu" secondAttribute="leading" id="XI2-rI-GSe"/>
                             <constraint firstItem="iT1-40-Gaf" firstAttribute="top" secondItem="ovl-mw-pYu" secondAttribute="top" id="ZRb-92-Wzk"/>
                             <constraint firstItem="ovl-mw-pYu" firstAttribute="leading" secondItem="ssr-DQ-tiu" secondAttribute="leading" id="daG-WE-OWY"/>
                             <constraint firstItem="ovl-mw-pYu" firstAttribute="top" secondItem="Mfk-Mn-LZ1" secondAttribute="bottom" id="fuD-N3-kAl"/>
+                            <constraint firstItem="OFh-Z4-GGX" firstAttribute="bottom" secondItem="EzC-7D-T5k" secondAttribute="bottom" id="i84-xc-0Mj"/>
                             <constraint firstItem="ssr-DQ-tiu" firstAttribute="bottom" secondItem="Wo4-r2-uEs" secondAttribute="bottom" id="oQa-xf-BEh"/>
                             <constraint firstItem="Mfk-Mn-LZ1" firstAttribute="top" secondItem="ssr-DQ-tiu" secondAttribute="top" id="t6S-Gg-3bM"/>
                             <constraint firstItem="EzC-7D-T5k" firstAttribute="trailing" secondItem="nzb-lH-MQR" secondAttribute="trailing" id="wDo-4k-BjJ"/>
@@ -136,15 +158,17 @@
                         <outlet property="indicatorView" destination="iT1-40-Gaf" id="Rlp-4l-swZ"/>
                         <outlet property="layoutBtn" destination="fMg-rv-MfI" id="9hK-wM-9a9"/>
                         <outlet property="menProductsContainerView" destination="Wo4-r2-uEs" id="CAT-6r-GmF"/>
+                        <outlet property="preOrderProductsContainerView" destination="OFh-Z4-GGX" id="1Yc-Yx-bz1"/>
                         <outlet property="womenProductsContainerView" destination="EzC-7D-T5k" id="YzR-4b-N3S"/>
                         <outletCollection property="productBtns" destination="mIU-pU-Sui" collectionClass="NSMutableArray" id="cLK-UG-ZpL"/>
                         <outletCollection property="productBtns" destination="ELV-1w-gpV" collectionClass="NSMutableArray" id="Nll-Lp-4xo"/>
                         <outletCollection property="productBtns" destination="Vep-Ll-LpG" collectionClass="NSMutableArray" id="MOn-uE-JAb"/>
+                        <outletCollection property="productBtns" destination="EGT-5a-72D" collectionClass="NSMutableArray" id="e8Y-nW-etq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="atF-IO-8C8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1737" y="3"/>
+            <point key="canvasLocation" x="991" y="-167"/>
         </scene>
         <!--Transparent Navigation Controller-->
         <scene sceneID="EBx-ly-Xbs">
@@ -162,7 +186,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M04-Y5-LZG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2.3999999999999999" y="3.1484257871064472"/>
+            <point key="canvasLocation" x="77" y="-167"/>
         </scene>
         <!--Product List View Controller-->
         <scene sceneID="B45-f0-qqd">
@@ -177,7 +201,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gr2-t6-ejG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1737" y="824"/>
+            <point key="canvasLocation" x="283" y="824"/>
         </scene>
         <!--Product List View Controller-->
         <scene sceneID="lTU-DL-bBN">
@@ -192,7 +216,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nlu-My-v5p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2472" y="824"/>
+            <point key="canvasLocation" x="1696" y="824"/>
         </scene>
         <!--Product Detail View Controller-->
         <scene sceneID="shq-3j-rRM">
@@ -412,6 +436,20 @@
             </objects>
             <point key="canvasLocation" x="4647" y="-659"/>
         </scene>
+        <!--Product List View Controller-->
+        <scene sceneID="sJv-wp-hC2">
+            <objects>
+                <viewController id="sP5-RK-Rpb" customClass="ProductListViewController" customModule="STYLiSH" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qsL-ap-Pgb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="729"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R9N-bA-xqu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2459" y="824"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Icons_24px_Close" width="24" height="24"/>
@@ -426,5 +464,8 @@
         <namedColor name="B4">
             <color red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

@@ -19,6 +19,7 @@ class ProductViewController: UIViewController {
         case women = 0
         case men = 1
         case accessories = 2
+        case preOrder = 3
     }
 
     private struct Segue {
@@ -41,8 +42,13 @@ class ProductViewController: UIViewController {
 
     @IBOutlet var productBtns: [UIButton]!
 
+    @IBOutlet weak var preOrderProductsContainerView: UIView!
+    
     private var containerViews: [UIView] {
-        return [menProductsContainerView, womenProductsContainerView, accessoriesProductsContainerView]
+        return [womenProductsContainerView,
+                menProductsContainerView,
+                accessoriesProductsContainerView,
+                preOrderProductsContainerView]
     }
 
     private var isListLayout: Bool = false {
@@ -59,8 +65,9 @@ class ProductViewController: UIViewController {
         super.viewDidLoad()
 
         isListLayout = false
-        
         navigationItem.rightBarButtonItem = nil
+        
+        updateContainer(type: .women)
     }
 
     // MARK: - Action
@@ -122,7 +129,8 @@ class ProductViewController: UIViewController {
 
     private func moveIndicatorView(reference: UIView) {
         indicatorCenterXConstraint.isActive = false
-        indicatorCenterXConstraint = indicatorView.centerXAnchor.constraint(equalTo: reference.centerXAnchor)
+        indicatorCenterXConstraint = indicatorView.centerXAnchor.constraint(
+            equalTo: reference.centerXAnchor)
         indicatorCenterXConstraint.isActive = true
 
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
@@ -140,6 +148,8 @@ class ProductViewController: UIViewController {
             womenProductsContainerView.isHidden = false
         case .accessories:
             accessoriesProductsContainerView.isHidden = false
+        case .preOrder:
+            preOrderProductsContainerView.isHidden = false
         }
     }
 }
