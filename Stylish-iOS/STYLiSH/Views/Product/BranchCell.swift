@@ -95,4 +95,12 @@ class BranchCell: UITableViewCell {
         stockNumberLabel.trailingConstr(to: bgView.trailingAnchor, -12)
             .centerYConstr(to: bgView.centerYAnchor)
     }
+    
+    func configure(with shopStock: ShopStock) {
+        branchNameLabel.text = shopStock.name
+        addressLabel.text = shopStock.address
+        openingTimeLabel.text = "營業時間: \(shopStock.openTime ) ~ \(shopStock.closeTime )"
+        phoneNumLabel.text = "聯絡方式: \(shopStock.phone )"
+        stockNumberLabel.text = "\(shopStock.stock )件"
+    }
 }

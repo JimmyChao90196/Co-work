@@ -31,6 +31,10 @@ class ProductPickerController: UIViewController {
 
     var shopStockData: ShopStocksData?
     
+    var filteredData: [Datum] = []
+    
+    var count = 0
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -100,7 +104,7 @@ class ProductPickerController: UIViewController {
         super.viewWillAppear(animated)
         tableView.reloadData()
         print(productId)
-        
+        getShopStock(id: productId!)
     }
 
     private func setupTableView() {
@@ -176,6 +180,9 @@ class ProductPickerController: UIViewController {
     }
     
     private func updateAmountSelectionCell(_ cell: UITableViewCell) {
+        
+        count += 1
+        
         guard let amountCell = cell as? AmountSelectionCell else { return }
         guard
             let product = product,
@@ -191,11 +198,29 @@ class ProductPickerController: UIViewController {
             }
             return false
         }
-        print(selectedSize)
-        print(selectedColor)
-        getShopStock(id: productId!)
- 
+        
+        showShopStock(color: selectedColor, size: selectedSize)
         amountCell.layoutCell(variant: variant.first)
+        
+        if count > 6 {
+            count = 0
+        } else {
+            
+            tableView.reloadData()
+        }
+        
+    }
+    
+    func showShopStock(color: Color, size: String) {
+        
+        for datum in shopStockData!.data {
+            if datum.colorCode == "#\(color.code)" && datum.size == size {
+                filteredData.append(datum)
+            }
+        }
+        
+        
+        print(filteredData)
     }
     
     func getShopStock(id: Int) {
@@ -222,7 +247,6 @@ class ProductPickerController: UIViewController {
                     let response = try decoder.decode(ShopStocksData.self, from: data)
                     
                     self.shopStockData = response
-                    print(response)
                     print(self.shopStockData)
                     
                     // 将数据传递给ProductPickerController
@@ -249,11 +273,18 @@ extension ProductPickerController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if section == 0 {
-            return datas.count
+        if filteredData .isEmpty {
+            if section == 0 {
+                return datas.count
+            } else {
+                return 0
+            }
         } else {
-            return 10
+            if section == 0 {
+                return datas.count
+            } else {
+                return 5
+            }
         }
         
         // greturn datas.count
@@ -274,9 +305,14 @@ extension ProductPickerController: UITableViewDataSource {
             
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: BranchCell.reuseIdentifier,
-                for: indexPath) as? BranchCell
-            else { return UITableViewCell() }
+                for: indexPath) as? BranchCell else { return UITableViewCell() }
             
+            if filteredData .isEmpty {
+                
+            } else {
+                let filterProduct = (filteredData.first?.shopStocks[indexPath.row])!
+                cell.configure(with: filterProduct)
+            }
             // cell.branchNameLabel.text = String(indexPath.row)
             
             return cell
