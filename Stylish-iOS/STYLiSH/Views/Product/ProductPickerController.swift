@@ -175,6 +175,7 @@ class ProductPickerController: UIViewController {
             if variant.colorCode == selectedColor.code {
                 return variant.size
             }
+            
             return nil
         }
     }
@@ -199,28 +200,25 @@ class ProductPickerController: UIViewController {
             return false
         }
         
-        showShopStock(color: selectedColor, size: selectedSize)
         amountCell.layoutCell(variant: variant.first)
         
         if count > 6 {
             count = 0
         } else {
-            
-            tableView.reloadData()
+            showShopStock(color: selectedColor, size: selectedSize)
+            tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
         }
-        
     }
     
     func showShopStock(color: Color, size: String) {
         
         for datum in shopStockData!.data {
             if datum.colorCode == "#\(color.code)" && datum.size == size {
-                filteredData.append(datum)
+                filteredData = [datum]
             }
         }
         
-        
-        print(filteredData)
+        print(filteredData[0].shopStocks[0].stock)
     }
     
     func getShopStock(id: Int) {

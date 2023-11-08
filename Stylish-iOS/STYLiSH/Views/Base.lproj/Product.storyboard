@@ -60,13 +60,14 @@
                                             <action selector="onChangeProducts:" destination="Yka-na-vga" eventType="touchUpInside" id="m8d-XF-HlH"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGT-5a-72D" userLabel="預購">
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGT-5a-72D" userLabel="預購">
                                         <rect key="frame" x="310.66666666666669" y="0.0" width="103.33333333333331" height="44"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="預購">
-                                            <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
-                                            <color key="baseForegroundColor" name="B3"/>
-                                        </buttonConfiguration>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="預購">
+                                            <color key="titleColor" name="B3"/>
+                                        </state>
                                         <connections>
                                             <action selector="onChangeProducts:" destination="Yka-na-vga" eventType="touchUpInside" id="FHG-mW-RlC"/>
                                         </connections>
@@ -443,6 +444,7 @@
                     <view key="view" contentMode="scaleToFill" id="qsL-ap-Pgb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="729"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="fNu-Da-zVS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                 </viewController>
