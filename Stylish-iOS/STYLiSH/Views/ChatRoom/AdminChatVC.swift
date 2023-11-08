@@ -153,20 +153,20 @@ class AdminChatViewController: UIViewController {
     func updateInCommingMessage() {
         
         // Handle user leave event
-        socketIOManager.recievedConnectionResult = { result in
-            
-            switch result {
-            case .success( _ ): print("Yes")
-                
-            case .failure(let connectError):
-                print(connectError)
-                
-                self.presentSimpleAlert(
-                    title: "Error",
-                    message: connectError.rawValue,
-                    buttonText: "Ok")
-            }
-        }
+//        socketIOManager.recievedConnectionResult = { result in
+//            
+//            switch result {
+//            case .success( _ ): print("Yes")
+//                
+//            case .failure(let connectError):
+//                print(connectError)
+//                
+//                self.presentSimpleAlert(
+//                    title: "Error",
+//                    message: connectError.rawValue,
+//                    buttonText: "Ok")
+//            }
+//        }
         
         // Handle token recieved event
         socketIOManager.recievedUserToken = { userToken in
