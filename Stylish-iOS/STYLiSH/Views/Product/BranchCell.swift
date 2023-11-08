@@ -94,6 +94,5 @@ class BranchCell: UITableViewCell {
         
         stockNumberLabel.trailingConstr(to: bgView.trailingAnchor, -12)
             .centerYConstr(to: bgView.centerYAnchor)
-        
     }
 }

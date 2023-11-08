@@ -244,7 +244,7 @@ extension ProductPickerController: UITableViewDelegate {
         if section == 0 {
             return 108.0
         } else {
-            return 0
+            return 108.0
         }
     }
 
@@ -260,68 +260,68 @@ extension ProductPickerController: UITableViewDelegate {
             
         } else {
             
-            return UIView()
+            return BranchHeaderView()
         }
     }
 }
 
 // MARK: - Branch header view -
-//class BranchHeaderView: UIView {
-//    
-//    // Section header element
-//    var titleLabel = UILabel()
-//    var leftDivider = UIView()
-//    var rightDivider = UIView()
-//    var contentLabel = UILabel()
-//    
-////    convenience init(title: String, price: String) {
-////        self.init(frame: .zero)
-////        titleLabel.text = title
-////        priceLabel.text = price
-////    }
-//    
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        addTo()
-//        setupHeaderView()
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//    }
-//    
-//    func addTo() {
-//        self.addSubviews([titleLabel, leftDivider, rightDivider, contentLabel])
-//    }
-//    
-//    
-//    // Setup cart view
-//    func setupHeaderView() {
-//        leftDivider.backgroundColor = .hexStringToUIColor(hex: "#CCCCCC")
-//        rightDivider.backgroundColor = .hexStringToUIColor(hex: "#CCCCCC")
-//        self.backgroundColor = .white
-//        
-//        titleLabel.customSetup("實體商店庫存", "PingFangTC-Medium", 18, 0.1, hexColor: "#8B572A")
-//        
-//        
-//        NSLayoutConstraint.activate([
-//            
-//            self.topAnchor.constraint(equalTo: topAnchor, constant: 0),
-//            self.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
-//            self.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
-//            self.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0),
-//            
-//            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-//            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 24),
-//            
-//            priceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-//            priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-//            priceLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
-//            
-//            divider.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-//            divider.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-//            divider.heightAnchor.constraint(equalToConstant: 1),
-//            divider.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 16)
-//        ])
-//    }
-//}
+class BranchHeaderView: UIView {
+    
+    // Section header element
+    var titleLabel = UILabel()
+    var leftDivider = UIView()
+    var rightDivider = UIView()
+    var contentLabel = UILabel()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addTo()
+        setupHeaderView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    func addTo() {
+        self.addSubviews([titleLabel, leftDivider, rightDivider, contentLabel])
+    }
+    
+    // Setup cart view
+    func setupHeaderView() {
+        self.backgroundColor = .white
+        
+        titleLabel.customSetup("實體商店庫存", "PingFangTC-Medium", 18, 0.1, hexColor: "#8B572A")
+            .centerXConstr(to: self.centerXAnchor)
+            .topConstr(to: self.topAnchor, 10)
+            
+        leftDivider.setbackgroundColor(.hexToUIColor(hex: "#CCCCCC"))
+            .centerYConstr(to: titleLabel.centerYAnchor)
+            .leadingConstr(to: self.leadingAnchor, 10)
+            .trailingConstr(to: titleLabel.leadingAnchor, -10)
+            .heightConstr(1)
+        
+        rightDivider.setbackgroundColor(.hexToUIColor(hex: "#CCCCCC"))
+            .centerYConstr(to: titleLabel.centerYAnchor)
+            .leadingConstr(to: titleLabel.trailingAnchor, 10)
+            .trailingConstr(to: self.trailingAnchor, -10)
+            .heightConstr(1)
+        
+        contentLabel.customSetup("僅會顯示各店鋪，特定商品指定的顏色與尺寸數量。若有不確定的細節，請與客服確認。",
+                                 "PingFangTC-Regular", 16, 0.05, hexColor: "#3F3A3A")
+        .leadingConstr(to: self.leadingAnchor, 15)
+        .trailingConstr(to: self.trailingAnchor, -15)
+        .topConstr(to: titleLabel.bottomAnchor, 5)
+        .bottomConstr(to: self.bottomAnchor, -10)
+        .numberOfLines = 0
+        
+        NSLayoutConstraint.activate([
+            
+            self.topAnchor.constraint(equalTo: topAnchor, constant: 0),
+            self.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
+            self.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
+            self.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0)
+        ])
+    }
+}
