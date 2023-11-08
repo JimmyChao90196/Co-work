@@ -70,6 +70,7 @@ class AdminChatViewController: UIViewController {
         configureTitle()
         tableView.reloadData()
         // scrollToBottom()
+        socketIOManager.listenOnLeave()
         updateInCommingMessage()
     }
     
@@ -150,6 +151,22 @@ class AdminChatViewController: UIViewController {
     
     // MARK: - Action for incomming event
     func updateInCommingMessage() {
+        
+        // Handle user leave event
+        socketIOManager.recievedConnectionResult = { result in
+            
+            switch result {
+            case .success( _ ): print("Yes")
+                
+            case .failure(let connectError):
+                print(connectError)
+                
+                self.presentSimpleAlert(
+                    title: "Error",
+                    message: connectError.rawValue,
+                    buttonText: "Ok")
+            }
+        }
         
         // Handle token recieved event
         socketIOManager.recievedUserToken = { userToken in

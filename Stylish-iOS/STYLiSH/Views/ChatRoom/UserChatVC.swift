@@ -153,7 +153,9 @@ class UserChatViewController: UIViewController {
                 self.presentSimpleAlert(
                     title: "Error",
                     message: connectError.rawValue,
-                    buttonText: "Ok")
+                    buttonText: "Ok") {
+                        self.socketIOManager.userLeave(token: self.keyChainManager.token ?? "none")
+                    }
             }
         }
         
