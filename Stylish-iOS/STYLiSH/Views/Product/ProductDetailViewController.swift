@@ -77,7 +77,7 @@ class ProductDetailViewController: STBaseViewController {
         getDetailData(id: selectProductId!)
         
         print(selectProductId!)
-        
+        print(getDetailData(id: selectProductId!))
         setupTableView()
         
         guard var product = product else { return }
@@ -207,11 +207,8 @@ class ProductDetailViewController: STBaseViewController {
                 }
             }
         }
-        
         task.resume()
     }
-    
-    
 }
 
 // MARK: - UITableViewDataSource
@@ -263,6 +260,14 @@ extension ProductDetailViewController: ProductPickerControllerDelegate {
             isEnableAddToCarBtn(false)
             return
         }
+        print("Look at me please..........")
+
+        guard let color = controller.selectedColor else { return }
+        guard let size = controller.selectedSize else { return }
+        
+        controller.showShopStock(color: color, size: size)
+        controller.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+        
         isEnableAddToCarBtn(true)
     }
 }

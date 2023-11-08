@@ -202,11 +202,11 @@ class ProductPickerController: UIViewController {
         
         amountCell.layoutCell(variant: variant.first)
         
-        if count > 6 {
+        if count > 4 {
             count = 0
         } else {
-            showShopStock(color: selectedColor, size: selectedSize)
-            tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+            // showShopStock(color: selectedColor, size: selectedSize)
+            // tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
         }
     }
     
