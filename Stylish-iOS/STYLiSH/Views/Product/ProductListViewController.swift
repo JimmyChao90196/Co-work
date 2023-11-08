@@ -110,6 +110,7 @@ class ProductListViewController: STCompondViewController {
         let productDetailVC = UIStoryboard.product.instantiateViewController(withIdentifier:
             String(describing: ProductDetailViewController.self)
         )
+        
         guard let detailVC = productDetailVC as? ProductDetailViewController else { return }
         detailVC.product = product
         detailVC.selectProductId = product.id

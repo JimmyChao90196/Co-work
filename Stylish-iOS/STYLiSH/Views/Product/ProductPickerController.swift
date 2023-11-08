@@ -29,6 +29,8 @@ protocol ProductPickerControllerDelegate: AnyObject {
 
 class ProductPickerController: UIViewController {
 
+    var shopStockData: ShopStocksData?
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -48,6 +50,8 @@ class ProductPickerController: UIViewController {
 
     var product: Product?
 
+    var productId: Int?
+    
     var selectedColor: Color? {
         didSet {
             guard let index = datas.firstIndex(of: .size) else { return }
@@ -90,6 +94,13 @@ class ProductPickerController: UIViewController {
         
         setupTableView()
         tableView.register(BranchCell.self, forCellReuseIdentifier: BranchCell.reuseIdentifier)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+        print(productId)
+        
     }
 
     private func setupTableView() {
@@ -180,7 +191,53 @@ class ProductPickerController: UIViewController {
             }
             return false
         }
+        print(selectedSize)
+        print(selectedColor)
+        getShopStock(id: productId!)
+ 
         amountCell.layoutCell(variant: variant.first)
+    }
+    
+    func getShopStock(id: Int) {
+        let apiURL = URL(string: "https://handsomelai.shop/api/products/shops?id=\(id)")
+        
+        // 創建一個URLSession配置
+        
+        let token = KeyChainManager.shared.token
+        
+        let config = URLSessionConfiguration.default
+        config.httpAdditionalHeaders = ["Authorization": token]
+        
+        // 創建一個URLSession並套用上述配置
+        let session = URLSession(configuration: config)
+        
+        // 創建一個 URLSession 任務
+        let task = session.dataTask(with: apiURL!) { (data, response, error) in
+            if error != nil {
+                // 處理錯誤
+                print("發生錯誤：\(error!)")
+            } else if let data = data {
+                do {
+                    let decoder = JSONDecoder()
+                    let response = try decoder.decode(ShopStocksData.self, from: data)
+                    
+                    self.shopStockData = response
+                    print(response)
+                    print(self.shopStockData)
+                    
+                    // 将数据传递给ProductPickerController
+                    DispatchQueue.main.async {
+                        
+                        self.tableView.reloadData()
+                    }
+                } catch {
+                    // 處理 JSON 解析錯誤
+                    print("JSON 解析錯誤：\(error)")
+                }
+            }
+        }
+        
+        task.resume()
     }
 }
 

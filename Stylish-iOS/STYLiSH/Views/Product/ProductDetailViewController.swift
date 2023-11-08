@@ -14,47 +14,47 @@ protocol DetailProductDataProvider {
 }
 
 class ProductDetailViewController: STBaseViewController {
-
+    
     var provider: DetailProductDataProvider?
     
     var selectProductId: Int?
-    
+
     private var paging: Int?
     var keyword: String?
     
     private struct Segue {
         static let picker = "SeguePicker"
     }
-
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
         }
     }
-
+    
     @IBOutlet weak var galleryView: LKGalleryView! {
         didSet {
             galleryView.frame.size.height = CGFloat(Int(UIScreen.width / 375.0 * 500.0))
             galleryView.delegate = self
         }
     }
-
+    
     @IBOutlet weak var productPickerView: UIView!
-
+    
     @IBOutlet weak var addToCarBtn: UIButton!
     
     @IBOutlet weak var baseView: UIView!
-
+    
     private lazy var blurView: UIView = {
         let blurView = UIView(frame: tableView.frame)
         blurView.backgroundColor = .black.withAlphaComponent(0.4)
         return blurView
     }()
-
+    
     private let datas: [ProductContentCategory] = [
         .description, .color, .size, .stock, .texture, .washing, .placeOfProduction, .remarks
     ]
-
+    
     var product: Product? {
         didSet {
             guard let product = product, let galleryView = galleryView else { return }
@@ -65,25 +65,18 @@ class ProductDetailViewController: STBaseViewController {
     }
     
     private var pickerViewController: ProductPickerController?
-
+    
     override var isHideNavigationBar: Bool { return true }
     
     override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
-
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         getDetailData(id: selectProductId!)
-
-//        provider?.fetchData(keyword: nil, paging: 0, id: 123, completion: { result in
-//            switch result {
-//            case .success(let data):
-//                print(data.data)
-//            case .failure(let error):
-//                print(error)
-//            }
-//        })
+        
+        print(selectProductId!)
         
         setupTableView()
         
@@ -93,7 +86,7 @@ class ProductDetailViewController: STBaseViewController {
         galleryView.datas = product.images
         
     }
-
+    
     private func setupTableView() {
         tableView.lk_registerCellWithNib(
             identifier: String(describing: ProductDescriptionTableViewCell.self),
@@ -108,16 +101,18 @@ class ProductDetailViewController: STBaseViewController {
             bundle: nil
         )
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Segue.picker,
            let pickerVC = segue.destination as? ProductPickerController {
             pickerVC.delegate = self
             pickerVC.product = product
+            pickerVC.productId = product?.id
+            
             pickerViewController = pickerVC
         }
     }
-
+    
     // MARK: - Action
     @IBAction func didTouchAddToCarBtn(_ sender: UIButton) {
         if productPickerView.superview == nil {
@@ -145,7 +140,7 @@ class ProductDetailViewController: STBaseViewController {
             )
         }
     }
-
+    
     func showProductPickerView() {
         let maxY = tableView.frame.maxY
         productPickerView.frame = CGRect(
@@ -153,7 +148,7 @@ class ProductDetailViewController: STBaseViewController {
         )
         baseView.insertSubview(productPickerView, belowSubview: addToCarBtn.superview!)
         baseView.insertSubview(blurView, belowSubview: productPickerView)
-
+        
         UIView.animate(
             withDuration: 0.3,
             animations: { [weak self] in
@@ -166,7 +161,7 @@ class ProductDetailViewController: STBaseViewController {
             }
         )
     }
-
+    
     func isEnableAddToCarBtn(_ flag: Bool) {
         if flag {
             addToCarBtn.isEnabled = true
@@ -201,7 +196,7 @@ class ProductDetailViewController: STBaseViewController {
                     let response = try decoder.decode(Product.self, from: data)
                     
                     self.product = response
- 
+                    
                     DispatchQueue.main.async {
                         // Reload the tableView on the main thread
                         self.tableView.reloadData()
@@ -215,6 +210,8 @@ class ProductDetailViewController: STBaseViewController {
         
         task.resume()
     }
+    
+    
 }
 
 // MARK: - UITableViewDataSource
