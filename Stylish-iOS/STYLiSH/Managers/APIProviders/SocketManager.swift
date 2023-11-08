@@ -30,7 +30,8 @@ class SocketIOManager {
     var recievedTalkEvent: ((String) -> Void)?
     var recievedCheckEvent: ((String) -> Void)?
     var recievedConnectionResult: ((Result<String, SocketConnectionError>) -> Void)?
-    var recievedTalkResult: ((Result<String, SocketConnectionError>) -> Void)?
+    var recievedTalkResult: ((Result<[String], SocketConnectionError>) -> Void)?
+    
     var recievedCloseResult: ((Result<String, SocketConnectionError>) -> Void)?
     var recievedUserToken: ((String) -> Void)?
     var recievedLeaveEvent: ((String) -> Void)?
@@ -133,11 +134,11 @@ class SocketIOManager {
             
             if let dataArray = data as? [[String: Any]],
                let firstMessageDict = dataArray.first,
-               let content = firstMessageDict["content"] as? String {
+               let content = firstMessageDict["content"] as? String,
+               let time = firstMessageDict["sendTime"] as? String {
                 print("Received message content: \(content)")
                 
-                self.recievedTalkResult?(.success(content))
-                
+                self.recievedTalkResult?(.success([content, time]))
             }
         }
 

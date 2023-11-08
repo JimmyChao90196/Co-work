@@ -17,13 +17,13 @@ class ChatProvider {
     static let userColor: UIColor = .hexToUIColor(hex: "#3F3A3A")
     static let adminColor: UIColor = .hexToUIColor(hex: "CCCCCC")
     
-    func userAppendMessages(inputText: String) {
+    func userAppendMessages(inputText: String, time: String = "1699345032.169744") {
         
-        conversationHistory.append(ChatMessage(sendTime: "1699345032.169744", isUser: true, content: inputText))
+        conversationHistory.append(ChatMessage(sendTime: time, isUser: true, content: inputText))
     }
     
-    func adminAppendMessages(inputText: String) {
-        conversationHistory.append(ChatMessage(sendTime: "1699345032.169744", isUser: false, content: inputText))
+    func adminAppendMessages(inputText: String, time: String = "1699345032.169744") {
+        conversationHistory.append(ChatMessage(sendTime: time, isUser: false, content: inputText))
     }
     
     // Mock data

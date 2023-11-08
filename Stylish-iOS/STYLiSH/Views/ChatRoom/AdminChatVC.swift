@@ -104,7 +104,14 @@ class AdminChatViewController: UIViewController {
             // Send message to socket
             Task {
                 await socketIOManager.sendMessage("admin", message: text, token: "\(token)")
-                chatProvider.adminAppendMessages(inputText: text)
+                
+                let currentDate = Date()
+                let formatter = ISO8601DateFormatter()
+                formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+                let dateString = formatter.string(from: currentDate)
+                chatProvider.adminAppendMessages(inputText: text, time: dateString)
+                
+                // chatProvider.adminAppendMessages(inputText: text)
                 tableView.reloadData()
                 scrollToBottom()
                 inputField.text = ""
@@ -198,8 +205,10 @@ class AdminChatViewController: UIViewController {
             switch result {
                 
             case .success(let successText):
-                print("Look at me" + successText)
-                self.chatProvider.userAppendMessages(inputText: successText)
+                print("Look at message" + successText[0])
+                print("Look at time " + successText[1])
+                // self.chatProvider.userAppendMessages(inputText: successText)
+                self.chatProvider.userAppendMessages(inputText: successText[0], time: successText[1])
                 
                 DispatchQueue.main.async { [self] in
                     tableView.reloadData()

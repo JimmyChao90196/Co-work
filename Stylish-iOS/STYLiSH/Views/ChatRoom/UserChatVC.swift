@@ -20,6 +20,8 @@ class UserChatViewController: UIViewController {
     var chatProvider = ChatProvider.shared
     let footerView = UIView()
     var inputField = UITextField()
+    var blockView = UIView()
+    
     var isUser = true
     
     var leaveButton: UIButton = {
@@ -58,6 +60,11 @@ class UserChatViewController: UIViewController {
         
         socketIOManager.listenOnLeave()
         updateInCommingMessage()
+        
+        let barAppearance =  UINavigationBarAppearance()
+        barAppearance.backgroundColor = .white
+        navigationController?.navigationBar.standardAppearance = barAppearance
+  
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,7 +91,11 @@ class UserChatViewController: UIViewController {
         
         if self.isUser {
             
-            chatProvider.userAppendMessages(inputText: text)
+            let currentDate = Date()
+            let formatter = ISO8601DateFormatter()
+            formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            let dateString = formatter.string(from: currentDate)
+            chatProvider.userAppendMessages(inputText: text, time: dateString)
             
             Task {
                 await socketIOManager.sendMessage("user", message: text, token: "\(token)")
@@ -168,13 +179,14 @@ class UserChatViewController: UIViewController {
             }
         }
         
+        
         // Handle talk result
         socketIOManager.recievedTalkResult = { result in
             switch result {
                 
             case .success(let successText):
-                print("Look at me" + successText)
-                self.chatProvider.adminAppendMessages(inputText: successText)
+                print("Look at me" + successText[0])
+                self.chatProvider.adminAppendMessages(inputText: successText[0], time: successText[1])
                 
                 DispatchQueue.main.async { [self] in
                     tableView.reloadData()
@@ -201,7 +213,7 @@ class UserChatViewController: UIViewController {
         tableView.backgroundColor = .white
         view.backgroundColor = .white
         
-        view.addSubviews([tableView, footerView])
+        view.addSubviews([tableView, footerView, blockView])
         footerView.addSubviews([inputField, sendButton, switchButton])
         
         switchButton.setTitleColor(.hexToUIColor(hex: "3F3A3A"), for: .normal)
@@ -219,6 +231,8 @@ class UserChatViewController: UIViewController {
         footerView.setBoarderColor(.hexToUIColor(hex: "#CCCCCC"))
         footerView.setBoarderWidth(1)
         
+        blockView.backgroundColor = .white
+        
         sendButton.addTarget(self, action: #selector(sendButtonClicked), for: .touchUpInside)
         switchButton.addTarget(self, action: #selector(switchButtonClicked), for: .touchUpInside)
         leaveButton.addTarget(self, action: #selector(leaveButtonClicked), for: .touchUpInside)
@@ -232,11 +246,8 @@ class UserChatViewController: UIViewController {
         // Add the button to the navigation bar on the right side
         navigationItem.rightBarButtonItem = leaveNavButton
         
-        // Customize navigation bar tint color
-        // UINavigationBar.appearance().backgroundColor = .hexToUIColor(hex: "#3F3A3A")
-        
-        // Setup listener
-        // socketIOManager.setupListener()
+        // Setup nav appearance
+        setupNavAppearance()
     }
     
     func setupConstranit() {
@@ -267,6 +278,33 @@ class UserChatViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: footerView.topAnchor)
         ])
+    }
+    
+    func setupNavAppearance() {
+        if let navigationBar = self.navigationController?.navigationBar {
+            
+            // Create a UIBarAppearance instance for standard appearance
+            let standardAppearance = UINavigationBarAppearance()
+            standardAppearance.configureWithOpaqueBackground()
+            standardAppearance.backgroundColor = UIColor.white // Choose your color
+            // Choose .regular, .prominent, or .systemMaterial, etc.
+            standardAppearance.backgroundEffect = UIBlurEffect(style: .systemMaterial)
+            
+            // Apply the standard appearance to the navigation bar
+            navigationBar.standardAppearance = standardAppearance
+            
+            // Create a separate UIBarAppearance instance for scroll edge appearance if desired
+            let scrollEdgeAppearance = UINavigationBarAppearance()
+            scrollEdgeAppearance.configureWithOpaqueBackground()
+            scrollEdgeAppearance.backgroundColor = UIColor.white // Choose your color
+            scrollEdgeAppearance.backgroundEffect = UIBlurEffect(style: .systemMaterial) // Choose your blur style
+            
+            // Uncheck 'Translucent' by setting backgroundEffect to nil if needed
+            scrollEdgeAppearance.backgroundEffect = nil
+            
+            // Apply the scroll edge appearance to the navigation bar
+            navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        }
     }
 }
 

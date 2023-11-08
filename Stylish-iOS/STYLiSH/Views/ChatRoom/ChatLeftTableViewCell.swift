@@ -44,6 +44,7 @@ class ChatLeftTableViewCell: UITableViewCell {
     
     private func setup() {
         messageLabel.numberOfLines = 0
+        messageLabel.textAlignment = .left
         customView.backgroundColor = .clear
         
         textBG.setCornerRadius(12)

@@ -41,6 +41,7 @@ class ChatRightTableViewCell: UITableViewCell {
     
     private func setup() {
         messageLabel.numberOfLines = 0
+        messageLabel.textAlignment = .right
         customView.backgroundColor = .clear
         
         timeLabel.font = UIFont(name: "PingFangTC-Light", size: 12)
